@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:fitsSystemWindows="true"
-        android:theme="@style/Theme.Prepsy">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity"/>
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,5 +21,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
