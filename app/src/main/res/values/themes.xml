@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="BaseAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimary">@color/button_green</item>
         <item name="colorPrimaryVariant">@color/gray</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -25,6 +25,11 @@
         <item name="android:statusBarColor">@color/splash_background_yellow</item>
     </style>
 
+    <style name="AppTheme.ResultPageTheme">
+        <item name="android:windowBackground">@color/button_green</item>
+        <item name="android:statusBarColor">@color/button_green</item>
+    </style>
+
     <style name="TitleTextStyle" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="android:textSize">22sp</item>
         <item name="android:fontFamily">@font/raleway_font_family</item>
@@ -32,7 +37,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="DropDownTextStyle" parent="TextAppearance.MaterialComponents.Headline2">
+    <style name="DropDownTextStyle" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">20sp</item>
         <item name="android:padding">16dp</item>
         <item name="android:textColor">@color/black</item>
