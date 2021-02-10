@@ -10,4 +10,5 @@
 
     <color name="green">#4FB5A4</color>
     <color name="splash_background_yellow">#F3E863</color>
+    <color name="gray">@android:color/darker_gray</color>
 </resources>
