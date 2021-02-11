@@ -1,14 +1,13 @@
 package app.prepsy.ui
 
-import android.content.res.Resources
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentResultBinding
 
@@ -36,6 +35,18 @@ class ResultFragment : Fragment() {
         when ((0..1).random()) {
             0 -> setupSuccessPage(80, 100)
             1 -> setFailurePage(10, 100)
+        }
+
+        binding.viewSheetBtn.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_resultFragment_to_answerFragment
+            )
+        }
+
+        binding.homeBtn.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_resultFragment_to_homeFragment
+            )
         }
     }
 
@@ -65,5 +76,10 @@ class ResultFragment : Fragment() {
             takeExamAgainBtn.text = getString(R.string.try_again_button_text)
             takeExamAgainBtn.setBackgroundColor(failureColor)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

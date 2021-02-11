@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.answers.AnswerFragment"
+    android:paddingStart="@dimen/activity_vertical_margin"
+    android:paddingEnd="@dimen/activity_vertical_margin"
+    android:paddingBottom="48dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textAllCaps="true"
+        android:gravity="center"
+        android:layout_marginTop="48dp"
+        android:padding="16dp"
+        android:textSize="28sp"
+        android:background="@drawable/drawable_answer_sheet_background"
+        android:textColor="@color/black"
+        android:text="@string/answer_sheet" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/answerRv"
+        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        tools:listitem="@layout/list_item_answer_sheet"/>
+</LinearLayout>

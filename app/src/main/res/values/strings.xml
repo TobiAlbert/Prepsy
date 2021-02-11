@@ -17,4 +17,5 @@
     <string name="try_again_button_text">Try Again</string>
     <string name="result_try_again_title">Uh Oh!</string>
     <string name="result_try_again_message">Lets try again. You can do this!</string>
+    <string name="answer_sheet">Answer Sheet</string>
 </resources>

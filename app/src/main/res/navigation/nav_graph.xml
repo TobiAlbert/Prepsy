@@ -17,5 +17,17 @@
         android:id="@+id/resultFragment"
         android:name="app.prepsy.ui.ResultFragment"
         android:label="fragment_result"
-        tools:layout="@layout/fragment_result" />
+        tools:layout="@layout/fragment_result" >
+        <action
+            android:id="@+id/action_resultFragment_to_answerFragment"
+            app:destination="@id/answerFragment" />
+        <action
+            android:id="@+id/action_resultFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/answerFragment"
+        android:name="app.prepsy.ui.answers.AnswerFragment"
+        android:label="fragment_answer"
+        tools:layout="@layout/fragment_answer" />
 </navigation>
