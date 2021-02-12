@@ -10,7 +10,7 @@ class AnswersAdapter : RecyclerView.Adapter<AnswerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return AnswerViewHolder(ListItemAnswerSheetBinding.inflate(inflater, parent, false).root)
+        return AnswerViewHolder(ListItemAnswerSheetBinding.inflate(inflater, parent, false))
     }
 
     override fun getItemCount(): Int = answers.size

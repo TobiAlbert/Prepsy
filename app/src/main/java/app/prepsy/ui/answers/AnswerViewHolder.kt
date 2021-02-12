@@ -1,13 +1,11 @@
 package app.prepsy.ui.answers
 
-import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import app.prepsy.R
+import app.prepsy.databinding.ListItemAnswerSheetBinding
 
-class AnswerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class AnswerViewHolder(private val binding: ListItemAnswerSheetBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(text: String) {
-        itemView.findViewById<TextView>(R.id.answerText).text = text
+        binding.answerText.text = text
     }
 }
