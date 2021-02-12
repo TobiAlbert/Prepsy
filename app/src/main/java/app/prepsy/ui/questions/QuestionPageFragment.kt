@@ -13,6 +13,7 @@ import app.prepsy.ui.models.questions
 import app.prepsy.ui.questions.adapters.QuestionPageAdapter
 import app.prepsy.utils.onPageSelected
 
+
 class QuestionPageFragment : Fragment() {
     private var _binding: FragmentQuestionPageBinding? = null
     private val binding get() = _binding!!
@@ -31,12 +32,12 @@ class QuestionPageFragment : Fragment() {
 
         val questionPageAdapter = QuestionPageAdapter(this@QuestionPageFragment, questions)
         val numOfQuestions = questions.size
-        binding.questionProgressIndicator.max = numOfQuestions
 
         binding.questionsViewPager.adapter = questionPageAdapter
         binding.questionsViewPager.onPageSelected { position: Int ->
             val currentQuestionIndex = position + 1
-            binding.questionProgressIndicator.progress = currentQuestionIndex
+
+            binding.questionProgressIndicator.progress = (currentQuestionIndex * 100 / numOfQuestions)
             binding.questionNumber.text =
                 getString(R.string.page_question_number, currentQuestionIndex, numOfQuestions)
         }

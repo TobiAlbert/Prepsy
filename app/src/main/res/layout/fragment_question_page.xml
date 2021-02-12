@@ -33,16 +33,15 @@
             android:textColor="@color/black"
             tools:text="23/40"/>
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
+        <app.prepsy.vendors.AnimatedProgressBar
             android:id="@+id/questionProgressIndicator"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="2dp"
             android:indeterminate="false"
-            app:indicatorColor="@color/question_progress_indicator"
             android:layout_alignParentBottom="true"
-            tools:progress="23"
-            tools:max="40"/>
-
+            app:animationDuration="300"
+            app:bidirectionalAnimate="true"
+            app:progressColor="@color/question_progress_indicator"/>
     </RelativeLayout>
 
     <androidx.viewpager2.widget.ViewPager2
