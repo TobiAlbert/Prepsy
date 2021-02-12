@@ -10,8 +10,8 @@
         android:name="app.prepsy.ui.HomeFragment"
         android:label="HomeFragment" >
         <action
-            android:id="@+id/action_homeFragment_to_resultFragment"
-            app:destination="@id/resultFragment" />
+            android:id="@+id/action_homeFragment_to_questionPageFragment"
+            app:destination="@id/questionPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
@@ -30,4 +30,16 @@
         android:name="app.prepsy.ui.answers.AnswerFragment"
         android:label="fragment_answer"
         tools:layout="@layout/fragment_answer" />
+    <fragment
+        android:id="@+id/questionPageFragment"
+        android:name="app.prepsy.ui.questions.QuestionPageFragment"
+        android:label="fragment_question_page"
+        tools:layout="@layout/fragment_question_page" >
+        <action
+            android:id="@+id/action_questionPageFragment_to_resultFragment"
+            app:destination="@id/resultFragment" />
+        <action
+            android:id="@+id/action_questionPageFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

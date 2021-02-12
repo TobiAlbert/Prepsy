@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -51,4 +52,7 @@ dependencies {
     // android jetpack navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$jetpackNavigation"
     implementation "androidx.navigation:navigation-ui-ktx:$jetpackNavigation"
+
+    // view pager 2
+    implementation "androidx.viewpager2:viewpager2:$viewPager2"
 }

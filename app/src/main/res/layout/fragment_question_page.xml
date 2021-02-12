@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.questions.QuestionPageFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/question_background"
+        android:layout_height="75dp">
+
+        <ImageView
+            android:id="@+id/homeBackBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="6dp"
+            android:layout_marginStart="16dp"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="@string/go_back_to_home_screen"
+            android:src="@drawable/ic_arrow_left"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/questionNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"
+            tools:text="23/40"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/questionProgressIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            app:indicatorColor="@color/question_progress_indicator"
+            android:layout_alignParentBottom="true"
+            tools:progress="23"
+            tools:max="40"/>
+
+    </RelativeLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/questionsViewPager"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/question_margin_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.questions.QuestionPageFragment"/>
+</LinearLayout>

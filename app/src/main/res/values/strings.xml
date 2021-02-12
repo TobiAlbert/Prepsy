@@ -18,4 +18,7 @@
     <string name="result_try_again_title">Uh Oh!</string>
     <string name="result_try_again_message">Lets try again. You can do this!</string>
     <string name="answer_sheet">Answer Sheet</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="go_back_to_home_screen">Go Back to Home Screen</string>
+    <string name="page_question_number">%d/%d</string>
 </resources>

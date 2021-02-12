@@ -9,8 +9,11 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="button_green">#4FB5A4</color>
+    <color name="question_progress_indicator">#4FB5A4</color>
     <color name="button_red">#E79B9B</color>
     <color name="background_green">#ACDCD4</color>
     <color name="splash_background_yellow">#F3E863</color>
     <color name="gray">@android:color/darker_gray</color>
+    <color name="question_background">#F4FAF9</color>
+    <color name="options_alphabet_background">#E0E0E0</color>
 </resources>

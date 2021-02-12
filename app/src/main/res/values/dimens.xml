@@ -6,4 +6,6 @@
     <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="results_drawable_margin_top">64dp</dimen>
     <dimen name="result_card_elevation">4dp</dimen>
+    <dimen name="question_margin_top">64dp</dimen>
+    <dimen name="question_padding">16dp</dimen>
 </resources>

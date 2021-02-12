@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.viewQuestionsBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_resultFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_questionPageFragment)
         }
     }
 
