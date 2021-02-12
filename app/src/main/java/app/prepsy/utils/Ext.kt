@@ -13,6 +13,10 @@ inline fun <reified T: AppCompatActivity> Context.startActivity() {
     this.startActivity(Intent(this, T::class.java))
 }
 
+fun Fragment.setStatusBarColor(@ColorRes color: Int) = with(this) {
+    requireActivity().window.statusBarColor = getColorCompat(color)
+}
+
 fun Fragment.getColorCompat(@ColorRes color: Int) = this.requireContext().getColorCompat(color)
 fun Context.getColorCompat(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 

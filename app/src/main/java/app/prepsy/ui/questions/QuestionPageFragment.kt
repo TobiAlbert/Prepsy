@@ -11,7 +11,9 @@ import app.prepsy.R
 import app.prepsy.databinding.FragmentQuestionPageBinding
 import app.prepsy.ui.models.questions
 import app.prepsy.ui.questions.adapters.QuestionPageAdapter
+import app.prepsy.utils.getColorCompat
 import app.prepsy.utils.onPageSelected
+import app.prepsy.utils.setStatusBarColor
 
 
 class QuestionPageFragment : Fragment() {
@@ -27,8 +29,7 @@ class QuestionPageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        requireActivity().window.statusBarColor =
-            ContextCompat.getColor(requireContext(), R.color.question_background)
+        setStatusBarColor(R.color.question_background)
 
         val questionPageAdapter = QuestionPageAdapter(this@QuestionPageFragment, questions)
         val numOfQuestions = questions.size

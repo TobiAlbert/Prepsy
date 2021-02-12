@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import app.prepsy.R
 import app.prepsy.databinding.FragmentAnswerBinding
+import app.prepsy.utils.setStatusBarColor
 
 class AnswerFragment : Fragment() {
     private var _binding: FragmentAnswerBinding? = null
@@ -24,7 +25,7 @@ class AnswerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
+        setStatusBarColor(R.color.white)
 
         binding.answerRv.apply {
             val gridLayoutManger = GridLayoutManager(

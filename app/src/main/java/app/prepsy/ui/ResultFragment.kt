@@ -10,6 +10,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentResultBinding
+import app.prepsy.utils.setStatusBarColor
 
 class ResultFragment : Fragment() {
 
@@ -31,7 +32,8 @@ class ResultFragment : Fragment() {
     }
 
     private fun setupUi() {
-        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.background_green)
+        setStatusBarColor(R.color.background_green)
+
         when ((0..1).random()) {
             0 -> setupSuccessPage(80, 100)
             1 -> setFailurePage(10, 100)
