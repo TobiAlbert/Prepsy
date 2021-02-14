@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import app.prepsy.R
 import app.prepsy.databinding.FragmentAnswerBinding
@@ -38,6 +38,12 @@ class AnswerFragment : Fragment() {
             adapter = AnswersAdapter()
             layoutManager = gridLayoutManger
             addItemDecoration(SpaceItemDecorator())
+        }
+
+        binding.goHomeBtn.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_answerFragment_to_homeFragment
+            )
         }
     }
 

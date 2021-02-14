@@ -29,7 +29,11 @@
         android:id="@+id/answerFragment"
         android:name="app.prepsy.ui.answers.AnswerFragment"
         android:label="fragment_answer"
-        tools:layout="@layout/fragment_answer" />
+        tools:layout="@layout/fragment_answer" >
+        <action
+            android:id="@+id/action_answerFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/questionPageFragment"
         android:name="app.prepsy.ui.questions.QuestionPageFragment"
