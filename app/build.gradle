@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -55,4 +57,10 @@ dependencies {
 
     // view pager 2
     implementation "androidx.viewpager2:viewpager2:$viewPager2"
+
+    // hilt dependency
+    implementation "com.google.dagger:hilt-android:$dagger_hilt"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_hilt"
+    kapt "androidx.hilt:hilt-compiler:$androidx_hilt"
+    kapt "com.google.dagger:hilt-android-compiler:$dagger_hilt"
 }

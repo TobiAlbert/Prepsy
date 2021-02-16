@@ -2,11 +2,14 @@ package app.prepsy.utils
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
 
 // Activity / Context Extensions
 inline fun <reified T: AppCompatActivity> Context.startActivity() {
@@ -28,4 +31,13 @@ fun ViewPager2.onPageSelected(callback: (position: Int) -> Unit) {
             callback(position)
         }
     })
+}
+
+fun View.showActionSnackBar(
+    @StringRes message: Int,
+    @StringRes actionText: Int,
+    action: (view: View) -> Unit) {
+    Snackbar.make(this, message, Snackbar.LENGTH_INDEFINITE)
+        .setAction(actionText, action)
+        .show()
 }

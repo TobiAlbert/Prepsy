@@ -2,6 +2,7 @@ package app.prepsy.ui.answers
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import app.prepsy.databinding.ListItemAnswerSheetBinding
 
@@ -17,4 +18,10 @@ class AnswersAdapter : RecyclerView.Adapter<AnswerViewHolder>() {
 
     override fun onBindViewHolder(holder: AnswerViewHolder, position: Int) = holder.bind(answers[position])
 
+    companion object {
+        val diffUtil = object: DiffUtil.ItemCallback<String>() {
+            override fun areItemsTheSame(oldItem: String, newItem: String): Boolean = oldItem == newItem
+            override fun areContentsTheSame(oldItem: String, newItem: String): Boolean = oldItem == newItem
+        }
+    }
 }
