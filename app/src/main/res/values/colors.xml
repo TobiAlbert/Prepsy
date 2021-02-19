@@ -7,8 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#B3B3B3</color>
 
-    <color name="button_green">#4FB5A4</color>
+    <color name="immersive_sys_ui">#33000000</color>
+    <color name="navbar_color">@color/immersive_sys_ui</color>
+
+    <color name="primary_green">#4FB5A4</color>
+    <color name="button_green">@color/primary_green</color>
     <color name="question_progress_indicator">#4FB5A4</color>
     <color name="button_red">#E79B9B</color>
     <color name="background_green">#ACDCD4</color>

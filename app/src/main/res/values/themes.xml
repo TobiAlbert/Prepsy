@@ -2,13 +2,9 @@
     <!-- Base application theme. -->
     <style name="BaseAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/button_green</item>
+        <item name="colorPrimary">@color/primary_green</item>
         <item name="colorPrimaryVariant">@color/gray</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
 
         <!-- default text colors -->
         <item name="android:fontFamily">@font/raleway_font_family</item>
@@ -16,13 +12,16 @@
 
     <style name="BaseAppTheme.AppTheme">
         <!-- Status bar color. -->
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:navigationBarColor">@color/navbar_color</item>
+        <item name="android:statusBarColor">@color/immersive_sys_ui</item>
     </style>
 
-    <style name="AppTheme.SplashTheme">
+    <style name="BaseAppTheme.SplashTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowBackground">@drawable/splash_background</item>
         <item name="android:statusBarColor">@color/splash_background_yellow</item>
+        <item name="android:navigationBarColor">@color/splash_background_yellow</item>
     </style>
 
     <style name="AppTheme.ResultPageTheme">

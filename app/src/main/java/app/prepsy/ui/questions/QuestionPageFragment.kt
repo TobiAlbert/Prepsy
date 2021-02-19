@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import app.prepsy.R
@@ -14,7 +15,6 @@ import app.prepsy.managers.SharedPreferenceManagers.Companion.HAS_SWIPED
 import app.prepsy.ui.models.questions
 import app.prepsy.ui.questions.adapters.QuestionPageAdapter
 import app.prepsy.utils.onPageSelected
-import app.prepsy.utils.setStatusBarColor
 import app.prepsy.utils.showActionSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -36,24 +36,21 @@ class QuestionPageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setStatusBarColor(R.color.question_background)
+        // setup toolbar
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
 
         val questionPageAdapter = QuestionPageAdapter(this@QuestionPageFragment, questions)
         val numOfQuestions = questions.size
 
-        binding.questionsViewPager.adapter = questionPageAdapter
-        binding.questionsViewPager.onPageSelected { position: Int ->
+        binding.viewpager.adapter = questionPageAdapter
+        binding.viewpager.onPageSelected { position: Int ->
             val currentQuestionIndex = position + 1
 
-            binding.questionProgressIndicator.progress = (currentQuestionIndex * 100 / numOfQuestions)
+            binding.progressBar.progress = (currentQuestionIndex * 100 / numOfQuestions)
             binding.questionNumber.text =
                 getString(R.string.page_question_number, currentQuestionIndex, numOfQuestions)
-        }
-
-        binding.homeBackBtn.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_questionPageFragment_to_homeFragment
-            )
         }
 
         val hasDoubleClicked: Boolean =
@@ -72,6 +69,12 @@ class QuestionPageFragment : Fragment() {
         when {
             !hasDoubleClicked -> showDoubleClickInfoSnackBar(doubleClickCallback)
             !hasSwiped -> showSwipeInfoSnackBar(swipeCallback)
+        }
+
+        val topPadding = binding.appbar.paddingTop
+        binding.appbar.setOnApplyWindowInsetsListener { v, insets ->
+            v.updatePadding(top = insets.systemWindowInsetTop + topPadding)
+            insets
         }
     }
 

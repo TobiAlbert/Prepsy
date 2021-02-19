@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.content.ContextCompat
+import androidx.core.view.marginTop
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentHomeBinding
-import app.prepsy.utils.setStatusBarColor
 
 class HomeFragment : Fragment() {
 
@@ -28,7 +28,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setStatusBarColor(R.color.white)
 
         val years = listOf(
             2010, 2011, 2012, 2013, 2014, 2015,
@@ -74,6 +73,13 @@ class HomeFragment : Fragment() {
 
         binding.viewQuestionsBtn.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_questionPageFragment)
+        }
+
+        val paddingTop = binding.textView.paddingTop
+
+        binding.textView.setOnApplyWindowInsetsListener { v, insets ->
+            v.updatePadding(top = insets.systemWindowInsetTop + paddingTop)
+            insets
         }
     }
 
