@@ -11,7 +11,9 @@
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_questionPageFragment"
-            app:destination="@id/questionPageFragment" />
+            app:destination="@id/questionPageFragment"
+            app:popUpTo="@id/questionPageFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
@@ -23,7 +25,9 @@
             app:destination="@id/answerFragment" />
         <action
             android:id="@+id/action_resultFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/answerFragment"
@@ -32,7 +36,9 @@
         tools:layout="@layout/fragment_answer" >
         <action
             android:id="@+id/action_answerFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/questionPageFragment"
@@ -44,6 +50,8 @@
             app:destination="@id/resultFragment" />
         <action
             android:id="@+id/action_questionPageFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
