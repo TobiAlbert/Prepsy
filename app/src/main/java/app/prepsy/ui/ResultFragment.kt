@@ -32,7 +32,6 @@ class ResultFragment : Fragment() {
     }
 
     private fun setupUi() {
-        setStatusBarColor(R.color.background_green)
 
         when ((0..1).random()) {
             0 -> setupSuccessPage(80, 100)
@@ -59,7 +58,7 @@ class ResultFragment : Fragment() {
             resultTitle.text = getString(R.string.result_congrats_title)
             resultTitle.setTextColor(successColor)
             resultMessage.text = getString(R.string.result_congrats_message)
-            scoreValue.text = "$score/$totalQuestions"
+            scoreValue.text = getString(R.string.final_score, score, totalQuestions)
             viewSheetBtn.setTextColor(successColor)
             takeExamAgainBtn.text = getString(R.string.take_exam_again_button_text)
             takeExamAgainBtn.setBackgroundColor(successColor)
@@ -73,7 +72,7 @@ class ResultFragment : Fragment() {
             resultTitle.text = getString(R.string.result_try_again_title)
             resultTitle.setTextColor(failureColor)
             resultMessage.text = getString(R.string.result_try_again_message)
-            scoreValue.text = "$score/$totalQuestions"
+            scoreValue.text = getString(R.string.final_score, score, totalQuestions)
             viewSheetBtn.setTextColor(failureColor)
             takeExamAgainBtn.text = getString(R.string.try_again_button_text)
             takeExamAgainBtn.setBackgroundColor(failureColor)

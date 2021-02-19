@@ -27,5 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/list_item_question_options"
+        android:clipToPadding="false"
         tools:itemCount="4"/>
 </LinearLayout>

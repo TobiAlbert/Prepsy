@@ -5,7 +5,5 @@
         <!-- Status bar color. -->
         <item name="android:navigationBarColor">@color/navbar_color</item>
         <item name="android:statusBarColor">@color/immersive_sys_ui</item>
-
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 </resources>
