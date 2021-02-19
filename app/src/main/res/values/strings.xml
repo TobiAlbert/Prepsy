@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Prepsy</string>
     <string name="past_questions_title">Past Questions</string>
-    <string name="jamb_title">jamb</string>
+    <string name="utme_title">UTME</string>
     <string name="select_exam_year_hint">Select Exam Year</string>
     <string name="select_subject_hint">Select Subject</string>
     <string name="drop_down_dummy_text">Chemistry</string>
