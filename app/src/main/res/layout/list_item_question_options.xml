@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:gravity="center"
-            android:background="@drawable/question_option_background"
+            android:background="@drawable/question_radio_option_background"
             android:textColor="@color/black"
             tools:text="A"/>
 
