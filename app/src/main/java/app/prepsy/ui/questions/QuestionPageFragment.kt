@@ -80,8 +80,8 @@ class QuestionPageFragment : Fragment() {
 
     private fun showDoubleClickInfoSnackBar(callback: (View) -> Unit) {
         binding.root.showActionSnackBar(
-            R.string.double_click_message,
-            R.string.double_click_option_action_text,
+            R.string.double_tap_message,
+            R.string.double_tap_option_action_text,
             callback
         )
     }

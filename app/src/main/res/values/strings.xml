@@ -22,8 +22,8 @@
     <string name="go_back_to_home_screen">Go Back to Home Screen</string>
     <string name="page_question_number">%d/%d</string>
     <string name="final_score">%d/%d</string>
-    <string name="double_click_message">Double-Click to select an option</string>
-    <string name="double_click_option_action_text">Okay</string>
+    <string name="double_tap_message">Double-Tap to select an option</string>
+    <string name="double_tap_option_action_text">Okay</string>
     <string name="swipe_message">Swipe to Move between Questions</string>
     <string name="swipe_action_text">Okay</string>
 </resources>
