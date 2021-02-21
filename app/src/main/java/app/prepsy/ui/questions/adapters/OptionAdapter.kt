@@ -6,12 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 import app.prepsy.databinding.ListItemQuestionOptionsBinding
 import app.prepsy.ui.models.Option
 
-class OptionAdapter(private val options: List<Option>) : RecyclerView.Adapter<OptionViewHolder>() {
+class OptionAdapter(
+    private val options: List<Option>,
+    private val onOptionSelected: (String) -> Unit
+) : RecyclerView.Adapter<OptionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
+        val context = parent.context
+
+        val inflater = LayoutInflater.from(context)
         val binding = ListItemQuestionOptionsBinding.inflate(inflater, parent, false)
-        return OptionViewHolder(binding)
+        return OptionViewHolder(context, binding, onOptionSelected)
     }
 
     override fun getItemCount(): Int = options.size
