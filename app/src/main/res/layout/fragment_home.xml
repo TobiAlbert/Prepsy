@@ -55,11 +55,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <AutoCompleteTextView
-            android:id="@+id/selectYearAT"
+            android:id="@+id/selectSubjectAT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/select_exam_year_hint"
+            android:hint="@string/select_subject_hint"
             android:inputType="none" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -73,12 +74,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <AutoCompleteTextView
-            android:id="@+id/selectSubjectAT"
+            android:id="@+id/selectYearAT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/select_subject_hint"
+            android:hint="@string/select_exam_year_hint"
             android:inputType="none" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
