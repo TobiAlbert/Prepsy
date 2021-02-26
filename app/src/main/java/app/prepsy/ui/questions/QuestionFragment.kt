@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import app.prepsy.databinding.FragmentQuestionBinding
 import app.prepsy.ui.models.Question
 import app.prepsy.ui.questions.adapters.OptionAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 
+@AndroidEntryPoint
 class QuestionFragment : Fragment() {
     private var _binding: FragmentQuestionBinding? = null
     private val binding get() = _binding!!

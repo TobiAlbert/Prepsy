@@ -1,6 +1,7 @@
 ext {
-    jetpackNavigation = "2.3.3"
-    viewPager2 = "1.0.0"
     androidx_hilt = "1.0.0-alpha03"
     dagger_hilt = "2.31.2-alpha"
+    javaInjectVersion = '1'
+    jetpackNavigation = "2.3.3"
+    viewPager2 = "1.0.0"
 }

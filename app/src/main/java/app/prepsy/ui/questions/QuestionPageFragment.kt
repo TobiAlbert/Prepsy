@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentQuestionPageBinding
 import app.prepsy.managers.SharedPreferenceManagers
 import app.prepsy.managers.SharedPreferenceManagers.Companion.HAS_DOUBLE_CLICKED
 import app.prepsy.managers.SharedPreferenceManagers.Companion.HAS_SWIPED
-import app.prepsy.ui.models.questions
+import app.prepsy.ui.models.Question
 import app.prepsy.ui.questions.adapters.QuestionPageAdapter
 import app.prepsy.utils.onPageSelected
 import app.prepsy.utils.showActionSnackBar
@@ -23,6 +25,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class QuestionPageFragment : Fragment() {
     @Inject lateinit var sharedPrefsManager: SharedPreferenceManagers
+    private val questionViewModel: QuestionViewModel by viewModels()
 
     private var _binding: FragmentQuestionPageBinding? = null
     private val binding get() = _binding!!
@@ -36,21 +39,14 @@ class QuestionPageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupUi()
+        observeViewModel()
+    }
+
+    private fun setupUi() {
         // setup toolbar
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
-        }
-
-        val questionPageAdapter = QuestionPageAdapter(this@QuestionPageFragment, questions)
-        val numOfQuestions = questions.size
-
-        binding.viewpager.adapter = questionPageAdapter
-        binding.viewpager.onPageSelected { position: Int ->
-            val currentQuestionIndex = position + 1
-
-            binding.progressBar.progress = (currentQuestionIndex * 100 / numOfQuestions)
-            binding.questionNumber.text =
-                getString(R.string.page_question_number, currentQuestionIndex, numOfQuestions)
         }
 
         val hasDoubleClicked: Boolean =
@@ -76,6 +72,25 @@ class QuestionPageFragment : Fragment() {
             v.updatePadding(top = insets.systemWindowInsetTop + topPadding)
             insets
         }
+    }
+
+    private fun observeViewModel() {
+        questionViewModel.getQuestions().observe(viewLifecycleOwner, Observer {
+            it?.let { questions: List<Question> ->
+
+                val questionPageAdapter = QuestionPageAdapter(this@QuestionPageFragment, questions)
+                val numOfQuestions = questions.size
+
+                binding.viewpager.adapter = questionPageAdapter
+                binding.viewpager.onPageSelected { position: Int ->
+                    val currentQuestionIndex = position + 1
+
+                    binding.progressBar.progress = (currentQuestionIndex * 100 / numOfQuestions)
+                    binding.questionNumber.text =
+                        getString(R.string.page_question_number, currentQuestionIndex, numOfQuestions)
+                }
+            }
+        })
     }
 
     private fun showDoubleClickInfoSnackBar(callback: (View) -> Unit) {
