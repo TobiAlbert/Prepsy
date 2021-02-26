@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="BaseAppTheme">
+        <!-- Status bar color. -->
+        <item name="android:navigationBarColor">@color/navbar_color</item>
+        <item name="android:statusBarColor">@color/immersive_sys_ui</item>
+    </style>
+</resources>
