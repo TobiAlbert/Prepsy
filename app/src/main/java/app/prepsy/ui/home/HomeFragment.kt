@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentHomeBinding
 import app.prepsy.ui.models.Subject
-import app.prepsy.utils.createSubjectsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,6 +25,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var mSubjects: List<Subject>
+    private lateinit var mYears: List<String>
     private lateinit var mSubjectAdapter: ArrayAdapter<Subject>
     private lateinit var mYearAdapter: ArrayAdapter<String>
 
@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
 
     private fun setupUi() {
 
-        mSubjectAdapter = requireContext().createSubjectsAdapter(mutableListOf())
+        mSubjectAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, mutableListOf())
         mYearAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, mutableListOf())
 
         binding.selectYearAT.setAdapter(mYearAdapter)
@@ -74,22 +74,29 @@ class HomeFragment : Fragment() {
     private fun observeViewModel() {
         homeViewModel.getSubjects().observe(viewLifecycleOwner, Observer {
             it?.let { subjects: List<Subject> ->
-                mSubjects = subjects
 
-                mSubjectAdapter.clear()
-                mSubjectAdapter.addAll(subjects)
-                mSubjectAdapter.notifyDataSetChanged()
-                binding.selectSubjectAT.setText(subjects.first().name, false)
+                mSubjects = subjects
+                mSubjectAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, subjects)
+                binding.selectSubjectAT.setAdapter(mSubjectAdapter)
+
+                binding.selectSubjectAT.setText(when {
+                    subjects.size > 1 -> subjects.first().name
+                    else -> ""
+                }, false)
             }
         })
 
         homeViewModel.getYears().observe(viewLifecycleOwner, Observer {
             it?.let { years: List<String> ->
 
-                mYearAdapter.clear()
-                mYearAdapter.addAll(years)
+                mYears = years
+                mYearAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, years)
+                binding.selectYearAT.setAdapter(mYearAdapter)
 
-                binding.selectYearAT.setText(years.first().toString(), false)
+                binding.selectYearAT.setText(when {
+                    years.size > 1 -> years.first().toString()
+                    else -> ""
+                }, false)
             }
         })
     }
