@@ -105,13 +105,6 @@ class QuestionPageFragment : Fragment() {
                     binding.progressBar.progress = (currentQuestionIndex * 100 / numOfQuestions)
                     binding.questionNumber.text =
                         getString(R.string.page_question_number, currentQuestionIndex, numOfQuestions)
-
-                    // handle submit button visibility
-                    val submitMenuItem: MenuItem = binding.toolbar.menu.findItem(R.id.menu_submit)
-                    submitMenuItem.isVisible = currentQuestionIndex < numOfQuestions
-
-                    binding.submitBtn.visibility =
-                        if (currentQuestionIndex == numOfQuestions) View.VISIBLE else View.GONE
                 }
             }
         })

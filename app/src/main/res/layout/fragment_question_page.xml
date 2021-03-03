@@ -48,20 +48,6 @@
         android:layout_marginTop="@dimen/question_margin_top"
         android:layout_width="match_parent"
         android:layout_below="@+id/progressBar"
-        android:layout_above="@+id/submitBtn"
         android:layout_height="wrap_content"
         tools:context=".ui.questions.QuestionPageFragment"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/submitBtn"
-        android:layout_alignStart="@+id/viewpager"
-        android:layout_alignEnd="@+id/viewpager"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="32dp"
-        android:text="@string/submit"
-        android:visibility="gone"
-        android:backgroundTint="@color/button_green"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        tools:visibility="visible"/>
 </RelativeLayout>
