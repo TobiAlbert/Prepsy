@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.prepsy.databinding.FragmentQuestionBinding
 import app.prepsy.ui.models.Question
@@ -17,6 +18,8 @@ private const val ARG_PARAM1 = "param1"
 
 @AndroidEntryPoint
 class QuestionFragment : Fragment() {
+
+    private val questionViewModel: QuestionViewModel by viewModels()
     private var _binding: FragmentQuestionBinding? = null
     private val binding get() = _binding!!
 
@@ -44,6 +47,7 @@ class QuestionFragment : Fragment() {
     }
 
     private fun onOptionSelected(option: String) {
+
         Toast.makeText(
             requireContext(),
             option,

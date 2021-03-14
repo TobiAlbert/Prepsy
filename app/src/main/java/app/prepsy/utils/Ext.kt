@@ -22,9 +22,6 @@ inline fun <reified T: AppCompatActivity> Context.startActivity() {
 fun Fragment.getColorCompat(@ColorRes color: Int) = this.requireContext().getColorCompat(color)
 fun Context.getColorCompat(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
-fun Context.createSubjectsAdapter(data: List<Subject>): ArrayAdapter<Subject> =
-    ArrayAdapter(this, R.layout.list_item_dropdown, data)
-
 // View Pager Extensions
 fun ViewPager2.onPageSelected(callback: (position: Int) -> Unit) {
     this.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {

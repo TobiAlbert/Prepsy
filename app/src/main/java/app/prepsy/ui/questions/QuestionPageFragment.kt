@@ -2,8 +2,10 @@ package app.prepsy.ui.questions
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -45,6 +47,21 @@ class QuestionPageFragment : Fragment() {
 
     private fun setupUi() {
         // setup toolbar
+        binding.toolbar.inflateMenu(R.menu.menu_question)
+        binding.toolbar.setOnMenuItemClickListener {
+            return@setOnMenuItemClickListener when (it.itemId) {
+                R.id.menu_submit -> {
+                    Toast.makeText(
+                        requireContext(),
+                        it.title,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    true
+                }
+                else -> false
+            }
+        }
+
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }

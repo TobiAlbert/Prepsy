@@ -10,7 +10,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentResultBinding
-import app.prepsy.utils.setStatusBarColor
 
 class ResultFragment : Fragment() {
 
