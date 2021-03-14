@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -15,6 +18,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     buildTypes {
@@ -34,12 +41,29 @@ android {
 
 dependencies {
 
+    implementation project(':domain')
+    implementation project(':data')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // android jetpack navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$jetpackNavigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$jetpackNavigation"
+
+    // view pager 2
+    implementation "androidx.viewpager2:viewpager2:$viewPager2"
+
+    // hilt dependency
+    implementation "com.google.dagger:hilt-android:$dagger_hilt"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_hilt"
+    kapt "androidx.hilt:hilt-compiler:$androidx_hilt"
+    kapt "com.google.dagger:hilt-android-compiler:$dagger_hilt"
 }

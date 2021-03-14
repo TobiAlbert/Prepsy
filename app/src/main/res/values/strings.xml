@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Prepsy</string>
+    <string name="past_questions_title">Past Questions</string>
+    <string name="utme_title">UTME</string>
+    <string name="select_exam_year_hint">Select Exam Year</string>
+    <string name="select_subject_hint">Select Subject</string>
+    <string name="drop_down_dummy_text">Chemistry</string>
+    <string name="view_questions_text">view questions</string>
+
+    <string name="result_image">Result Image</string>
+    <string name="view_answer_sheet_button_text">View Answer Sheet</string>
+    <string name="home">Home</string>
+    <string name="score_title">Your Score</string>
+    <string name="result_congrats_title">Woohoo, Congrats!</string>
+    <string name="result_congrats_message">Success, all round!</string>
+    <string name="take_exam_again_button_text">Take Exam Again</string>
+    <string name="try_again_button_text">Try Again</string>
+    <string name="result_try_again_title">Uh Oh!</string>
+    <string name="result_try_again_message">Lets try again. You can do this!</string>
+    <string name="answer_sheet">Answer Sheet</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="go_back_to_home_screen">Go Back to Home Screen</string>
+    <string name="page_question_number">%d/%d</string>
+    <string name="final_score">%d/%d</string>
+    <string name="double_tap_message">Double-Tap to select an option</string>
+    <string name="double_tap_option_action_text">Okay</string>
+    <string name="swipe_message">Swipe to Move between Questions</string>
+    <string name="swipe_action_text">Okay</string>
+    <string name="submit">Submit</string>
 </resources>

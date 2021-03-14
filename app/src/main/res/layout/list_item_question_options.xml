@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="8dp"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/questionOptionAlphabet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/question_radio_option_background"
+            android:textColor="@color/black"
+            tools:text="A"/>
+
+        <TextView
+            android:id="@+id/questionOptionText"
+            android:layout_toEndOf="@+id/questionOptionAlphabet"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            tools:text="Bulb is thin-walled and the liquid is a good conductor of heat."/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

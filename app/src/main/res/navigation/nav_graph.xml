@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="app.prepsy.ui.home.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_questionPageFragment"
+            app:destination="@id/questionPageFragment"
+            app:popUpTo="@id/questionPageFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="app.prepsy.ui.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" >
+        <action
+            android:id="@+id/action_resultFragment_to_answerFragment"
+            app:destination="@id/answerFragment" />
+        <action
+            android:id="@+id/action_resultFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/answerFragment"
+        android:name="app.prepsy.ui.answers.AnswerFragment"
+        android:label="fragment_answer"
+        tools:layout="@layout/fragment_answer" >
+        <action
+            android:id="@+id/action_answerFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/questionPageFragment"
+        android:name="app.prepsy.ui.questions.QuestionPageFragment"
+        android:label="fragment_question_page"
+        tools:layout="@layout/fragment_question_page" >
+        <action
+            android:id="@+id/action_questionPageFragment_to_resultFragment"
+            app:destination="@id/resultFragment" />
+        <action
+            android:id="@+id/action_questionPageFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

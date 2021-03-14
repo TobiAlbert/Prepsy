@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_green"
+    tools:context=".ui.ResultFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/result_page_margin_top"
+        android:layout_marginBottom="@dimen/result_page_margin_bottom"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:elevation="@dimen/result_card_elevation">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/resultImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/results_drawable_margin_top"
+                tools:src="@drawable/drawable_congrats"
+                android:contentDescription="@string/result_image"/>
+
+            <TextView
+                android:id="@+id/resultTitle"
+                android:layout_below="@+id/resultImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="32dp"
+                tools:text="Woohoo, Congrats!"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                tools:textColor="@color/button_green"/>
+
+            <TextView
+                android:id="@+id/resultMessage"
+                android:layout_below="@+id/resultTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                tools:text="Success, all around!" />
+
+            <TextView
+                android:id="@+id/scoreTitle"
+                android:layout_below="@+id/resultMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:textAllCaps="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/score_title" />
+
+            <TextView
+                android:id="@+id/scoreValue"
+                android:layout_below="@+id/scoreTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                android:textSize="40sp"
+                tools:text="80/100" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:id="@+id/viewSheetBtn"
+                android:layout_below="@+id/scoreValue"
+                android:layout_marginTop="32dp"
+                android:layout_width="150dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="16dp"
+                android:layout_alignParentStart="true"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textAllCaps="false"
+                android:text="@string/view_answer_sheet_button_text"
+                tools:textColor="@color/button_green"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/takeExamAgainBtn"
+                android:layout_alignTop="@+id/viewSheetBtn"
+                android:layout_width="150dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentEnd="true"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                tools:text="@string/take_exam_again_button_text"
+                tools:backgroundTint="@color/button_green"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/homeBtn"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_below="@+id/viewSheetBtn"
+                android:layout_alignStart="@+id/viewSheetBtn"
+                android:layout_alignEnd="@+id/takeExamAgainBtn"
+                android:layout_width="match_parent"
+                android:text="@string/home"
+                android:textColor="@color/gray"
+                android:textAllCaps="false"
+                android:layout_marginTop="32dp"
+                android:textStyle="bold"
+                android:layout_height="64dp"/>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>
