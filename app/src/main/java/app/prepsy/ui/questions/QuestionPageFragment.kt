@@ -49,7 +49,7 @@ class QuestionPageFragment : Fragment() {
         // setup toolbar
         binding.toolbar.inflateMenu(R.menu.menu_question)
         binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
+            return@setOnMenuItemClickListener when (it.itemId) {
                 R.id.menu_submit -> {
                     Toast.makeText(
                         requireContext(),
