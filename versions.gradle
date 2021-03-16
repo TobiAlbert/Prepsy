@@ -4,4 +4,5 @@ ext {
     javaInjectVersion = '1'
     jetpackNavigation = "2.3.3"
     viewPager2 = "1.0.0"
+    roomVersion = "2.2.6"
 }
