@@ -3,12 +3,14 @@ package app.prepsy.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.prepsy.domain.entities.Subject as SubjectEntity
 import app.prepsy.domain.usecases.GetAllSubjects
 import app.prepsy.domain.usecases.GetSubjectYears
 import app.prepsy.ui.mappers.Mapper
 import app.prepsy.ui.models.Subject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,15 +27,17 @@ class HomeViewModel @Inject constructor(
     fun getYears(): LiveData<List<String>> = years
 
     init {
-        getAllSubjectsUseCase.invoke().map { subjectMapper.from(it) }
-            .also {
-                subjects.postValue(it)
-                it.let { s: List<Subject> ->
-                    if (s.isNotEmpty()) {
-                        getAvailableYearsForSubject(it.first().id)
-                    }
-                }
+
+        viewModelScope.launch {
+            val subjectsResponse = getAllSubjectsUseCase.invoke()
+            val mappedSubjects = subjectsResponse.map { subjectMapper.from(it) }
+
+            subjects.postValue(mappedSubjects)
+
+            if (subjectsResponse.isNotEmpty()) {
+                getAvailableYearsForSubject(subjectsResponse.first().id)
             }
+        }
     }
 
     fun getAvailableYearsForSubject(subjectId: String) {

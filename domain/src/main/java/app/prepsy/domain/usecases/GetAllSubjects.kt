@@ -6,5 +6,5 @@ import javax.inject.Inject
 
 class GetAllSubjects @Inject constructor(private val repo: SubjectRepository) {
 
-    operator fun invoke(): List<Subject> = repo.getAllSubjects()
+    suspend operator fun invoke(): List<Subject> = repo.getAllSubjects()
 }

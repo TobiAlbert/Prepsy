@@ -6,7 +6,7 @@ import app.prepsy.data.mapper.QuestionDataMapper
 import app.prepsy.data.mapper.SubjectDataMapper
 import app.prepsy.data.models.Option
 import app.prepsy.data.models.Question
-import app.prepsy.data.models.Subject
+import app.prepsy.data.models.SubjectData
 import app.prepsy.data.repository.answer.AnswerRepositoryImpl
 import app.prepsy.data.repository.question.QuestionRepositoryImpl
 import app.prepsy.data.repository.subject.SubjectRepositoryImpl
@@ -38,7 +38,7 @@ abstract class DataModule {
     @Binds
     abstract fun bindSubjectDataMapper(
         subjectDataMapper: SubjectDataMapper
-    ): Mapper<SubjectEntity, Subject>
+    ): Mapper<SubjectEntity, SubjectData>
 
     @Binds
     abstract fun bindQuestionRepository(

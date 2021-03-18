@@ -3,7 +3,26 @@ package com.tobidaada.local.models
 import androidx.room.*
 import java.util.*
 
-@Entity(tableName = "questions")
+@Entity(
+    tableName = "questions",
+    indices = [Index(name = "questions_id_unique", unique = true, value = ["id"])],
+    foreignKeys = [
+        ForeignKey(
+            entity = SubjectLocal::class,
+            parentColumns = ["id"],
+            childColumns = ["subject_id"],
+            onDelete = ForeignKey.NO_ACTION,
+            onUpdate = ForeignKey.NO_ACTION
+        ),
+        ForeignKey(
+            entity = Year::class,
+            parentColumns = ["id"],
+            childColumns = ["year_id"],
+            onDelete = ForeignKey.NO_ACTION,
+            onUpdate = ForeignKey.NO_ACTION
+        )
+    ]
+)
 data class Question(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")

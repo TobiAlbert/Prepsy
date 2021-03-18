@@ -2,10 +2,17 @@ package com.tobidaada.local.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "years")
+@Entity(
+    tableName = "years",
+    indices = [
+        Index(name = "years_name_unique", unique = true, value = ["name"]),
+        Index(name = "years_id_unique", unique = true, value = ["id"])
+    ]
+)
 data class Year(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")

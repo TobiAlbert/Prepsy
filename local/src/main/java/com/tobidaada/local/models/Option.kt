@@ -1,11 +1,21 @@
 package com.tobidaada.local.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.util.*
 
-@Entity(tableName = "options")
+@Entity(
+    tableName = "options",
+    indices = [Index(name = "options_id_unique", unique = true, value = ["id"])],
+    foreignKeys = [
+        ForeignKey(
+            entity = Question::class,
+            parentColumns = ["id"],
+            childColumns = ["question_id"],
+            onDelete = ForeignKey.NO_ACTION,
+            onUpdate = ForeignKey.NO_ACTION
+        )
+    ]
+)
 data class Option(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")

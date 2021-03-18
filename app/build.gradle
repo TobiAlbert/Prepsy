@@ -67,4 +67,8 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_hilt"
     kapt "androidx.hilt:hilt-compiler:$androidx_hilt"
     kapt "com.google.dagger:hilt-android-compiler:$dagger_hilt"
+
+    // room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
 }
