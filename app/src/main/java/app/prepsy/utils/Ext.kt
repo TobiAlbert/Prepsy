@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import app.prepsy.R
 import app.prepsy.ui.models.Subject
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 // Activity / Context Extensions
 inline fun <reified T: AppCompatActivity> Context.startActivity() {
@@ -40,3 +41,7 @@ fun View.showActionSnackBar(
         .setAction(actionText, action)
         .show()
 }
+
+// String Extensions
+fun String.capitalizeWords(): String =
+    split(" ").joinToString(" ") { it.toLowerCase(Locale.US).capitalize(Locale.US) }

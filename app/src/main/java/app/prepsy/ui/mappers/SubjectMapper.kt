@@ -1,7 +1,7 @@
 package app.prepsy.ui.mappers
 
 import app.prepsy.ui.models.Subject
-import app.prepsy.domain.entities.Subject as SubjectEntity
+import app.prepsy.domain.entities.SubjectEntity as SubjectEntity
 import javax.inject.Inject
 
 class SubjectMapper @Inject constructor(): Mapper<Subject, SubjectEntity> {

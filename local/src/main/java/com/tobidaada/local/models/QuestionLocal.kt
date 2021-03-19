@@ -15,7 +15,7 @@ import java.util.*
             onUpdate = ForeignKey.NO_ACTION
         ),
         ForeignKey(
-            entity = Year::class,
+            entity = YearLocal::class,
             parentColumns = ["id"],
             childColumns = ["year_id"],
             onDelete = ForeignKey.NO_ACTION,
@@ -23,7 +23,7 @@ import java.util.*
         )
     ]
 )
-data class Question(
+data class QuestionLocal(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     val id: String,
@@ -46,22 +46,22 @@ data class Question(
 
 data class QuestionAndAnswer(
     @Embedded
-    val question: Question,
+    val question: QuestionLocal,
 
     @Relation(
         parentColumn = "id",
         entityColumn = "question_id"
     )
-    val answer: Answer
+    val answer: AnswerLocal
 )
 
 data class QuestionAndOptions(
     @Embedded
-    val question: Question,
+    val question: QuestionLocal,
 
     @Relation(
         parentColumn = "id",
         entityColumn = "question_id"
     )
-    val options: List<Option>
+    val options: List<OptionLocal>
 )

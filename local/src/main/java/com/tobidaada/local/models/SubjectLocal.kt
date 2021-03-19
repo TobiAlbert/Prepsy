@@ -33,7 +33,7 @@ data class SubjectLocal(
     primaryKeys = ["subject_id", "year_id"],
     foreignKeys = [
         ForeignKey(
-            entity = Year::class,
+            entity = YearLocal::class,
             parentColumns = ["id"],
             childColumns = ["year_id"],
             onDelete = ForeignKey.NO_ACTION,
@@ -62,17 +62,17 @@ data class SubjectYearsCrossRef(
     val createdAt: Date
 )
 
-data class SubjectWithYears(
+data class SubjectWithYearsLocal(
     @Embedded val subject: SubjectLocal,
     @Relation(
         parentColumn = "id",
         entityColumn = "id",
-        entity= Year::class,
+        entity= YearLocal::class,
         associateBy = Junction(
             value = SubjectYearsCrossRef::class,
             parentColumn = "subject_id",
             entityColumn = "year_id"
         )
     )
-    val years: List<Year>
+    val years: List<YearLocal>
 )

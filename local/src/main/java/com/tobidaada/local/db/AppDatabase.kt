@@ -8,11 +8,11 @@ import com.tobidaada.local.dao.SubjectsDao
 import com.tobidaada.local.models.*
 
 @Database(entities = [
-    Year::class,
+    YearLocal::class,
     SubjectLocal::class,
-    Question::class,
-    Option::class,
-    Answer::class,
+    QuestionLocal::class,
+    OptionLocal::class,
+    AnswerLocal::class,
     SubjectYearsCrossRef::class
 ], version = 1, exportSchema = true)
 @TypeConverters(DateConverters::class)

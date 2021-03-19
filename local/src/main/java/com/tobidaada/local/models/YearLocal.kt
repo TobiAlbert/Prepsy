@@ -13,7 +13,7 @@ import java.util.*
         Index(name = "years_id_unique", unique = true, value = ["id"])
     ]
 )
-data class Year(
+data class YearLocal(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     val id: String,

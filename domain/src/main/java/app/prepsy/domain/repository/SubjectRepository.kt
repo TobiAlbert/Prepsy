@@ -1,8 +1,9 @@
 package app.prepsy.domain.repository
 
-import app.prepsy.domain.entities.Subject
+import app.prepsy.domain.entities.SubjectEntity
+import app.prepsy.domain.entities.SubjectWithYearsEntity
 
 interface SubjectRepository {
-    suspend fun getAllSubjects(): List<Subject>
-    fun getYearsForSubject(subjectId: String): List<Int>
+    suspend fun getAllSubjects(): List<SubjectEntity>
+    suspend fun getYearsForSubject(): List<SubjectWithYearsEntity>
 }

@@ -4,11 +4,14 @@ import androidx.room.*
 import java.util.*
 
 @Entity(
-    tableName = "options",
-    indices = [Index(name = "options_id_unique", unique = true, value = ["id"])],
+    tableName = "answers",
+    indices = [
+        Index(name = "answers_id_unique", unique = true, value = ["id"]),
+        Index(name = "answers_question_id_unique", unique = true, value = ["question_id"])
+    ],
     foreignKeys = [
         ForeignKey(
-            entity = Question::class,
+            entity = QuestionLocal::class,
             parentColumns = ["id"],
             childColumns = ["question_id"],
             onDelete = ForeignKey.NO_ACTION,
@@ -16,7 +19,7 @@ import java.util.*
         )
     ]
 )
-data class Option(
+data class AnswerLocal(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     val id: String,

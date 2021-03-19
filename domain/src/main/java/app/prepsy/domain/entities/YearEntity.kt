@@ -1,6 +1,6 @@
 package app.prepsy.domain.entities
 
-data class Subject(
-    val id: String = "",
+data class YearEntity(
+    val id: String,
     val name: String
 )

@@ -10,3 +10,8 @@ data class Subject(
 ): Parcelable {
     override fun toString(): String = name
 }
+
+data class SubjectWithYears(
+    val subject: Subject,
+    val years: List<Year>
+)
