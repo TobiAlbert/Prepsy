@@ -1,6 +1,6 @@
 package app.prepsy.data.models
 
-data class Option(
+data class OptionData(
     val alphabet: String,
     val text: String
 )

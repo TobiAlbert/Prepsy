@@ -1,6 +1,6 @@
 package app.prepsy.data.models
 
-data class Subject(
+data class SubjectData(
     val id: String = "",
     val name: String
 )

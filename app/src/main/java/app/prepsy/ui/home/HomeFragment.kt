@@ -14,7 +14,11 @@ import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentHomeBinding
 import app.prepsy.ui.models.Subject
+import app.prepsy.ui.models.SubjectWithYears
+import app.prepsy.ui.models.Year
+import app.prepsy.utils.capitalizeWords
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -25,9 +29,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var mSubjects: List<Subject>
-    private lateinit var mYears: List<String>
+    private lateinit var mYears: List<Year>
     private lateinit var mSubjectAdapter: ArrayAdapter<Subject>
-    private lateinit var mYearAdapter: ArrayAdapter<String>
+    private lateinit var mYearAdapter: ArrayAdapter<Year>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,33 +76,54 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        homeViewModel.getSubjects().observe(viewLifecycleOwner, Observer {
-            it?.let { subjects: List<Subject> ->
-
-                mSubjects = subjects
-                mSubjectAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, subjects)
-                binding.selectSubjectAT.setAdapter(mSubjectAdapter)
-
-                binding.selectSubjectAT.setText(when {
-                    subjects.size > 1 -> subjects.first().name
-                    else -> ""
-                }, false)
-            }
-        })
 
         homeViewModel.getYears().observe(viewLifecycleOwner, Observer {
-            it?.let { years: List<String> ->
-
+            it?.let { years: List<Year> ->
                 mYears = years
-                mYearAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, years)
-                binding.selectYearAT.setAdapter(mYearAdapter)
-
-                binding.selectYearAT.setText(when {
-                    years.size > 1 -> years.first().toString()
-                    else -> ""
-                }, false)
+                setupYearsAdapter(years)
             }
         })
+
+        homeViewModel.getSubjectWithYears().observe(viewLifecycleOwner, Observer {
+            it?.let { subjectWithYearsList: List<SubjectWithYears> ->
+                val subjects = subjectWithYearsList.map {
+                    val name = it.subject.name.capitalizeWords()
+                    return@map it.subject.copy(name = name)
+                }
+                val years = subjectWithYearsList.map { it.years }
+
+                mSubjects = subjects
+                mYears = years.first()
+
+                // set up the subjects spinner
+                setupSubjectsAdapter(subjects)
+
+                // set up the years spinner
+                setupYearsAdapter(years.first())
+            }
+        })
+    }
+
+    private fun setupSubjectsAdapter(subjects: List<Subject>) {
+        // set up the subjects spinner
+        mSubjectAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, subjects)
+        binding.selectSubjectAT.setAdapter(mSubjectAdapter)
+
+        binding.selectSubjectAT.setText(when {
+            subjects.size > 1 -> subjects.first().name
+            else -> ""
+        }, false)
+    }
+
+    private fun setupYearsAdapter(years: List<Year>) {
+        // set up the years spinner
+        mYearAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, years)
+        binding.selectYearAT.setAdapter(mYearAdapter)
+
+        binding.selectYearAT.setText(when {
+            years.size > 1 -> years.first().toString()
+            else -> ""
+        }, false)
     }
 
     override fun onDestroyView() {
