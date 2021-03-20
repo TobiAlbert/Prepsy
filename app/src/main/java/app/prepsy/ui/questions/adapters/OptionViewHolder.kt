@@ -8,6 +8,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import app.prepsy.databinding.ListItemQuestionOptionsBinding
 import app.prepsy.ui.models.Option
+import app.prepsy.utils.toAlphabet
 
 
 class OptionViewHolder(
@@ -60,8 +61,8 @@ class OptionViewHolder(
         binding.root.setOnTouchListener(onTouchListener)
     }
 
-    fun bind(option: Option) = with(binding) {
-        questionOptionAlphabet.text = option.alphabet
+    fun bind(option: Option, position: Int) = with(binding) {
+        questionOptionAlphabet.text = position.inc().toAlphabet()
         questionOptionText.text = option.text
         Unit
     }

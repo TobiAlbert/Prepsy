@@ -2,19 +2,19 @@ package app.prepsy.di
 
 import android.content.Context
 import androidx.room.Room
-import app.prepsy.data.models.SubjectData
-import app.prepsy.data.models.SubjectWithYearsData
-import app.prepsy.data.models.YearData
+import app.prepsy.data.models.*
+import app.prepsy.data.repository.question.QuestionLocalDataSource
 import app.prepsy.data.repository.subject.SubjectLocalDataSource
+import com.tobidaada.local.dao.AnswerDao
+import com.tobidaada.local.dao.QuestionDao
 import com.tobidaada.local.dao.SubjectsDao
 import com.tobidaada.local.db.AppDatabase
-import com.tobidaada.local.mapper.Mapper
-import com.tobidaada.local.mapper.SubjectLocalDataMapper
-import com.tobidaada.local.mapper.SubjectWithYearsLocalDataMapper
-import com.tobidaada.local.mapper.YearsLocalDataMapper
+import com.tobidaada.local.mapper.*
+import com.tobidaada.local.models.OptionLocal
 import com.tobidaada.local.models.SubjectLocal
 import com.tobidaada.local.models.SubjectWithYearsLocal
 import com.tobidaada.local.models.YearLocal
+import com.tobidaada.local.source.question.QuestionLocalDataSourceImpl
 import com.tobidaada.local.source.subject.SubjectsLocalDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -33,9 +33,19 @@ abstract class LocalModuleBinds {
     ): Mapper<SubjectData, SubjectLocal>
 
     @Binds
+    abstract fun bindLocalOptionMapper(
+        mapper: OptionsLocalDataMapper
+    ): Mapper<OptionData, OptionLocal>
+
+    @Binds
     abstract fun bindLocalSubjectDataSourceImpl(
         dataSource: SubjectsLocalDataSourceImpl
     ): SubjectLocalDataSource
+
+    @Binds
+    abstract fun bindLocalQuestionDataSourceImpl(
+        dataSource: QuestionLocalDataSourceImpl
+    ): QuestionLocalDataSource
 
     @Binds
     abstract fun bindLocalYearsMapper(
@@ -66,5 +76,13 @@ object LocalModule {
     @Provides
     @Singleton
     fun provideSubjectsDao(db: AppDatabase): SubjectsDao = db.subjectsDao()
+
+    @Provides
+    @Singleton
+    fun provideQuestionsDao(db: AppDatabase): QuestionDao = db.questionsDao()
+
+    @Provides
+    @Singleton
+    fun provideAnswerDao(db: AppDatabase): AnswerDao = db.answerDao()
 
 }

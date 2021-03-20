@@ -16,14 +16,6 @@ interface SubjectsDao {
     suspend fun getYearsBySubjectId(subjectId: String): List<SubjectWithYearsLocal>
 
     @Transaction
-    @Query("select * " +
-            " from subjects as subjects" +
-            " inner join(" +
-            " select subject_id" +
-            " from subject_years" +
-            " group by subject_id" +
-            ") as d1 on d1.subject_id = subjects.id" +
-            " order by subjects.name asc"
-    )
+    @Query("select * from subjects as subjects inner join(select subject_id from subject_years group by subject_id) as d1 on d1.subject_id = subjects.id order by subjects.name asc")
     suspend fun getSubjectsAndYears(): List<SubjectWithYearsLocal>
 }

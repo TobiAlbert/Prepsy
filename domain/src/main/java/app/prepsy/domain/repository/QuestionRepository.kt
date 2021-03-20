@@ -1,7 +1,7 @@
 package app.prepsy.domain.repository
 
-import app.prepsy.domain.entities.Question
+import app.prepsy.domain.entities.QuestionEntity
 
 interface QuestionRepository {
-    fun getQuestions(subjectId: String, yearId: String): List<Question>
+    suspend fun getQuestions(subjectId: String, yearId: String): List<QuestionEntity>
 }

@@ -21,5 +21,5 @@ class OptionAdapter(
 
     override fun getItemCount(): Int = options.size
 
-    override fun onBindViewHolder(holder: OptionViewHolder, position: Int) = holder.bind(options[position])
+    override fun onBindViewHolder(holder: OptionViewHolder, position: Int) = holder.bind(options[position], position)
 }

@@ -1,9 +1,9 @@
 package app.prepsy.ui.mappers
 
 import app.prepsy.ui.models.Option
-import app.prepsy.domain.entities.Option as OptionEntity
+import app.prepsy.domain.entities.OptionEntity as OptionEntity
 import app.prepsy.ui.models.Question
-import app.prepsy.domain.entities.Question as QuestionEntity
+import app.prepsy.domain.entities.QuestionEntity as QuestionEntity
 import javax.inject.Inject
 
 class QuestionMapper @Inject constructor(

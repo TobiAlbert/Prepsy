@@ -11,8 +11,8 @@ import app.prepsy.domain.entities.SubjectEntity as SubjectEntity
 import app.prepsy.domain.repository.AnswerRepository
 import app.prepsy.domain.repository.QuestionRepository
 import app.prepsy.domain.repository.SubjectRepository
-import app.prepsy.domain.entities.Question as QuestionEntity
-import app.prepsy.domain.entities.Option as OptionEntity
+import app.prepsy.domain.entities.QuestionEntity as QuestionEntity
+import app.prepsy.domain.entities.OptionEntity as OptionEntity
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
