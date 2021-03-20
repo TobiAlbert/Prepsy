@@ -45,3 +45,16 @@ fun View.showActionSnackBar(
 // String Extensions
 fun String.capitalizeWords(): String =
     split(" ").joinToString(" ") { it.toLowerCase(Locale.US).capitalize(Locale.US) }
+
+// Int Extensions
+//TODO: This is a placeholder till I figure out
+// how to convert from numbers to letters in Kotlin
+fun Int.toAlphabet(): String =
+    when(this) {
+        1 -> "A"
+        2 -> "B"
+        3 -> "C"
+        4 -> "D"
+        5 -> "E"
+        else -> "XX"
+    }

@@ -15,3 +15,9 @@ data class SubjectWithYears(
     val subject: Subject,
     val years: List<Year>
 )
+
+@Parcelize
+data class SubjectIdYearId(
+    val subjectId: String,
+    val yearId: String
+): Parcelable

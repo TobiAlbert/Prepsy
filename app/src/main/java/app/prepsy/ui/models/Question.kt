@@ -5,8 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Option(
-    val alphabet: String,
-    val text: String
+    val id: String,
+    val text: String,
+    val questionId: String
 ): Parcelable
 
 @Parcelize

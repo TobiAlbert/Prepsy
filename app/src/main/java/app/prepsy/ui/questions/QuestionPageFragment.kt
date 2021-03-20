@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import app.prepsy.R
 import app.prepsy.databinding.FragmentQuestionPageBinding
 import app.prepsy.managers.SharedPreferenceManagers
@@ -28,6 +29,7 @@ import javax.inject.Inject
 class QuestionPageFragment : Fragment() {
     @Inject lateinit var sharedPrefsManager: SharedPreferenceManagers
     private val questionViewModel: QuestionViewModel by viewModels()
+    private val args: QuestionPageFragmentArgs by navArgs()
 
     private var _binding: FragmentQuestionPageBinding? = null
     private val binding get() = _binding!!
@@ -41,6 +43,7 @@ class QuestionPageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        questionViewModel.getTestQuestions(args.args.subjectId, args.args.yearId)
         setupUi()
         observeViewModel()
     }

@@ -1,6 +1,6 @@
-package app.prepsy.data.models
+package app.prepsy.domain.entities
 
-data class OptionData(
+data class OptionEntity(
     val id: String,
     val text: String,
     val questionId: String,

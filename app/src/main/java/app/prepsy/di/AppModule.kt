@@ -1,13 +1,12 @@
 package app.prepsy.di
 
-import app.prepsy.data.models.SubjectWithYearsData
 import app.prepsy.domain.entities.SubjectWithYearsEntity
 import app.prepsy.domain.entities.YearEntity
 import app.prepsy.ui.mappers.*
 import app.prepsy.ui.models.*
 import app.prepsy.domain.entities.SubjectEntity as SubjectEntity
-import app.prepsy.domain.entities.Question as QuestionEntity
-import app.prepsy.domain.entities.Option as OptionEntity
+import app.prepsy.domain.entities.QuestionEntity as QuestionEntity
+import app.prepsy.domain.entities.OptionEntity as OptionEntity
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

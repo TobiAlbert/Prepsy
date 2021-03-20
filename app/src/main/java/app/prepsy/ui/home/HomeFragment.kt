@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentHomeBinding
 import app.prepsy.ui.models.Subject
+import app.prepsy.ui.models.SubjectIdYearId
 import app.prepsy.ui.models.SubjectWithYears
 import app.prepsy.ui.models.Year
 import app.prepsy.utils.capitalizeWords
@@ -30,8 +31,12 @@ class HomeFragment : Fragment() {
 
     private lateinit var mSubjects: List<Subject>
     private lateinit var mYears: List<Year>
+
     private lateinit var mSubjectAdapter: ArrayAdapter<Subject>
     private lateinit var mYearAdapter: ArrayAdapter<Year>
+
+    private lateinit var mSelectedSubject: Subject
+    private lateinit var mSelectedYear: Year
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,12 +65,24 @@ class HomeFragment : Fragment() {
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 if (::mSubjects.isInitialized) {
                     val subject: Subject = mSubjects[position]
+                    mSelectedSubject = subject
                     homeViewModel.getAvailableYearsForSubject(subject.id)
                 }
             }
 
         binding.viewQuestionsBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_questionPageFragment)
+            // ensure there are loaded subjects
+            if (!::mSubjects.isInitialized) return@setOnClickListener
+            if (!::mYears.isInitialized) return@setOnClickListener
+
+            // get current subject and year id
+            val subjectId = mSelectedSubject.id
+            val yearId = mSelectedYear.id
+
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToQuestionPageFragment(SubjectIdYearId(subjectId, yearId))
+
+            findNavController().navigate(action)
         }
 
         val paddingTop = binding.textView.paddingTop
@@ -105,6 +122,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupSubjectsAdapter(subjects: List<Subject>) {
+        // selected subjects
+        mSelectedSubject = subjects.first()
+
         // set up the subjects spinner
         mSubjectAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, subjects)
         binding.selectSubjectAT.setAdapter(mSubjectAdapter)
@@ -116,6 +136,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupYearsAdapter(years: List<Year>) {
+        // selected year
+        mSelectedYear = years.first()
+
         // set up the years spinner
         mYearAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, years)
         binding.selectYearAT.setAdapter(mYearAdapter)
