@@ -9,9 +9,10 @@
     android:layout_marginTop="8dp"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
     <RelativeLayout
+        android:id="@+id/rootView"
         android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
