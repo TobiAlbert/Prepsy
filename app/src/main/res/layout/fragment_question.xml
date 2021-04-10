@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/question_background"
     android:orientation="vertical"
     android:layout_marginStart="@dimen/activity_vertical_margin"
@@ -21,12 +21,10 @@
         android:textColor="@color/black"
         tools:text="A short response time is obtained in a liquid-in-glass thermometer when the"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/optionsRv"
+    <app.prepsy.ui.custom.AnswerRadioGroup
+        android:id="@+id/optionsRadioGroup"
         android:layout_marginTop="32dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/list_item_question_options"
-        android:clipToPadding="false"
-        tools:itemCount="4"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"/>
 </LinearLayout>

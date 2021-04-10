@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import app.prepsy.databinding.FragmentQuestionBinding
+import app.prepsy.ui.custom.RadioAnswerButton
+import app.prepsy.ui.models.Option
 import app.prepsy.ui.models.Question
-import app.prepsy.ui.questions.adapters.OptionAdapter
+import app.prepsy.utils.toAlphabet
 import dagger.hilt.android.AndroidEntryPoint
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,10 +39,15 @@ class QuestionFragment : Fragment() {
 
             // setup the ui
             binding.questionText.text = question.text
-            binding.optionsRv.apply {
-                adapter = OptionAdapter(question.options, this@QuestionFragment::onOptionSelected)
-                layoutManager = LinearLayoutManager(requireContext())
-                setHasFixedSize(true)
+
+            // setup radio groups
+            question.options.forEachIndexed { index: Int, option: Option ->
+                RadioAnswerButton(requireContext()).apply {
+                    id = View.generateViewId()
+                    setOption(index.inc().toAlphabet(), option.text)
+                    setOnClickListener { onOptionSelected(option.toString()) }
+                    binding.optionsRadioGroup.addView(this)
+                }
             }
         }
     }
@@ -62,7 +68,7 @@ class QuestionFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(question: Question): QuestionFragment  {
+        fun newInstance(question: Question): QuestionFragment {
             val fragment = QuestionFragment()
             val bundle = Bundle().apply { putParcelable(ARG_PARAM1, question) }
             fragment.arguments = bundle
