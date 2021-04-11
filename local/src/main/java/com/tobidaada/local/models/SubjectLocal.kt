@@ -36,15 +36,15 @@ data class SubjectLocal(
             entity = YearLocal::class,
             parentColumns = ["id"],
             childColumns = ["year_id"],
-            onDelete = ForeignKey.NO_ACTION,
-            onUpdate = ForeignKey.NO_ACTION
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = SubjectLocal::class,
             parentColumns = ["id"],
             childColumns = ["subject_id"],
-            onDelete = ForeignKey.NO_ACTION,
-            onUpdate = ForeignKey.NO_ACTION
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
         )
     ]
 )

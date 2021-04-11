@@ -20,9 +20,13 @@ class QuestionLocalDataSourceImpl @Inject constructor(
         val questionsAndOptions = questionDao.getQuestionsBySubjectAndYear(subjectId, yearId)
 
         return questionsAndOptions.map { it: QuestionAndOptions ->
-            val answer = answerDao.getAnswerByQuestionId(it.question.id)
+            val answerId = it.question.rightOption
+            val answer = it.options.first { answerId == it.id }
             val answerOption = OptionData(answer.id, answer.text, it.question.id)
-            val options = it.options.map { optionsMapper.from(it) }.toMutableList()
+
+            val options = it.options
+                .filter { answerId != it.id }
+                .map { optionsMapper.from(it) }.toMutableList()
 
             options.add(answerOption)
             options.shuffle()

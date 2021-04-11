@@ -11,8 +11,8 @@ import java.util.*
             entity = QuestionLocal::class,
             parentColumns = ["id"],
             childColumns = ["question_id"],
-            onDelete = ForeignKey.NO_ACTION,
-            onUpdate = ForeignKey.NO_ACTION
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
         )
     ]
 )

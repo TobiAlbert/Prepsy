@@ -15,8 +15,9 @@ import com.tobidaada.local.models.*
     QuestionLocal::class,
     OptionLocal::class,
     AnswerLocal::class,
+    UserAnswerLocal::class,
     SubjectYearsCrossRef::class
-], version = 1, exportSchema = true)
+], version = 2, exportSchema = true)
 @TypeConverters(DateConverters::class)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun subjectsDao(): SubjectsDao

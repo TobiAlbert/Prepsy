@@ -11,15 +11,22 @@ import java.util.*
             entity = SubjectLocal::class,
             parentColumns = ["id"],
             childColumns = ["subject_id"],
-            onDelete = ForeignKey.NO_ACTION,
-            onUpdate = ForeignKey.NO_ACTION
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = YearLocal::class,
             parentColumns = ["id"],
             childColumns = ["year_id"],
-            onDelete = ForeignKey.NO_ACTION,
-            onUpdate = ForeignKey.NO_ACTION
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = OptionLocal::class,
+            parentColumns = ["id"],
+            childColumns = ["right_option"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
         )
     ]
 )
@@ -36,6 +43,9 @@ data class QuestionLocal(
 
     @ColumnInfo(name = "year_id")
     val yearId: String,
+
+    @ColumnInfo(name = "right_option")
+    val rightOption: String,
 
     @ColumnInfo(name = "created_at")
     val createdAt: Date,
