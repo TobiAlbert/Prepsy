@@ -41,24 +41,23 @@ class QuestionFragment : Fragment() {
             binding.questionText.text = question.text
 
             // setup radio groups
+            val userOptionId: String? = question.userOptionId
+
             question.options.forEachIndexed { index: Int, option: Option ->
                 RadioAnswerButton(requireContext()).apply {
                     id = View.generateViewId()
                     setOption(index.inc().toAlphabet(), option.text)
-                    setOnClickListener { onOptionSelected(option.toString()) }
+                    setOnClickListener { onOptionSelected(question.id, option.id) }
                     binding.optionsRadioGroup.addView(this)
+
+                    if (userOptionId == option.id) this.isChecked = true
                 }
             }
         }
     }
 
-    private fun onOptionSelected(option: String) {
-
-        Toast.makeText(
-            requireContext(),
-            option,
-            Toast.LENGTH_SHORT
-        ).show()
+    private fun onOptionSelected(questionId: String, optionId: String) {
+        questionViewModel.saveAnswer(questionId, optionId)
     }
 
     override fun onDestroyView() {

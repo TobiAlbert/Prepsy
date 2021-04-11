@@ -35,6 +35,9 @@ class QuestionViewModel @Inject constructor(
         }
     }
 
-    fun saveAnswer(option: Option, questionId: String) =
-        saveUserAnswer(answerMapper.to(option), questionId)
+    fun saveAnswer(questionId: String, optionId: String) {
+        viewModelScope.launch {
+            saveUserAnswer(questionId, optionId)
+        }
+    }
 }

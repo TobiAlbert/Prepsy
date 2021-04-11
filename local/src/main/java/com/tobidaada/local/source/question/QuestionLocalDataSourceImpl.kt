@@ -2,15 +2,19 @@ package com.tobidaada.local.source.question
 
 import app.prepsy.data.models.OptionData
 import app.prepsy.data.models.QuestionData
+import app.prepsy.data.models.UserAnswerData
+import app.prepsy.data.repository.answer.AnswerLocalDataSource
 import app.prepsy.data.repository.question.QuestionLocalDataSource
 import com.tobidaada.local.dao.QuestionDao
 import com.tobidaada.local.mapper.Mapper
 import com.tobidaada.local.models.OptionLocal
 import com.tobidaada.local.models.QuestionAndOptions
+import com.tobidaada.local.models.UserAnswerLocal
 import javax.inject.Inject
 
 class QuestionLocalDataSourceImpl @Inject constructor(
     private val questionDao: QuestionDao,
+    private val userAnswerLocalDataSource: AnswerLocalDataSource,
     private val optionsMapper: Mapper<OptionData, OptionLocal>
 ) : QuestionLocalDataSource {
 
@@ -18,6 +22,8 @@ class QuestionLocalDataSourceImpl @Inject constructor(
         val questionsAndOptions = questionDao.getQuestionsBySubjectAndYear(subjectId, yearId)
 
         return questionsAndOptions.map { it: QuestionAndOptions ->
+            val userOption: UserAnswerData? = userAnswerLocalDataSource.getUserAnswerByQuestionId(it.question.id)
+
             val answerId = it.question.rightOption
             val answer = it.options.first { answerId == it.id }
             val answerOption = OptionData(answer.id, answer.text, it.question.id)
@@ -30,7 +36,9 @@ class QuestionLocalDataSourceImpl @Inject constructor(
             options.shuffle()
 
             return@map QuestionData(
+                id = it.question.id,
                 text = it.question.text,
+                userAnswerId = userOption?.optionId,
                 answer = answerOption,
                 options = options.toList()
             )

@@ -2,20 +2,17 @@ package app.prepsy.di
 
 import android.content.Context
 import androidx.room.Room
-import app.prepsy.data.models.OptionData
-import app.prepsy.data.models.SubjectData
-import app.prepsy.data.models.SubjectWithYearsData
-import app.prepsy.data.models.YearData
+import app.prepsy.data.models.*
+import app.prepsy.data.repository.answer.AnswerLocalDataSource
 import app.prepsy.data.repository.question.QuestionLocalDataSource
 import app.prepsy.data.repository.subject.SubjectLocalDataSource
 import com.tobidaada.local.dao.QuestionDao
 import com.tobidaada.local.dao.SubjectsDao
+import com.tobidaada.local.dao.UserAnswerDao
 import com.tobidaada.local.db.AppDatabase
 import com.tobidaada.local.mapper.*
-import com.tobidaada.local.models.OptionLocal
-import com.tobidaada.local.models.SubjectLocal
-import com.tobidaada.local.models.SubjectWithYearsLocal
-import com.tobidaada.local.models.YearLocal
+import com.tobidaada.local.models.*
+import com.tobidaada.local.source.answers.UserAnswerLocalDataSourceImpl
 import com.tobidaada.local.source.question.QuestionLocalDataSourceImpl
 import com.tobidaada.local.source.subject.SubjectsLocalDataSourceImpl
 import dagger.Binds
@@ -50,6 +47,11 @@ abstract class LocalModuleBinds {
     ): QuestionLocalDataSource
 
     @Binds
+    abstract fun bindUserAnswerLocalDataSourceImpl(
+        userAnswerLocalDataSourceImpl: UserAnswerLocalDataSourceImpl
+    ): AnswerLocalDataSource
+
+    @Binds
     abstract fun bindLocalYearsMapper(
         yearsLocalDataMapper: YearsLocalDataMapper
     ): Mapper<YearData, YearLocal>
@@ -58,6 +60,11 @@ abstract class LocalModuleBinds {
     abstract fun bindLocalSubjectWithYearsMapper(
         subjectWithYearsLocalDataMapper: SubjectWithYearsLocalDataMapper
     ): Mapper<SubjectWithYearsData, SubjectWithYearsLocal>
+
+    @Binds
+    abstract fun bindLocalUserAnswerMapper(
+        userAnswerLocalDataMapper: UserAnswerLocalDataMapper
+    ): Mapper<UserAnswerData, UserAnswerLocal>
 }
 
 @Module
@@ -82,4 +89,8 @@ object LocalModule {
     @Provides
     @Singleton
     fun provideQuestionsDao(db: AppDatabase): QuestionDao = db.questionsDao()
+
+    @Provides
+    @Singleton
+    fun provideUserAnswerDao(db: AppDatabase): UserAnswerDao = db.userAnswerDao()
 }

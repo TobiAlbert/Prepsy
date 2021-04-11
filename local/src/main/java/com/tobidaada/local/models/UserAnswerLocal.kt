@@ -5,7 +5,6 @@ import java.util.*
 
 @Entity(
     tableName = "user_answers",
-    primaryKeys = ["question_id", "option_id"],
     indices = [
         Index(name = "user_answers_option_id_unique", unique = true, value = ["option_id"]),
         Index(name = "user_answers_question_id_unique", unique = true, value = ["question_id"])
@@ -28,6 +27,7 @@ import java.util.*
     ]
 )
 data class UserAnswerLocal(
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "question_id")
     val questionId: String,
 

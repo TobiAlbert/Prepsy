@@ -14,7 +14,9 @@ data class Option(
 
 @Parcelize
 data class Question(
+    val id: String,
     val text: String,
+    val userOptionId: String?,
     val options: List<Option>,
     val answer: Option
 ): Parcelable {

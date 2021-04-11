@@ -6,6 +6,7 @@ import app.prepsy.data.repository.answer.AnswerRepositoryImpl
 import app.prepsy.data.repository.question.QuestionRepositoryImpl
 import app.prepsy.data.repository.subject.SubjectRepositoryImpl
 import app.prepsy.domain.entities.SubjectWithYearsEntity
+import app.prepsy.domain.entities.UserAnswerEntity
 import app.prepsy.domain.entities.YearEntity
 import app.prepsy.domain.entities.SubjectEntity as SubjectEntity
 import app.prepsy.domain.repository.AnswerRepository
@@ -41,6 +42,11 @@ abstract class DataModule {
     abstract fun bindYearDataMapper(
         yearDataMapper: YearsDataMapper
     ): Mapper<YearEntity, YearData>
+
+    @Binds
+    abstract fun bindUserAnswerDataMapper(
+        userAnswerDataMapper: UserAnswerDataMapper
+    ): Mapper<UserAnswerEntity, UserAnswerData>
 
     @Binds
     abstract fun bindSubjectWithYears(

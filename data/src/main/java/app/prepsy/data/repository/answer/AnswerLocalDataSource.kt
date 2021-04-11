@@ -1,7 +1,9 @@
 package app.prepsy.data.repository.answer
 
-import app.prepsy.data.models.OptionData
+import app.prepsy.data.models.UserAnswerData
 
 interface AnswerLocalDataSource {
-    fun saveAnswer(questionId: String, option: OptionData)
+    suspend fun saveAnswer(data: UserAnswerData)
+
+    suspend fun getUserAnswerByQuestionId(questionId: String): UserAnswerData?
 }

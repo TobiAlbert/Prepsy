@@ -12,14 +12,18 @@ class QuestionMapper @Inject constructor(
 
     override fun from(e: QuestionEntity): Question =
         Question(
+            id = e.id,
             text = e.text,
+            userOptionId = e.userOptionId,
             options = e.options.map { answerMapper.from(it) },
             answer = answerMapper.from(e.answer),
         )
 
     override fun to(t: Question): QuestionEntity =
         QuestionEntity(
+            id = t.id,
             text = t.text,
+            userOptionId = t.userOptionId,
             options = t.options.map { answerMapper.to(it) },
             answer = answerMapper.to(t.answer),
         )

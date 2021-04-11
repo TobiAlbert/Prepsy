@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import com.tobidaada.local.converters.DateConverters
 import com.tobidaada.local.dao.QuestionDao
 import com.tobidaada.local.dao.SubjectsDao
+import com.tobidaada.local.dao.UserAnswerDao
 import com.tobidaada.local.models.*
 
 @Database(
@@ -22,4 +23,5 @@ import com.tobidaada.local.models.*
 abstract class AppDatabase : RoomDatabase() {
     abstract fun subjectsDao(): SubjectsDao
     abstract fun questionsDao(): QuestionDao
+    abstract fun userAnswerDao(): UserAnswerDao
 }
