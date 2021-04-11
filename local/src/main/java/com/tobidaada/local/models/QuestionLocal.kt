@@ -54,17 +54,6 @@ data class QuestionLocal(
     val updatedAt: Date
 )
 
-data class QuestionAndAnswer(
-    @Embedded
-    val question: QuestionLocal,
-
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "question_id"
-    )
-    val answer: AnswerLocal
-)
-
 data class QuestionAndOptions(
     @Embedded
     val question: QuestionLocal,

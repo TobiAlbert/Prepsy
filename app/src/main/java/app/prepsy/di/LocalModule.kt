@@ -2,10 +2,12 @@ package app.prepsy.di
 
 import android.content.Context
 import androidx.room.Room
-import app.prepsy.data.models.*
+import app.prepsy.data.models.OptionData
+import app.prepsy.data.models.SubjectData
+import app.prepsy.data.models.SubjectWithYearsData
+import app.prepsy.data.models.YearData
 import app.prepsy.data.repository.question.QuestionLocalDataSource
 import app.prepsy.data.repository.subject.SubjectLocalDataSource
-import com.tobidaada.local.dao.AnswerDao
 import com.tobidaada.local.dao.QuestionDao
 import com.tobidaada.local.dao.SubjectsDao
 import com.tobidaada.local.db.AppDatabase
@@ -70,8 +72,8 @@ object LocalModule {
             AppDatabase::class.java,
             "app.db"
         )
-        .createFromAsset("database/asset.db")
-        .build()
+            .createFromAsset("database/asset.db")
+            .build()
 
     @Provides
     @Singleton
@@ -80,9 +82,4 @@ object LocalModule {
     @Provides
     @Singleton
     fun provideQuestionsDao(db: AppDatabase): QuestionDao = db.questionsDao()
-
-    @Provides
-    @Singleton
-    fun provideAnswerDao(db: AppDatabase): AnswerDao = db.answerDao()
-
 }
