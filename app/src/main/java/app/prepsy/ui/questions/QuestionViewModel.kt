@@ -1,25 +1,24 @@
 package app.prepsy.ui.questions
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import app.prepsy.domain.entities.QuestionEntity
+import app.prepsy.domain.entities.UserScoreEntity
 import app.prepsy.domain.usecases.GetQuestions
+import app.prepsy.domain.usecases.GetUserScore
 import app.prepsy.domain.usecases.SaveAnswer
 import app.prepsy.ui.mappers.Mapper
-import app.prepsy.ui.models.Option
 import app.prepsy.ui.models.Question
+import app.prepsy.ui.models.UserScore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import app.prepsy.domain.entities.OptionEntity as OptionEntity
-import app.prepsy.domain.entities.QuestionEntity as QuestionEntity
 
 @HiltViewModel
 class QuestionViewModel @Inject constructor(
     private val saveUserAnswer: SaveAnswer,
     private val getQuestions: GetQuestions,
-    private val answerMapper: Mapper<Option, OptionEntity>,
+    private val getUserScore: GetUserScore,
+    private val userScoreMapper: Mapper<UserScore, UserScoreEntity>,
     private val questionMapper: Mapper<Question, QuestionEntity>,
 ) : ViewModel() {
 
@@ -39,5 +38,10 @@ class QuestionViewModel @Inject constructor(
         viewModelScope.launch {
             saveUserAnswer(questionId, optionId)
         }
+    }
+
+    fun calculateScore(subjectId: String, yearId: String): LiveData<UserScore> = liveData {
+        val score: UserScoreEntity  = getUserScore(subjectId, yearId)
+        emit(userScoreMapper.from(score))
     }
 }

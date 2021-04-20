@@ -37,6 +37,11 @@ abstract class LocalModuleBinds {
     ): Mapper<OptionData, OptionLocal>
 
     @Binds
+    abstract fun bindUserScoreMapper(
+        mapper: UserScoreLocalDataMapper
+    ): Mapper<UserScoreData, UserScoreLocal>
+
+    @Binds
     abstract fun bindLocalSubjectDataSourceImpl(
         dataSource: SubjectsLocalDataSourceImpl
     ): SubjectLocalDataSource

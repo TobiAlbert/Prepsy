@@ -17,7 +17,9 @@ import app.prepsy.databinding.FragmentQuestionPageBinding
 import app.prepsy.managers.SharedPreferenceManagers
 import app.prepsy.managers.SharedPreferenceManagers.Companion.HAS_DOUBLE_CLICKED
 import app.prepsy.managers.SharedPreferenceManagers.Companion.HAS_SWIPED
+import app.prepsy.ui.ResultFragmentDirections
 import app.prepsy.ui.models.Question
+import app.prepsy.ui.models.UserScore
 import app.prepsy.ui.questions.adapters.QuestionPageAdapter
 import app.prepsy.utils.onPageSelected
 import app.prepsy.utils.showActionSnackBar
@@ -54,11 +56,15 @@ class QuestionPageFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
                 R.id.menu_submit -> {
-                    Toast.makeText(
-                        requireContext(),
-                        it.title,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    questionViewModel.calculateScore(
+                        args.args.subjectId,
+                        args.args.yearId
+                    ).observe(viewLifecycleOwner, Observer { userScore: UserScore ->
+                        val action =
+                            QuestionPageFragmentDirections.actionQuestionPageFragmentToResultFragment(userScore)
+
+                        findNavController().navigate(action)
+                    })
                     true
                 }
                 else -> false

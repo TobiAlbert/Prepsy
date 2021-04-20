@@ -3,19 +3,21 @@ package com.tobidaada.local.source.question
 import app.prepsy.data.models.OptionData
 import app.prepsy.data.models.QuestionData
 import app.prepsy.data.models.UserAnswerData
+import app.prepsy.data.models.UserScoreData
 import app.prepsy.data.repository.answer.AnswerLocalDataSource
 import app.prepsy.data.repository.question.QuestionLocalDataSource
 import com.tobidaada.local.dao.QuestionDao
 import com.tobidaada.local.mapper.Mapper
 import com.tobidaada.local.models.OptionLocal
 import com.tobidaada.local.models.QuestionAndOptions
-import com.tobidaada.local.models.UserAnswerLocal
+import com.tobidaada.local.models.UserScoreLocal
 import javax.inject.Inject
 
 class QuestionLocalDataSourceImpl @Inject constructor(
     private val questionDao: QuestionDao,
     private val userAnswerLocalDataSource: AnswerLocalDataSource,
-    private val optionsMapper: Mapper<OptionData, OptionLocal>
+    private val optionsMapper: Mapper<OptionData, OptionLocal>,
+    private val userScoreMapper: Mapper<UserScoreData, UserScoreLocal>
 ) : QuestionLocalDataSource {
 
     override suspend fun getQuestions(subjectId: String, yearId: String): List<QuestionData> {
@@ -44,4 +46,7 @@ class QuestionLocalDataSourceImpl @Inject constructor(
             )
         }
     }
+
+    override suspend fun getUserScore(subjectId: String, yearId: String): UserScoreData =
+        userScoreMapper.from(questionDao.getUserScore(subjectId, yearId))
 }

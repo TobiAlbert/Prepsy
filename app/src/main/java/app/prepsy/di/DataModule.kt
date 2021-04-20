@@ -7,11 +7,13 @@ import app.prepsy.data.repository.question.QuestionRepositoryImpl
 import app.prepsy.data.repository.subject.SubjectRepositoryImpl
 import app.prepsy.domain.entities.SubjectWithYearsEntity
 import app.prepsy.domain.entities.UserAnswerEntity
+import app.prepsy.domain.entities.UserScoreEntity
 import app.prepsy.domain.entities.YearEntity
 import app.prepsy.domain.entities.SubjectEntity as SubjectEntity
 import app.prepsy.domain.repository.AnswerRepository
 import app.prepsy.domain.repository.QuestionRepository
 import app.prepsy.domain.repository.SubjectRepository
+import com.tobidaada.local.mapper.UserScoreLocalDataMapper
 import app.prepsy.domain.entities.QuestionEntity as QuestionEntity
 import app.prepsy.domain.entities.OptionEntity as OptionEntity
 import dagger.Binds
@@ -47,6 +49,11 @@ abstract class DataModule {
     abstract fun bindUserAnswerDataMapper(
         userAnswerDataMapper: UserAnswerDataMapper
     ): Mapper<UserAnswerEntity, UserAnswerData>
+
+    @Binds
+    abstract fun bindUserScoreDataMapper(
+        userScoreLocalDataMapper: UserScoreDataMapper
+    ): Mapper<UserScoreEntity, UserScoreData>
 
     @Binds
     abstract fun bindSubjectWithYears(
