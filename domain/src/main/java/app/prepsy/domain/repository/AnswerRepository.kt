@@ -1,7 +1,9 @@
 package app.prepsy.domain.repository
 
-import app.prepsy.domain.entities.OptionEntity
+import app.prepsy.domain.entities.UserAnswerEntity
 
 interface AnswerRepository {
-    fun saveAnswer(option: OptionEntity, questionId: String)
+    suspend fun saveUserAnswer(entity: UserAnswerEntity)
+
+    suspend fun getUserAnswerByQuestionId(questionId: String): UserAnswerEntity?
 }

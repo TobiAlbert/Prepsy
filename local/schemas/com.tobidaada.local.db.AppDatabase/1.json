@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e839838889f78571a4c5ac7d4ecd6b88",
+    "identityHash": "dc67e5d3cfb2e5465a4c3810d44283a3",
     "entities": [
       {
         "tableName": "years",
@@ -122,7 +122,7 @@
       },
       {
         "tableName": "questions",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `text` TEXT NOT NULL, `subject_id` TEXT NOT NULL, `year_id` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`subject_id`) REFERENCES `subjects`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`year_id`) REFERENCES `years`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `text` TEXT NOT NULL, `subject_id` TEXT NOT NULL, `year_id` TEXT NOT NULL, `right_option` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`subject_id`) REFERENCES `subjects`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`year_id`) REFERENCES `years`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`right_option`) REFERENCES `options`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -145,6 +145,12 @@
           {
             "fieldPath": "yearId",
             "columnName": "year_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rightOption",
+            "columnName": "right_option",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -180,8 +186,8 @@
         "foreignKeys": [
           {
             "table": "subjects",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
             "columns": [
               "subject_id"
             ],
@@ -191,10 +197,21 @@
           },
           {
             "table": "years",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
             "columns": [
               "year_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "options",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "right_option"
             ],
             "referencedColumns": [
               "id"
@@ -204,7 +221,7 @@
       },
       {
         "tableName": "options",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `text` TEXT NOT NULL, `question_id` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`question_id`) REFERENCES `questions`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `text` TEXT NOT NULL, `question_id` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`question_id`) REFERENCES `questions`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -256,8 +273,8 @@
         "foreignKeys": [
           {
             "table": "questions",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
             "columns": [
               "question_id"
             ],
@@ -268,24 +285,18 @@
         ]
       },
       {
-        "tableName": "answers",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `text` TEXT NOT NULL, `question_id` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`question_id`) REFERENCES `questions`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "tableName": "user_answers",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`question_id` TEXT NOT NULL, `option_id` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL, PRIMARY KEY(`question_id`), FOREIGN KEY(`question_id`) REFERENCES `questions`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`option_id`) REFERENCES `options`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "text",
-            "columnName": "text",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "questionId",
             "columnName": "question_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "optionId",
+            "columnName": "option_id",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -304,35 +315,46 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "question_id"
           ],
           "autoGenerate": false
         },
         "indices": [
           {
-            "name": "answers_id_unique",
+            "name": "user_answers_option_id_unique",
             "unique": true,
             "columnNames": [
-              "id"
+              "option_id"
             ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `answers_id_unique` ON `${TABLE_NAME}` (`id`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `user_answers_option_id_unique` ON `${TABLE_NAME}` (`option_id`)"
           },
           {
-            "name": "answers_question_id_unique",
+            "name": "user_answers_question_id_unique",
             "unique": true,
             "columnNames": [
               "question_id"
             ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `answers_question_id_unique` ON `${TABLE_NAME}` (`question_id`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `user_answers_question_id_unique` ON `${TABLE_NAME}` (`question_id`)"
           }
         ],
         "foreignKeys": [
           {
             "table": "questions",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
             "columns": [
               "question_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "options",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "option_id"
             ],
             "referencedColumns": [
               "id"
@@ -342,7 +364,7 @@
       },
       {
         "tableName": "subject_years",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`subject_id` TEXT NOT NULL, `year_id` TEXT NOT NULL, `updated_at` TEXT NOT NULL, `created_at` TEXT NOT NULL, PRIMARY KEY(`subject_id`, `year_id`), FOREIGN KEY(`year_id`) REFERENCES `years`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`subject_id`) REFERENCES `subjects`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`subject_id` TEXT NOT NULL, `year_id` TEXT NOT NULL, `updated_at` TEXT NOT NULL, `created_at` TEXT NOT NULL, PRIMARY KEY(`subject_id`, `year_id`), FOREIGN KEY(`year_id`) REFERENCES `years`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`subject_id`) REFERENCES `subjects`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "subjectId",
@@ -380,8 +402,8 @@
         "foreignKeys": [
           {
             "table": "years",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
             "columns": [
               "year_id"
             ],
@@ -391,8 +413,8 @@
           },
           {
             "table": "subjects",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
             "columns": [
               "subject_id"
             ],
@@ -406,7 +428,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e839838889f78571a4c5ac7d4ecd6b88')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dc67e5d3cfb2e5465a4c3810d44283a3')"
     ]
   }
 }

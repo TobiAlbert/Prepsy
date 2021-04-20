@@ -1,6 +1,7 @@
 package app.prepsy.di
 
 import app.prepsy.domain.entities.SubjectWithYearsEntity
+import app.prepsy.domain.entities.UserScoreEntity
 import app.prepsy.domain.entities.YearEntity
 import app.prepsy.ui.mappers.*
 import app.prepsy.ui.models.*
@@ -39,4 +40,9 @@ abstract class AppModule {
     abstract fun subjectWithYearMapper(
         subjectWithYearsMapper: SubjectWithYearsMapper
     ): Mapper<SubjectWithYears, SubjectWithYearsEntity>
+
+    @Binds
+    abstract fun userScoreMapper(
+        mapper: UserScoreMapper
+    ): Mapper<UserScore, UserScoreEntity>
 }

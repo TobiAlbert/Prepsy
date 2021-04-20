@@ -8,11 +8,17 @@ data class Option(
     val id: String,
     val text: String,
     val questionId: String
-): Parcelable
+): Parcelable {
+    override fun toString(): String = "Option($text)"
+}
 
 @Parcelize
 data class Question(
+    val id: String,
     val text: String,
+    val userOptionId: String?,
     val options: List<Option>,
     val answer: Option
-): Parcelable
+): Parcelable {
+    override fun toString(): String = "Question($text)"
+}

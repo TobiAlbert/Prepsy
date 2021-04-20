@@ -28,6 +28,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="args"
+            app:argType="app.prepsy.ui.models.UserScore" />
     </fragment>
     <fragment
         android:id="@+id/answerFragment"

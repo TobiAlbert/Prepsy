@@ -8,13 +8,19 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import app.prepsy.R
 import app.prepsy.databinding.FragmentResultBinding
 
 class ResultFragment : Fragment() {
 
     private var _binding: FragmentResultBinding? = null
+    private val args: ResultFragmentArgs by navArgs()
     private val binding get() = _binding!!
+
+    companion object {
+        private const val CUT_OFF_PERCENTAGE = .4
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,10 +37,12 @@ class ResultFragment : Fragment() {
     }
 
     private fun setupUi() {
+        val score = args.args.score
+        val total = args.args.total
 
-        when ((0..1).random()) {
-            0 -> setupSuccessPage(80, 100)
-            1 -> setFailurePage(10, 100)
+        when (score / total > CUT_OFF_PERCENTAGE) {
+            true -> setupSuccessPage(score, total)
+            false -> setFailurePage(score, total)
         }
 
         binding.viewSheetBtn.setOnClickListener {

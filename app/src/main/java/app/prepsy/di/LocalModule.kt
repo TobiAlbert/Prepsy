@@ -3,17 +3,16 @@ package app.prepsy.di
 import android.content.Context
 import androidx.room.Room
 import app.prepsy.data.models.*
+import app.prepsy.data.repository.answer.AnswerLocalDataSource
 import app.prepsy.data.repository.question.QuestionLocalDataSource
 import app.prepsy.data.repository.subject.SubjectLocalDataSource
-import com.tobidaada.local.dao.AnswerDao
 import com.tobidaada.local.dao.QuestionDao
 import com.tobidaada.local.dao.SubjectsDao
+import com.tobidaada.local.dao.UserAnswerDao
 import com.tobidaada.local.db.AppDatabase
 import com.tobidaada.local.mapper.*
-import com.tobidaada.local.models.OptionLocal
-import com.tobidaada.local.models.SubjectLocal
-import com.tobidaada.local.models.SubjectWithYearsLocal
-import com.tobidaada.local.models.YearLocal
+import com.tobidaada.local.models.*
+import com.tobidaada.local.source.answers.UserAnswerLocalDataSourceImpl
 import com.tobidaada.local.source.question.QuestionLocalDataSourceImpl
 import com.tobidaada.local.source.subject.SubjectsLocalDataSourceImpl
 import dagger.Binds
@@ -38,6 +37,11 @@ abstract class LocalModuleBinds {
     ): Mapper<OptionData, OptionLocal>
 
     @Binds
+    abstract fun bindUserScoreMapper(
+        mapper: UserScoreLocalDataMapper
+    ): Mapper<UserScoreData, UserScoreLocal>
+
+    @Binds
     abstract fun bindLocalSubjectDataSourceImpl(
         dataSource: SubjectsLocalDataSourceImpl
     ): SubjectLocalDataSource
@@ -48,6 +52,11 @@ abstract class LocalModuleBinds {
     ): QuestionLocalDataSource
 
     @Binds
+    abstract fun bindUserAnswerLocalDataSourceImpl(
+        userAnswerLocalDataSourceImpl: UserAnswerLocalDataSourceImpl
+    ): AnswerLocalDataSource
+
+    @Binds
     abstract fun bindLocalYearsMapper(
         yearsLocalDataMapper: YearsLocalDataMapper
     ): Mapper<YearData, YearLocal>
@@ -56,6 +65,11 @@ abstract class LocalModuleBinds {
     abstract fun bindLocalSubjectWithYearsMapper(
         subjectWithYearsLocalDataMapper: SubjectWithYearsLocalDataMapper
     ): Mapper<SubjectWithYearsData, SubjectWithYearsLocal>
+
+    @Binds
+    abstract fun bindLocalUserAnswerMapper(
+        userAnswerLocalDataMapper: UserAnswerLocalDataMapper
+    ): Mapper<UserAnswerData, UserAnswerLocal>
 }
 
 @Module
@@ -70,8 +84,8 @@ object LocalModule {
             AppDatabase::class.java,
             "app.db"
         )
-        .createFromAsset("database/asset.db")
-        .build()
+            .createFromAsset("database/asset.db")
+            .build()
 
     @Provides
     @Singleton
@@ -83,6 +97,5 @@ object LocalModule {
 
     @Provides
     @Singleton
-    fun provideAnswerDao(db: AppDatabase): AnswerDao = db.answerDao()
-
+    fun provideUserAnswerDao(db: AppDatabase): UserAnswerDao = db.userAnswerDao()
 }

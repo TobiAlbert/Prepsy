@@ -60,6 +60,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$jetpackNavigation"
     implementation "androidx.navigation:navigation-ui-ktx:$jetpackNavigation"
 
+    // live data ktx
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataKtx"
+
     // view pager 2
     implementation "androidx.viewpager2:viewpager2:$viewPager2"
 
