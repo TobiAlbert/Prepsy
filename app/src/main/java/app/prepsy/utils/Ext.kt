@@ -51,6 +51,7 @@ fun Int.toAlphabet(): String {
 
     val maxLetterInt = 90
     val baseInt = 64
+
     val value = if (this + baseInt > maxLetterInt) maxLetterInt else this
 
     return (baseInt + value).toChar().toString()
