@@ -21,6 +21,7 @@ import app.prepsy.ui.ResultFragmentDirections
 import app.prepsy.ui.models.Question
 import app.prepsy.ui.models.UserScore
 import app.prepsy.ui.questions.adapters.QuestionPageAdapter
+import app.prepsy.ui.questions.dialog.QuestionNavigationDialog
 import app.prepsy.utils.onPageSelected
 import app.prepsy.utils.showActionSnackBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,6 +74,15 @@ class QuestionPageFragment : Fragment() {
 
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+
+        binding.questionNumber.setOnClickListener {
+            QuestionNavigationDialog(
+                onQuestionSelected = { position: Int -> binding.viewpager.currentItem = position },
+                onDismiss = { dialog: QuestionNavigationDialog -> dialog.dismiss() }
+            )
+            .apply { isCancelable = true }
+            .show(requireActivity().supportFragmentManager, "")
         }
 
         val hasDoubleClicked: Boolean =

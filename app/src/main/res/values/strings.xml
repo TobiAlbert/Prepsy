@@ -27,4 +27,6 @@
     <string name="swipe_message">Swipe to Move between Questions</string>
     <string name="swipe_action_text">Okay</string>
     <string name="submit">Submit</string>
+    <string name="close_dialog_icon">Close Dialog Icon</string>
+    <string name="close_dialog_text">Close</string>
 </resources>
