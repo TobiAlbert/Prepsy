@@ -79,7 +79,6 @@ class QuestionPageFragment : Fragment() {
         binding.questionNumber.setOnClickListener {
             QuestionNavigationDialog(
                 onQuestionSelected = { position: Int -> binding.viewpager.currentItem = position },
-                onDismiss = { dialog: QuestionNavigationDialog -> dialog.dismiss() }
             )
             .apply { isCancelable = true }
             .show(requireActivity().supportFragmentManager, "")
