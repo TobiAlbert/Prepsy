@@ -7,4 +7,6 @@ interface QuestionLocalDataSource {
     suspend fun  getQuestions(subjectId: String, yearId: String): List<QuestionData>
 
     suspend fun getUserScore(subjectId: String, yearId: String): UserScoreData
+
+    suspend fun hasCompletedQuestions(subjectId: String, yearId: String): Boolean
 }

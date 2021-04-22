@@ -49,4 +49,12 @@ class QuestionLocalDataSourceImpl @Inject constructor(
 
     override suspend fun getUserScore(subjectId: String, yearId: String): UserScoreData =
         userScoreMapper.from(questionDao.getUserScore(subjectId, yearId))
+
+    override suspend fun hasCompletedQuestions(
+        subjectId: String,
+        yearId: String
+    ): Boolean = when(questionDao.hasCompletedQuestions(subjectId, yearId)) {
+        1 -> true
+        else -> false
+    }
 }

@@ -5,6 +5,7 @@ import app.prepsy.domain.entities.QuestionEntity
 import app.prepsy.domain.entities.UserScoreEntity
 import app.prepsy.domain.usecases.GetQuestions
 import app.prepsy.domain.usecases.GetUserScore
+import app.prepsy.domain.usecases.HasCompleteQuestionUseCase
 import app.prepsy.domain.usecases.SaveAnswer
 import app.prepsy.ui.mappers.Mapper
 import app.prepsy.ui.models.Question
@@ -18,6 +19,7 @@ class QuestionViewModel @Inject constructor(
     private val saveUserAnswer: SaveAnswer,
     private val getQuestions: GetQuestions,
     private val getUserScore: GetUserScore,
+    private val hasCompleteQuestionUseCase: HasCompleteQuestionUseCase,
     private val userScoreMapper: Mapper<UserScore, UserScoreEntity>,
     private val questionMapper: Mapper<Question, QuestionEntity>,
 ) : ViewModel() {
@@ -41,7 +43,15 @@ class QuestionViewModel @Inject constructor(
     }
 
     fun calculateScore(subjectId: String, yearId: String): LiveData<UserScore> = liveData {
-        val score: UserScoreEntity  = getUserScore(subjectId, yearId)
+        val score: UserScoreEntity = getUserScore(subjectId, yearId)
         emit(userScoreMapper.from(score))
+    }
+
+    fun onSubmitClicked(subjectId: String, yearId: String): LiveData<Boolean> = liveData {
+        val isComplete = hasCompleteQuestionUseCase(
+            subjectId = subjectId,
+            yearId = yearId
+        )
+        emit(isComplete)
     }
 }

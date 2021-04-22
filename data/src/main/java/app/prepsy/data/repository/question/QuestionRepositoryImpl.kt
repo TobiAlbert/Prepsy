@@ -19,4 +19,7 @@ class QuestionRepositoryImpl @Inject constructor(
 
     override suspend fun getUserScore(subjectId: String, yearId: String): UserScoreEntity =
         userScoreMapper.from(localDataSource.getUserScore(subjectId, yearId))
+
+    override suspend fun hasCompletedQuestions(subjectId: String, yearId: String): Boolean =
+        localDataSource.hasCompletedQuestions(subjectId, yearId)
 }

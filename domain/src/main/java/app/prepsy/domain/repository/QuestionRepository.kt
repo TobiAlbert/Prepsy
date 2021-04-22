@@ -7,4 +7,6 @@ interface QuestionRepository {
     suspend fun getQuestions(subjectId: String, yearId: String): List<QuestionEntity>
 
     suspend fun getUserScore(subjectId: String, yearId: String): UserScoreEntity
+
+    suspend fun hasCompletedQuestions(subjectId: String, yearId: String): Boolean
 }
