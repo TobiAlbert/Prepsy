@@ -3,7 +3,7 @@ package com.tobidaada.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.tobidaada.local.models.QuestionAndOptions
+import com.tobidaada.local.models.QuestionOptionsUserAnswer
 import com.tobidaada.local.models.UserScoreLocal
 
 @Dao
@@ -14,7 +14,7 @@ interface QuestionDao {
     suspend fun getQuestionsBySubjectAndYear(
         subjectId: String,
         yearId: String
-    ): List<QuestionAndOptions>
+    ): List<QuestionOptionsUserAnswer>
 
     @Query("select count(ua.option_id) as score, count(questions.id) as total from questions left join user_answers ua on ua.option_id  = questions.right_option where year_id = :yearId and subject_id = :subjectId")
     suspend fun getUserScore(subjectId: String, yearId: String): UserScoreLocal

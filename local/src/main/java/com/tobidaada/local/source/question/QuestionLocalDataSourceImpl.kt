@@ -2,29 +2,25 @@ package com.tobidaada.local.source.question
 
 import app.prepsy.data.models.OptionData
 import app.prepsy.data.models.QuestionData
-import app.prepsy.data.models.UserAnswerData
 import app.prepsy.data.models.UserScoreData
-import app.prepsy.data.repository.answer.AnswerLocalDataSource
 import app.prepsy.data.repository.question.QuestionLocalDataSource
 import com.tobidaada.local.dao.QuestionDao
 import com.tobidaada.local.mapper.Mapper
 import com.tobidaada.local.models.OptionLocal
-import com.tobidaada.local.models.QuestionAndOptions
+import com.tobidaada.local.models.QuestionOptionsUserAnswer
 import com.tobidaada.local.models.UserScoreLocal
 import javax.inject.Inject
 
 class QuestionLocalDataSourceImpl @Inject constructor(
     private val questionDao: QuestionDao,
-    private val userAnswerLocalDataSource: AnswerLocalDataSource,
     private val optionsMapper: Mapper<OptionData, OptionLocal>,
-    private val userScoreMapper: Mapper<UserScoreData, UserScoreLocal>
+    private val userScoreMapper: Mapper<UserScoreData, UserScoreLocal>,
 ) : QuestionLocalDataSource {
 
     override suspend fun getQuestions(subjectId: String, yearId: String): List<QuestionData> {
         val questionsAndOptions = questionDao.getQuestionsBySubjectAndYear(subjectId, yearId)
 
-        return questionsAndOptions.map { it: QuestionAndOptions ->
-            val userOption: UserAnswerData? = userAnswerLocalDataSource.getUserAnswerByQuestionId(it.question.id)
+        return questionsAndOptions.map { it: QuestionOptionsUserAnswer ->
 
             val answerId = it.question.rightOption
             val answer = it.options.first { answerId == it.id }
@@ -40,7 +36,7 @@ class QuestionLocalDataSourceImpl @Inject constructor(
             return@map QuestionData(
                 id = it.question.id,
                 text = it.question.text,
-                userAnswerId = userOption?.optionId,
+                userAnswerId = it.userAnswer?.optionId,
                 answer = answerOption,
                 options = options.toList()
             )
@@ -53,7 +49,7 @@ class QuestionLocalDataSourceImpl @Inject constructor(
     override suspend fun hasCompletedQuestions(
         subjectId: String,
         yearId: String
-    ): Boolean = when(questionDao.hasCompletedQuestions(subjectId, yearId)) {
+    ): Boolean = when (questionDao.hasCompletedQuestions(subjectId, yearId)) {
         1 -> true
         else -> false
     }
