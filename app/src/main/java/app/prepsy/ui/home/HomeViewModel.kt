@@ -1,14 +1,11 @@
 package app.prepsy.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import app.prepsy.domain.entities.SubjectWithYearsEntity
-import app.prepsy.domain.usecases.GetAllSubjects
+import app.prepsy.domain.usecases.ClearUserAnswersBySubjectAndYearUseCase
+import app.prepsy.domain.usecases.GetIsTestInProgressUseCase
 import app.prepsy.domain.usecases.GetSubjectWithYears
 import app.prepsy.ui.mappers.Mapper
-import app.prepsy.ui.models.Subject
 import app.prepsy.ui.models.SubjectWithYears
 import app.prepsy.ui.models.Year
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getSubjectYears: GetSubjectWithYears,
+    private val getIsTestInProgressUseCase: GetIsTestInProgressUseCase,
+    private val clearUserAnswersBySubjectAndYearUseCase: ClearUserAnswersBySubjectAndYearUseCase,
     private val subjectWithYearsMapper: Mapper<SubjectWithYears, SubjectWithYearsEntity>
 ): ViewModel() {
 
@@ -52,5 +51,21 @@ class HomeViewModel @Inject constructor(
         if (subjectIndex == -1) return
 
         years.postValue(localYears[subjectIndex])
+    }
+
+    fun isTestInProgress(subjectId: String, yearId: String): LiveData<Boolean> = liveData {
+        val response = getIsTestInProgressUseCase(
+            subjectId = subjectId,
+            yearId = yearId
+        )
+
+        emit(response)
+    }
+
+    fun clearUserAnswersForTest(subjectId: String, yearId: String) = liveData<Boolean> {
+        clearUserAnswersBySubjectAndYearUseCase(subjectId = subjectId, yearId = yearId)
+
+        // if we are there, then the previous block has returned and is done running
+        emit(true)
     }
 }

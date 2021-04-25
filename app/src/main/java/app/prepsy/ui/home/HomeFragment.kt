@@ -1,5 +1,7 @@
 package app.prepsy.ui.home
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -86,10 +88,15 @@ class HomeFragment : Fragment() {
             val subjectId = mSelectedSubject.id
             val yearId = mSelectedYear.id
 
-            val action =
-                HomeFragmentDirections.actionHomeFragmentToQuestionPageFragment(SubjectIdYearId(subjectId, yearId))
-
-            findNavController().navigate(action)
+            homeViewModel.isTestInProgress(
+                subjectId = subjectId,
+                yearId = yearId
+            ).observe(viewLifecycleOwner, Observer {
+                when (it) {
+                    true -> showQuestionInProgressDialog(subjectId = subjectId, yearId = yearId)
+                    else -> navigateToQuestions(subjectId = subjectId, yearId = yearId)
+                }
+            })
         }
 
         val paddingTop = binding.textView.paddingTop
@@ -97,6 +104,41 @@ class HomeFragment : Fragment() {
             v.updatePadding(top = insets.systemWindowInsetTop + paddingTop)
             insets
         }
+    }
+
+    private fun showQuestionInProgressDialog(subjectId: String, yearId: String) {
+        AlertDialog.Builder(requireActivity())
+            .setMessage("Would you like to continue or restart this test?")
+            .setPositiveButton("Continue") { _, _ ->
+                navigateToQuestions(subjectId = subjectId, yearId = yearId)
+            }
+            .setNegativeButton("Restart") { _, _  ->
+                clearUserAnswersForTest(subjectId = subjectId, yearId = yearId)
+            }
+            .setCancelable(true)
+            .create()
+            .show()
+    }
+
+    private fun clearUserAnswersForTest(subjectId: String, yearId: String) {
+        homeViewModel.clearUserAnswersForTest(
+            subjectId = subjectId,
+            yearId = yearId
+        ).observe(viewLifecycleOwner, Observer {
+            if (it) navigateToQuestions(subjectId, yearId)
+        })
+    }
+
+    private fun navigateToQuestions(subjectId: String, yearId: String) {
+        val args = SubjectIdYearId(
+            subjectId = subjectId,
+            yearId = yearId
+        )
+
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToQuestionPageFragment(args)
+
+        findNavController().navigate(action)
     }
 
     private fun observeViewModel() {

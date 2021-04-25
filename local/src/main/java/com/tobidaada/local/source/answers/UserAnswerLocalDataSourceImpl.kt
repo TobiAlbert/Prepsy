@@ -16,4 +16,9 @@ class UserAnswerLocalDataSourceImpl @Inject constructor(
 
     override suspend fun getUserAnswerByQuestionId(questionId: String): UserAnswerData? =
         userAnswerDao.getByQuestionId(questionId)?.let { userAnswerLocalDataMapper.from(it) }
+
+    override suspend fun clearUserAnswersBySubjectAndYearId(
+        subjectId: String,
+        yearId: String
+    ) = userAnswerDao.clearUserAnswersBySubjectAndYearId(subjectId, yearId)
 }

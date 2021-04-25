@@ -18,4 +18,9 @@ class AnswerRepositoryImpl @Inject constructor(
     override suspend fun getUserAnswerByQuestionId(questionId: String): UserAnswerEntity? {
         return localDataSource.getUserAnswerByQuestionId(questionId)?.let { userDataMapper.from(it) }
     }
+
+    override suspend fun clearUserAnswersBySubjectAndYearId(
+        subjectId: String,
+        yearId: String
+    ) = localDataSource.clearUserAnswersBySubjectAndYearId(subjectId, yearId)
 }
