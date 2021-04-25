@@ -31,4 +31,7 @@
     <string name="close_dialog_text">Close</string>
     <string name="incomplete_question_dialog_title">Unanswered Questions</string>
     <string name="incomplete_question_dialog_message">You have some unanswered questions. Submit anyway?</string>
+    <string name="question_in_progress_dialog_message">Would you like to continue or restart this test?</string>
+    <string name="question_in_progress_dialog_positive_button_text">Continue</string>
+    <string name="question_in_progress_dialog_negative_button_text">Restart</string>
 </resources>

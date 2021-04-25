@@ -1,7 +1,6 @@
 package app.prepsy.ui.home
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,6 @@ import app.prepsy.ui.models.SubjectWithYears
 import app.prepsy.ui.models.Year
 import app.prepsy.utils.capitalizeWords
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -108,11 +106,15 @@ class HomeFragment : Fragment() {
 
     private fun showQuestionInProgressDialog(subjectId: String, yearId: String) {
         AlertDialog.Builder(requireActivity())
-            .setMessage("Would you like to continue or restart this test?")
-            .setPositiveButton("Continue") { _, _ ->
+            .setMessage(getString(R.string.question_in_progress_dialog_message))
+            .setPositiveButton(
+                getString(R.string.question_in_progress_dialog_positive_button_text)
+            ) { _, _ ->
                 navigateToQuestions(subjectId = subjectId, yearId = yearId)
             }
-            .setNegativeButton("Restart") { _, _  ->
+            .setNegativeButton(
+                getString(R.string.question_in_progress_dialog_negative_button_text)
+            ) { _, _  ->
                 clearUserAnswersForTest(subjectId = subjectId, yearId = yearId)
             }
             .setCancelable(true)
