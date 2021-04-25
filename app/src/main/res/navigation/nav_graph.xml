@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
-        android:name="app.prepsy.ui.ResultFragment"
+        android:name="app.prepsy.ui.result.ResultFragment"
         android:label="fragment_result"
         tools:layout="@layout/fragment_result" >
         <action
@@ -28,9 +28,14 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_resultFragment_to_questionPageFragment"
+            app:destination="@id/questionPageFragment"
+            app:popUpTo="@id/questionPageFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="args"
-            app:argType="app.prepsy.ui.models.UserScore" />
+            app:argType="app.prepsy.ui.models.args.ResultFragmentPayload" />
     </fragment>
     <fragment
         android:id="@+id/answerFragment"
@@ -58,6 +63,6 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="args"
-            app:argType="app.prepsy.ui.models.SubjectIdYearId" />
+            app:argType="app.prepsy.ui.models.args.QuestionPageFragmentPayload" />
     </fragment>
 </navigation>

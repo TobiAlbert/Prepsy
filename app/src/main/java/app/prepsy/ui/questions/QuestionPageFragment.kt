@@ -17,7 +17,9 @@ import app.prepsy.databinding.FragmentQuestionPageBinding
 import app.prepsy.managers.SharedPreferenceManagers
 import app.prepsy.managers.SharedPreferenceManagers.Companion.HAS_SWIPED
 import app.prepsy.ui.models.Question
+import app.prepsy.ui.models.args.ResultFragmentPayload
 import app.prepsy.ui.models.UserScore
+import app.prepsy.ui.models.args.QuestionPageMode
 import app.prepsy.ui.questions.adapters.QuestionPageAdapter
 import app.prepsy.ui.questions.dialog.QuestionNavigationDialog
 import app.prepsy.utils.getActionSnackBar
@@ -54,6 +56,8 @@ class QuestionPageFragment : Fragment() {
     }
 
     private fun setupUi() {
+        val mode: QuestionPageMode = args.args.mode
+
         // setup toolbar
         binding.toolbar.inflateMenu(R.menu.menu_question)
         binding.toolbar.setOnMenuItemClickListener {
@@ -74,6 +78,14 @@ class QuestionPageFragment : Fragment() {
             }
         }
 
+        if (mode == QuestionPageMode.VIEW_ANSWER_MODE) {
+            // hide the submit button
+            binding.toolbar.menu.findItem(R.id.menu_submit).apply {
+                isVisible = false
+                isEnabled = false
+            }
+        }
+
         binding.toolbar.setNavigationOnClickListener {
             dismissSnackBarIfShown()
             findNavController().navigateUp()
@@ -90,7 +102,12 @@ class QuestionPageFragment : Fragment() {
         questionViewModel.getQuestions().observe(viewLifecycleOwner, Observer {
             it?.let { questions: List<Question> ->
 
-                val questionPageAdapter = QuestionPageAdapter(this@QuestionPageFragment, questions)
+                val questionPageAdapter = QuestionPageAdapter(
+                    this@QuestionPageFragment,
+                    questions,
+                    args.args.mode
+                )
+
                 val numOfQuestions = questions.size
 
                 binding.viewpager.adapter = questionPageAdapter
@@ -125,7 +142,10 @@ class QuestionPageFragment : Fragment() {
         ).observe(viewLifecycleOwner, Observer { questions ->
 
             binding.questionNumber.setOnClickListener {
-                QuestionNavigationDialog.newInstance(questions = questions)
+                QuestionNavigationDialog.newInstance(
+                    questions = questions,
+                    mode = args.args.mode
+                )
                 .apply {
                     isCancelable = true
                     onQuestionSelected = { position: Int -> binding.viewpager.currentItem = position }
@@ -152,8 +172,14 @@ class QuestionPageFragment : Fragment() {
         ).observe(viewLifecycleOwner, Observer { userScore: UserScore ->
             dismissSnackBarIfShown()
 
+            val payload = ResultFragmentPayload(
+                userScore = userScore,
+                subjectId = args.args.subjectId,
+                yearId = args.args.yearId
+            )
+
             val action =
-                QuestionPageFragmentDirections.actionQuestionPageFragmentToResultFragment(userScore)
+                QuestionPageFragmentDirections.actionQuestionPageFragmentToResultFragment(payload)
 
             findNavController().navigate(action)
         })

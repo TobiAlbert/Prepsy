@@ -1,7 +1,6 @@
 package app.prepsy.ui.home
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +15,12 @@ import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentHomeBinding
 import app.prepsy.ui.models.Subject
-import app.prepsy.ui.models.SubjectIdYearId
 import app.prepsy.ui.models.SubjectWithYears
 import app.prepsy.ui.models.Year
+import app.prepsy.ui.models.args.QuestionPageFragmentPayload
+import app.prepsy.ui.models.args.QuestionPageMode
 import app.prepsy.utils.capitalizeWords
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -108,11 +107,15 @@ class HomeFragment : Fragment() {
 
     private fun showQuestionInProgressDialog(subjectId: String, yearId: String) {
         AlertDialog.Builder(requireActivity())
-            .setMessage("Would you like to continue or restart this test?")
-            .setPositiveButton("Continue") { _, _ ->
+            .setMessage(getString(R.string.question_in_progress_dialog_message))
+            .setPositiveButton(
+                getString(R.string.question_in_progress_dialog_positive_button_text)
+            ) { _, _ ->
                 navigateToQuestions(subjectId = subjectId, yearId = yearId)
             }
-            .setNegativeButton("Restart") { _, _  ->
+            .setNegativeButton(
+                getString(R.string.question_in_progress_dialog_negative_button_text)
+            ) { _, _  ->
                 clearUserAnswersForTest(subjectId = subjectId, yearId = yearId)
             }
             .setCancelable(true)
@@ -130,7 +133,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToQuestions(subjectId: String, yearId: String) {
-        val args = SubjectIdYearId(
+        val args = QuestionPageFragmentPayload(
+            mode = QuestionPageMode.QUESTION_MODE,
             subjectId = subjectId,
             yearId = yearId
         )
