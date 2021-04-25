@@ -10,7 +10,6 @@ class SharedPreferenceManagers @Inject constructor(
 ) {
     companion object {
         private const val SHARED_PREF_NAME = "app.prepsy.shared__prefs"
-        const val HAS_DOUBLE_CLICKED = "is_first_time"
         const val HAS_SWIPED = "has_swiped"
     }
 

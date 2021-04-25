@@ -15,7 +15,6 @@ import androidx.navigation.fragment.navArgs
 import app.prepsy.R
 import app.prepsy.databinding.FragmentQuestionPageBinding
 import app.prepsy.managers.SharedPreferenceManagers
-import app.prepsy.managers.SharedPreferenceManagers.Companion.HAS_DOUBLE_CLICKED
 import app.prepsy.managers.SharedPreferenceManagers.Companion.HAS_SWIPED
 import app.prepsy.ui.models.Question
 import app.prepsy.ui.models.UserScore
@@ -76,21 +75,12 @@ class QuestionPageFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        val hasDoubleClicked: Boolean =
-            sharedPrefsManager.getBoolean(HAS_DOUBLE_CLICKED)
-
         val hasSwiped: Boolean =
             sharedPrefsManager.getBoolean(HAS_SWIPED)
 
         val swipeCallback: (View) -> Unit = { sharedPrefsManager.saveBoolean(HAS_SWIPED, true) }
 
-        val doubleClickCallback: (View) -> Unit = {
-            sharedPrefsManager.saveBoolean(HAS_DOUBLE_CLICKED, true)
-            if (!hasSwiped) showSwipeInfoSnackBar(swipeCallback)
-        }
-
         when {
-            !hasDoubleClicked -> showDoubleClickInfoSnackBar(doubleClickCallback)
             !hasSwiped -> showSwipeInfoSnackBar(swipeCallback)
         }
 
@@ -138,14 +128,6 @@ class QuestionPageFragment : Fragment() {
                 .show(requireActivity().supportFragmentManager, "")
             }
         })
-    }
-
-    private fun showDoubleClickInfoSnackBar(callback: (View) -> Unit) {
-        binding.root.showActionSnackBar(
-            R.string.double_tap_message,
-            R.string.double_tap_option_action_text,
-            callback
-        )
     }
 
     private fun showSwipeInfoSnackBar(callback: (View) -> Unit) {
