@@ -1,4 +1,4 @@
-package app.prepsy.ui
+package app.prepsy.ui.result
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,12 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.prepsy.R
 import app.prepsy.databinding.FragmentResultBinding
+import app.prepsy.ui.models.SubjectIdYearId
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ResultFragment : Fragment() {
+
+    private val resultViewModel: ResultViewModel by viewModels()
 
     private var _binding: FragmentResultBinding? = null
     private val args: ResultFragmentArgs by navArgs()
@@ -37,8 +44,8 @@ class ResultFragment : Fragment() {
     }
 
     private fun setupUi() {
-        val score = args.args.score
-        val total = args.args.total
+        val score = args.args.userScore.score
+        val total = args.args.userScore.total
 
         when (score / total > CUT_OFF_PERCENTAGE) {
             true -> setupSuccessPage(score, total)
@@ -56,6 +63,36 @@ class ResultFragment : Fragment() {
                 R.id.action_resultFragment_to_homeFragment
             )
         }
+
+        binding.takeExamAgainBtn.setOnClickListener {
+            val subjectId = args.args.subjectId
+            val yearId = args.args.yearId
+
+            resultViewModel.clearUserAnswersForTest(
+                subjectId = subjectId,
+                yearId = yearId
+            ).observe(viewLifecycleOwner, Observer {
+                if (it) {
+                    navigateToQuestions(
+                        subjectId = subjectId,
+                        yearId = yearId
+                    )
+                }
+            })
+        }
+    }
+
+    private fun navigateToQuestions(subjectId: String, yearId: String) {
+        val args = SubjectIdYearId(
+            subjectId = subjectId,
+            yearId = yearId
+        )
+
+        val action =
+            ResultFragmentDirections
+                .actionResultFragmentToQuestionPageFragment(args)
+
+        findNavController().navigate(action)
     }
 
     private fun setupSuccessPage(score: Int, totalQuestions: Int) {

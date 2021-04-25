@@ -17,6 +17,7 @@ import app.prepsy.databinding.FragmentQuestionPageBinding
 import app.prepsy.managers.SharedPreferenceManagers
 import app.prepsy.managers.SharedPreferenceManagers.Companion.HAS_SWIPED
 import app.prepsy.ui.models.Question
+import app.prepsy.ui.models.ResultFragmentPayload
 import app.prepsy.ui.models.UserScore
 import app.prepsy.ui.questions.adapters.QuestionPageAdapter
 import app.prepsy.ui.questions.dialog.QuestionNavigationDialog
@@ -152,8 +153,14 @@ class QuestionPageFragment : Fragment() {
         ).observe(viewLifecycleOwner, Observer { userScore: UserScore ->
             dismissSnackBarIfShown()
 
+            val payload = ResultFragmentPayload(
+                userScore = userScore,
+                subjectId = args.args.subjectId,
+                yearId = args.args.yearId
+            )
+
             val action =
-                QuestionPageFragmentDirections.actionQuestionPageFragmentToResultFragment(userScore)
+                QuestionPageFragmentDirections.actionQuestionPageFragmentToResultFragment(payload)
 
             findNavController().navigate(action)
         })
