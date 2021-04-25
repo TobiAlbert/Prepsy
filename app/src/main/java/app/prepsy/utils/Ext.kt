@@ -36,13 +36,18 @@ fun ViewPager2.onPageSelected(callback: (position: Int) -> Unit) {
     })
 }
 
+fun View.getActionSnackBar(
+    @StringRes message: Int,
+    @StringRes actionText: Int,
+    action: (view: View) -> Unit): Snackbar =
+        Snackbar.make(this, message, Snackbar.LENGTH_INDEFINITE)
+            .setAction(actionText, action)
+
 fun View.showActionSnackBar(
     @StringRes message: Int,
     @StringRes actionText: Int,
     action: (view: View) -> Unit) {
-    Snackbar.make(this, message, Snackbar.LENGTH_INDEFINITE)
-        .setAction(actionText, action)
-        .show()
+    getActionSnackBar(message, actionText, action).show()
 }
 
 // String Extensions

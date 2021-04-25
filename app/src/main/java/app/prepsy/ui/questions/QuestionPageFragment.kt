@@ -20,8 +20,9 @@ import app.prepsy.ui.models.Question
 import app.prepsy.ui.models.UserScore
 import app.prepsy.ui.questions.adapters.QuestionPageAdapter
 import app.prepsy.ui.questions.dialog.QuestionNavigationDialog
+import app.prepsy.utils.getActionSnackBar
 import app.prepsy.utils.onPageSelected
-import app.prepsy.utils.showActionSnackBar
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -32,6 +33,8 @@ class QuestionPageFragment : Fragment() {
     lateinit var sharedPrefsManager: SharedPreferenceManagers
     private val questionViewModel: QuestionViewModel by viewModels()
     private val args: QuestionPageFragmentArgs by navArgs()
+
+    private lateinit var mSnackBar: Snackbar
 
     private var _binding: FragmentQuestionPageBinding? = null
     private val binding get() = _binding!!
@@ -72,16 +75,8 @@ class QuestionPageFragment : Fragment() {
         }
 
         binding.toolbar.setNavigationOnClickListener {
+            dismissSnackBarIfShown()
             findNavController().navigateUp()
-        }
-
-        val hasSwiped: Boolean =
-            sharedPrefsManager.getBoolean(HAS_SWIPED)
-
-        val swipeCallback: (View) -> Unit = { sharedPrefsManager.saveBoolean(HAS_SWIPED, true) }
-
-        when {
-            !hasSwiped -> showSwipeInfoSnackBar(swipeCallback)
         }
 
         val topPadding = binding.appbar.paddingTop
@@ -110,6 +105,16 @@ class QuestionPageFragment : Fragment() {
                             numOfQuestions
                         )
                 }
+
+                // show swipe navigation info after questions have been fetched and displayed
+                val hasSwiped: Boolean =
+                    sharedPrefsManager.getBoolean(HAS_SWIPED)
+
+                val swipeCallback: (View) -> Unit = { sharedPrefsManager.saveBoolean(HAS_SWIPED, true) }
+
+                when {
+                    !hasSwiped -> showSwipeInfoSnackBar(swipeCallback)
+                }
             }
         })
 
@@ -131,11 +136,13 @@ class QuestionPageFragment : Fragment() {
     }
 
     private fun showSwipeInfoSnackBar(callback: (View) -> Unit) {
-        binding.root.showActionSnackBar(
+        mSnackBar = binding.root.getActionSnackBar(
             R.string.swipe_message,
             R.string.swipe_action_text,
             callback
         )
+
+        mSnackBar.show()
     }
 
     private fun calculateUserScore() {
@@ -143,6 +150,8 @@ class QuestionPageFragment : Fragment() {
             args.args.subjectId,
             args.args.yearId
         ).observe(viewLifecycleOwner, Observer { userScore: UserScore ->
+            dismissSnackBarIfShown()
+
             val action =
                 QuestionPageFragmentDirections.actionQuestionPageFragmentToResultFragment(userScore)
 
@@ -160,6 +169,12 @@ class QuestionPageFragment : Fragment() {
 
             create()
             show()
+        }
+    }
+
+    private fun dismissSnackBarIfShown() {
+        if (::mSnackBar.isInitialized && mSnackBar.isShown) {
+            mSnackBar.dismiss()
         }
     }
 
