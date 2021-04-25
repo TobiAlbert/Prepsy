@@ -7,15 +7,21 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialogFragment
 import app.prepsy.R
 import app.prepsy.databinding.DialogQuestionNavigationBinding
+import app.prepsy.ui.models.Question
 import app.prepsy.ui.questions.QuestionViewModel
 import app.prepsy.ui.questions.adapters.QuestionNavAdapter
+import java.util.ArrayList
 import javax.inject.Inject
 
-class QuestionNavigationDialog(
-    private val onQuestionSelected: (Int) -> Unit,
-) : AppCompatDialogFragment() {
+class QuestionNavigationDialog : AppCompatDialogFragment() {
 
     @Inject lateinit var questionViewModel: QuestionViewModel
+
+    var onQuestionSelected: ((Int) -> Unit)? = null
+        set(value) {
+            field = value
+        }
+
     private var _binding: DialogQuestionNavigationBinding? = null
     private val binding get() = _binding!!
 
@@ -28,28 +34,40 @@ class QuestionNavigationDialog(
         val view = binding.root
 
         binding.closeBtn.setOnClickListener { this.dismiss() }
-        val dummyQuestions = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-            11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-            21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-            31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-        )
 
-        // initialize the adapter
-        val adapter = QuestionNavAdapter(
-            context = context,
-            layoutResource = R.layout.grid_item_question_nav,
-            questions = dummyQuestions,
-            onQuestionSelected = ::questionSelected
-        )
+        arguments?.let {
+            val questions = it.getParcelableArrayList<Question>(QUESTIONS_KEY)
 
-        binding.questionNavGridView.adapter = adapter
+            questions ?: return@let
+
+            // initialize the adapter
+            val adapter = QuestionNavAdapter(
+                context = context,
+                layoutResource = R.layout.grid_item_question_nav,
+                questions = questions.toList(),
+                onQuestionSelected = ::questionSelected
+            )
+
+            binding.questionNavGridView.adapter = adapter
+        }
 
         builder.setView(view)
         return builder.create()
     }
 
+    companion object {
+        const val QUESTIONS_KEY = "questions"
+
+        fun newInstance(questions: List<Question>): QuestionNavigationDialog {
+            val fragment = QuestionNavigationDialog()
+            val bundle = Bundle().apply { putParcelableArrayList(QUESTIONS_KEY, ArrayList(questions)) }
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
     private fun questionSelected(position: Int) {
-        onQuestionSelected(position)
+        onQuestionSelected?.invoke(position)
         this.dismiss()
     }
 

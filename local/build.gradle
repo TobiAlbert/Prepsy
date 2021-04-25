@@ -63,4 +63,8 @@ dependencies {
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$roomVersion"
     annotationProcessor 'androidx.room:room-compiler:2.2.6'
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android_version"
 }

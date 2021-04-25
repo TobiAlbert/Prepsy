@@ -9,6 +9,8 @@ import com.tobidaada.local.mapper.Mapper
 import com.tobidaada.local.models.OptionLocal
 import com.tobidaada.local.models.QuestionOptionsUserAnswer
 import com.tobidaada.local.models.UserScoreLocal
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class QuestionLocalDataSourceImpl @Inject constructor(
@@ -53,4 +55,21 @@ class QuestionLocalDataSourceImpl @Inject constructor(
         1 -> true
         else -> false
     }
+
+    override fun getObservableQuestions(
+        subjectId: String,
+        yearId: String
+    ): Flow<List<QuestionData>> =
+        questionDao.getObservableQuestions(subjectId, yearId)
+            .map { questionOptionUserAnswer ->
+                return@map questionOptionUserAnswer.map {
+                    QuestionData(
+                        id = it.question.id,
+                        text = it.question.text,
+                        userAnswerId = it.userAnswer?.optionId,
+                        answer = OptionData("", "", ""),
+                        options = emptyList()
+                    )
+                }
+            }
 }

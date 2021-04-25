@@ -6,4 +6,5 @@ ext {
     viewPager2 = "1.0.0"
     roomVersion = "2.2.6"
     liveDataKtx = '2.2.0'
+    coroutines_android_version = '1.4.2'
 }

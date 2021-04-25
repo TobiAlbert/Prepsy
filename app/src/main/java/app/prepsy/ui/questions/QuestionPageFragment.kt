@@ -76,14 +76,6 @@ class QuestionPageFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        binding.questionNumber.setOnClickListener {
-            QuestionNavigationDialog(
-                onQuestionSelected = { position: Int -> binding.viewpager.currentItem = position },
-            )
-                .apply { isCancelable = true }
-                .show(requireActivity().supportFragmentManager, "")
-        }
-
         val hasDoubleClicked: Boolean =
             sharedPrefsManager.getBoolean(HAS_DOUBLE_CLICKED)
 
@@ -128,6 +120,22 @@ class QuestionPageFragment : Fragment() {
                             numOfQuestions
                         )
                 }
+            }
+        })
+
+        // allows for observing the answers a user has selected
+        questionViewModel.getQuestionsFlow(
+            args.args.subjectId,
+            args.args.yearId
+        ).observe(viewLifecycleOwner, Observer { questions ->
+
+            binding.questionNumber.setOnClickListener {
+                QuestionNavigationDialog.newInstance(questions = questions)
+                .apply {
+                    isCancelable = true
+                    onQuestionSelected = { position: Int -> binding.viewpager.currentItem = position }
+                }
+                .show(requireActivity().supportFragmentManager, "")
             }
         })
     }

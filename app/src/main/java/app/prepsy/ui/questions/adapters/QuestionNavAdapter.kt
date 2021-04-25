@@ -8,13 +8,14 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import app.prepsy.R
+import app.prepsy.ui.models.Question
 import app.prepsy.utils.getDrawableCompat
 
 
 class QuestionNavAdapter(
     context: Context,
     @LayoutRes private val layoutResource: Int,
-    private val questions: List<Int>,
+    private val questions: List<Question>,
     private val onQuestionSelected: (Int) -> Unit
 ) : ArrayAdapter<Int>(context, layoutResource) {
 
@@ -25,10 +26,11 @@ class QuestionNavAdapter(
         val view = convertView ?: inflater.inflate(layoutResource, null)
 
         view.findViewById<TextView>(R.id.questionIndex).apply {
-            text = questions[position].toString()
-            background = when ((0..1).random()) {
-                0 -> context.getDrawableCompat(R.drawable.drawable_question_answered_background)
-                else -> context.getDrawableCompat(R.drawable.drawable_question_unanswered_background)
+            val hasAnswer = questions[position].userOptionId != null
+            text = position.inc().toString()
+            background = when (hasAnswer) {
+                true -> context.getDrawableCompat(R.drawable.drawable_question_answered_background)
+                else -> null
             }
             setOnClickListener { onQuestionSelected(position) }
         }
