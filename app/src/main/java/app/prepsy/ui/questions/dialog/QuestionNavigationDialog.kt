@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import app.prepsy.R
 import app.prepsy.databinding.DialogQuestionNavigationBinding
 import app.prepsy.ui.models.Question
+import app.prepsy.ui.models.args.QuestionPageMode
 import app.prepsy.ui.questions.QuestionViewModel
 import app.prepsy.ui.questions.adapters.QuestionNavAdapter
 import java.util.ArrayList
@@ -37,6 +38,7 @@ class QuestionNavigationDialog : AppCompatDialogFragment() {
 
         arguments?.let {
             val questions = it.getParcelableArrayList<Question>(QUESTIONS_KEY)
+            val mode = it.getSerializable(QUESTION_PAGE_MODE) as QuestionPageMode
 
             questions ?: return@let
 
@@ -45,6 +47,7 @@ class QuestionNavigationDialog : AppCompatDialogFragment() {
                 context = context,
                 layoutResource = R.layout.grid_item_question_nav,
                 questions = questions.toList(),
+                mode = mode,
                 onQuestionSelected = ::questionSelected
             )
 
@@ -56,11 +59,18 @@ class QuestionNavigationDialog : AppCompatDialogFragment() {
     }
 
     companion object {
-        const val QUESTIONS_KEY = "questions"
+        private const val QUESTIONS_KEY = "questions"
+        private const val QUESTION_PAGE_MODE = "question_page_mode"
 
-        fun newInstance(questions: List<Question>): QuestionNavigationDialog {
+        fun newInstance(
+            questions: List<Question>,
+            mode: QuestionPageMode
+        ): QuestionNavigationDialog {
             val fragment = QuestionNavigationDialog()
-            val bundle = Bundle().apply { putParcelableArrayList(QUESTIONS_KEY, ArrayList(questions)) }
+            val bundle = Bundle().apply {
+                putParcelableArrayList(QUESTIONS_KEY, ArrayList(questions))
+                putSerializable(QUESTION_PAGE_MODE, mode)
+            }
             fragment.arguments = bundle
             return fragment
         }

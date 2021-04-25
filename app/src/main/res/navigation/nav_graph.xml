@@ -28,14 +28,14 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
-        <argument
-            android:name="args"
-            app:argType="app.prepsy.ui.models.ResultFragmentPayload" />
         <action
             android:id="@+id/action_resultFragment_to_questionPageFragment"
             app:destination="@id/questionPageFragment"
             app:popUpTo="@id/questionPageFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="args"
+            app:argType="app.prepsy.ui.models.args.ResultFragmentPayload" />
     </fragment>
     <fragment
         android:id="@+id/answerFragment"
@@ -63,6 +63,6 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="args"
-            app:argType="app.prepsy.ui.models.SubjectIdYearId" />
+            app:argType="app.prepsy.ui.models.args.QuestionPageFragmentPayload" />
     </fragment>
 </navigation>

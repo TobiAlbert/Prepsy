@@ -13,7 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.prepsy.R
 import app.prepsy.databinding.FragmentResultBinding
-import app.prepsy.ui.models.SubjectIdYearId
+import app.prepsy.ui.models.args.QuestionPageFragmentPayload
+import app.prepsy.ui.models.args.QuestionPageMode
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,14 +48,19 @@ class ResultFragment : Fragment() {
         val score = args.args.userScore.score
         val total = args.args.userScore.total
 
+        val subjectId = args.args.subjectId
+        val yearId = args.args.yearId
+
         when (score / total > CUT_OFF_PERCENTAGE) {
             true -> setupSuccessPage(score, total)
             false -> setFailurePage(score, total)
         }
 
         binding.viewSheetBtn.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_resultFragment_to_answerFragment
+            navigateToQuestions(
+                mode = QuestionPageMode.VIEW_ANSWER_MODE,
+                subjectId = subjectId,
+                yearId = yearId
             )
         }
 
@@ -65,8 +71,6 @@ class ResultFragment : Fragment() {
         }
 
         binding.takeExamAgainBtn.setOnClickListener {
-            val subjectId = args.args.subjectId
-            val yearId = args.args.yearId
 
             resultViewModel.clearUserAnswersForTest(
                 subjectId = subjectId,
@@ -74,6 +78,7 @@ class ResultFragment : Fragment() {
             ).observe(viewLifecycleOwner, Observer {
                 if (it) {
                     navigateToQuestions(
+                        mode = QuestionPageMode.QUESTION_MODE,
                         subjectId = subjectId,
                         yearId = yearId
                     )
@@ -82,8 +87,9 @@ class ResultFragment : Fragment() {
         }
     }
 
-    private fun navigateToQuestions(subjectId: String, yearId: String) {
-        val args = SubjectIdYearId(
+    private fun navigateToQuestions(mode: QuestionPageMode, subjectId: String, yearId: String) {
+        val args = QuestionPageFragmentPayload(
+            mode = mode,
             subjectId = subjectId,
             yearId = yearId
         )

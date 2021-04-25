@@ -1,6 +1,7 @@
-package app.prepsy.ui.models
+package app.prepsy.ui.models.args
 
 import android.os.Parcelable
+import app.prepsy.ui.models.UserScore
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

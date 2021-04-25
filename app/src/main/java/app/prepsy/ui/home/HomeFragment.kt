@@ -15,9 +15,10 @@ import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentHomeBinding
 import app.prepsy.ui.models.Subject
-import app.prepsy.ui.models.SubjectIdYearId
 import app.prepsy.ui.models.SubjectWithYears
 import app.prepsy.ui.models.Year
+import app.prepsy.ui.models.args.QuestionPageFragmentPayload
+import app.prepsy.ui.models.args.QuestionPageMode
 import app.prepsy.utils.capitalizeWords
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -132,7 +133,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToQuestions(subjectId: String, yearId: String) {
-        val args = SubjectIdYearId(
+        val args = QuestionPageFragmentPayload(
+            mode = QuestionPageMode.QUESTION_MODE,
             subjectId = subjectId,
             yearId = yearId
         )
