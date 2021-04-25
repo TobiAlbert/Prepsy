@@ -2,9 +2,10 @@ package app.prepsy.utils
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.view.View
-import android.widget.ArrayAdapter
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,6 +23,8 @@ inline fun <reified T: AppCompatActivity> Context.startActivity() {
 
 fun Fragment.getColorCompat(@ColorRes color: Int) = this.requireContext().getColorCompat(color)
 fun Context.getColorCompat(@ColorRes color: Int) = ContextCompat.getColor(this, color)
+fun Context.getDrawableCompat(@DrawableRes drawables: Int): Drawable? =
+    ContextCompat.getDrawable(this,  drawables)
 
 // View Pager Extensions
 fun ViewPager2.onPageSelected(callback: (position: Int) -> Unit) {
@@ -33,13 +36,18 @@ fun ViewPager2.onPageSelected(callback: (position: Int) -> Unit) {
     })
 }
 
+fun View.getActionSnackBar(
+    @StringRes message: Int,
+    @StringRes actionText: Int,
+    action: (view: View) -> Unit): Snackbar =
+        Snackbar.make(this, message, Snackbar.LENGTH_INDEFINITE)
+            .setAction(actionText, action)
+
 fun View.showActionSnackBar(
     @StringRes message: Int,
     @StringRes actionText: Int,
     action: (view: View) -> Unit) {
-    Snackbar.make(this, message, Snackbar.LENGTH_INDEFINITE)
-        .setAction(actionText, action)
-        .show()
+    getActionSnackBar(message, actionText, action).show()
 }
 
 // String Extensions

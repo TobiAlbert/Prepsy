@@ -27,4 +27,8 @@
     <string name="swipe_message">Swipe to Move between Questions</string>
     <string name="swipe_action_text">Okay</string>
     <string name="submit">Submit</string>
+    <string name="close_dialog_icon">Close Dialog Icon</string>
+    <string name="close_dialog_text">Close</string>
+    <string name="incomplete_question_dialog_title">Unanswered Questions</string>
+    <string name="incomplete_question_dialog_message">You have some unanswered questions. Submit anyway?</string>
 </resources>

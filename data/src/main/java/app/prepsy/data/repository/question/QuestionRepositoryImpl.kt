@@ -6,6 +6,8 @@ import app.prepsy.data.models.UserScoreData
 import app.prepsy.domain.entities.QuestionEntity
 import app.prepsy.domain.entities.UserScoreEntity
 import app.prepsy.domain.repository.QuestionRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class QuestionRepositoryImpl @Inject constructor(
@@ -19,4 +21,15 @@ class QuestionRepositoryImpl @Inject constructor(
 
     override suspend fun getUserScore(subjectId: String, yearId: String): UserScoreEntity =
         userScoreMapper.from(localDataSource.getUserScore(subjectId, yearId))
+
+    override suspend fun hasCompletedQuestions(subjectId: String, yearId: String): Boolean =
+        localDataSource.hasCompletedQuestions(subjectId, yearId)
+
+    override fun getObservableQuestions(
+        subjectId: String,
+        yearId: String
+    ): Flow<List<QuestionEntity>> =
+        localDataSource.getObservableQuestions(subjectId, yearId)
+            .map { questionData -> questionData.map { questionMapper.from(it) } }
+
 }

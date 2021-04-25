@@ -54,7 +54,7 @@ data class QuestionLocal(
     val updatedAt: Date
 )
 
-data class QuestionAndOptions(
+data class QuestionOptionsUserAnswer(
     @Embedded
     val question: QuestionLocal,
 
@@ -62,5 +62,11 @@ data class QuestionAndOptions(
         parentColumn = "id",
         entityColumn = "question_id"
     )
-    val options: List<OptionLocal>
+    val options: List<OptionLocal>,
+
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "question_id"
+    )
+    val userAnswer: UserAnswerLocal? = null
 )

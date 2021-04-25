@@ -21,9 +21,10 @@
 
             <TextView
                 android:id="@+id/questionNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:textColor="@color/black"
+                android:gravity="center"
                 android:layout_gravity="center"
                 tools:text="23/40"/>
         </androidx.appcompat.widget.Toolbar>

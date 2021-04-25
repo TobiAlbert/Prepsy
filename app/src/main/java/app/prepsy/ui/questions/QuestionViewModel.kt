@@ -3,13 +3,12 @@ package app.prepsy.ui.questions
 import androidx.lifecycle.*
 import app.prepsy.domain.entities.QuestionEntity
 import app.prepsy.domain.entities.UserScoreEntity
-import app.prepsy.domain.usecases.GetQuestions
-import app.prepsy.domain.usecases.GetUserScore
-import app.prepsy.domain.usecases.SaveAnswer
+import app.prepsy.domain.usecases.*
 import app.prepsy.ui.mappers.Mapper
 import app.prepsy.ui.models.Question
 import app.prepsy.ui.models.UserScore
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,6 +17,8 @@ class QuestionViewModel @Inject constructor(
     private val saveUserAnswer: SaveAnswer,
     private val getQuestions: GetQuestions,
     private val getUserScore: GetUserScore,
+    private val hasCompleteQuestionUseCase: HasCompleteQuestionUseCase,
+    private val getObservableQuestions: GetObservableQuestionsUseCase,
     private val userScoreMapper: Mapper<UserScore, UserScoreEntity>,
     private val questionMapper: Mapper<Question, QuestionEntity>,
 ) : ViewModel() {
@@ -41,7 +42,20 @@ class QuestionViewModel @Inject constructor(
     }
 
     fun calculateScore(subjectId: String, yearId: String): LiveData<UserScore> = liveData {
-        val score: UserScoreEntity  = getUserScore(subjectId, yearId)
+        val score: UserScoreEntity = getUserScore(subjectId, yearId)
         emit(userScoreMapper.from(score))
+    }
+
+    fun onSubmitClicked(subjectId: String, yearId: String): LiveData<Boolean> = liveData {
+        val isComplete = hasCompleteQuestionUseCase(
+            subjectId = subjectId,
+            yearId = yearId
+        )
+        emit(isComplete)
+    }
+
+    fun getQuestionsFlow(subjectId: String, yearId: String): LiveData<List<Question>> {
+        return getObservableQuestions(subjectId, yearId)
+            .map { questionEntityList -> questionEntityList.map { questionMapper.from(it) } }.asLiveData()
     }
 }

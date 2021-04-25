@@ -70,6 +70,13 @@ class HomeFragment : Fragment() {
                 }
             }
 
+        binding.selectYearAT.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                if (::mYears.isInitialized) {
+                    mSelectedYear = mYears[position]
+                }
+            }
+
         binding.viewQuestionsBtn.setOnClickListener {
             // ensure there are loaded subjects
             if (!::mSubjects.isInitialized) return@setOnClickListener
