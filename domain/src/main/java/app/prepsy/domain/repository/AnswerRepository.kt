@@ -6,4 +6,6 @@ interface AnswerRepository {
     suspend fun saveUserAnswer(entity: UserAnswerEntity)
 
     suspend fun getUserAnswerByQuestionId(questionId: String): UserAnswerEntity?
+
+    suspend fun clearUserAnswersBySubjectAndYearId(subjectId: String, yearId: String)
 }

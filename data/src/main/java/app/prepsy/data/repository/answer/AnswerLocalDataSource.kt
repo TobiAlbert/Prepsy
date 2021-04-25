@@ -6,4 +6,6 @@ interface AnswerLocalDataSource {
     suspend fun saveAnswer(data: UserAnswerData)
 
     suspend fun getUserAnswerByQuestionId(questionId: String): UserAnswerData?
+
+    suspend fun clearUserAnswersBySubjectAndYearId(subjectId: String, yearId: String)
 }

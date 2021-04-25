@@ -112,10 +112,21 @@ class HomeFragment : Fragment() {
             .setPositiveButton("Continue") { _, _ ->
                 navigateToQuestions(subjectId = subjectId, yearId = yearId)
             }
-            .setNegativeButton("Restart") { _, _  ->  }
+            .setNegativeButton("Restart") { _, _  ->
+                clearUserAnswersForTest(subjectId = subjectId, yearId = yearId)
+            }
             .setCancelable(true)
             .create()
             .show()
+    }
+
+    private fun clearUserAnswersForTest(subjectId: String, yearId: String) {
+        homeViewModel.clearUserAnswersForTest(
+            subjectId = subjectId,
+            yearId = yearId
+        ).observe(viewLifecycleOwner, Observer {
+            if (it) navigateToQuestions(subjectId, yearId)
+        })
     }
 
     private fun navigateToQuestions(subjectId: String, yearId: String) {
