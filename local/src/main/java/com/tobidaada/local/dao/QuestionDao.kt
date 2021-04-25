@@ -30,4 +30,7 @@ interface QuestionDao {
     @Query("select case count(questions.id) when count(ua.option_id) then 1 else 0 end as is_complete from questions left join user_answers ua on ua.question_id  = questions.id where year_id = :yearId and subject_id = :subjectId")
     suspend fun hasCompletedQuestions(subjectId: String, yearId: String): Int
 
+    // checks if test is in progress i.e not complete or started
+    @Query("select count(ua.question_id) as user_answers_count from questions q inner join user_answers ua on ua.question_id = q.id where year_id = :yearId and subject_id = :subjectId")
+    suspend fun getUserAnswersCount(subjectId: String, yearId: String): Int
 }

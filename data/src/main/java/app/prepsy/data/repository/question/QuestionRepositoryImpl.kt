@@ -32,4 +32,6 @@ class QuestionRepositoryImpl @Inject constructor(
         localDataSource.getObservableQuestions(subjectId, yearId)
             .map { questionData -> questionData.map { questionMapper.from(it) } }
 
+    override suspend fun isTestInProgress(subjectId: String, yearId: String): Boolean =
+        localDataSource.isTestInProgress(subjectId, yearId)
 }

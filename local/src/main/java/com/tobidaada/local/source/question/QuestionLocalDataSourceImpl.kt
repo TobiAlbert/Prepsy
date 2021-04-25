@@ -72,4 +72,13 @@ class QuestionLocalDataSourceImpl @Inject constructor(
                     )
                 }
             }
+
+    override suspend fun isTestInProgress(
+        subjectId: String,
+        yearId: String
+    ): Boolean = when (questionDao.getUserAnswersCount(subjectId, yearId)) {
+        0 -> false
+        else -> true
+    }
+
 }

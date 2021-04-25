@@ -12,4 +12,6 @@ interface QuestionLocalDataSource {
     suspend fun hasCompletedQuestions(subjectId: String, yearId: String): Boolean
 
     fun getObservableQuestions(subjectId: String, yearId: String): Flow<List<QuestionData>>
+
+    suspend fun isTestInProgress(subjectId: String, yearId: String): Boolean
 }
