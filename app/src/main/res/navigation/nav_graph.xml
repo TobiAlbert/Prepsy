@@ -21,9 +21,6 @@
         android:label="fragment_result"
         tools:layout="@layout/fragment_result" >
         <action
-            android:id="@+id/action_resultFragment_to_answerFragment"
-            app:destination="@id/answerFragment" />
-        <action
             android:id="@+id/action_resultFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
@@ -36,17 +33,6 @@
         <argument
             android:name="args"
             app:argType="app.prepsy.ui.models.args.ResultFragmentPayload" />
-    </fragment>
-    <fragment
-        android:id="@+id/answerFragment"
-        android:name="app.prepsy.ui.answers.AnswerFragment"
-        android:label="fragment_answer"
-        tools:layout="@layout/fragment_answer" >
-        <action
-            android:id="@+id/action_answerFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/questionPageFragment"
