@@ -16,9 +16,6 @@ import app.prepsy.utils.getDrawableCompat
 import app.prepsy.utils.toAlphabet
 import dagger.hilt.android.AndroidEntryPoint
 
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-
 @AndroidEntryPoint
 class QuestionFragment : Fragment() {
 
