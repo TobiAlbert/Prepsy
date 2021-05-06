@@ -8,10 +8,10 @@
 
     <TextView
         android:id="@+id/closeBtn"
-        android:layout_width="45dp"
+        android:layout_width="150dp"
         android:layout_height="45dp"
         android:text="@string/close_dialog_text"
-        android:gravity="center"
+        android:gravity="center_vertical|end"
         android:textSize="16sp"
         android:layout_marginEnd="@dimen/question_nav_padding"
         android:layout_gravity="end"/>
