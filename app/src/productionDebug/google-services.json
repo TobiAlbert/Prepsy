@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "675392067123",
+    "project_id": "prepsy-development",
+    "storage_bucket": "prepsy-development.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675392067123:android:db482148be5a34de8ff546",
+        "android_client_info": {
+          "package_name": "app.prepsy.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675392067123-fo4vr7u20vutkkf80c08eu4iag5bblnl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA45o2Uua--fDnwMimVLyGqHW6U3GXFjEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "675392067123-fo4vr7u20vutkkf80c08eu4iag5bblnl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675392067123:android:c16d0cf2285ed9908ff546",
+        "android_client_info": {
+          "package_name": "app.prepsy.dev.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675392067123-fo4vr7u20vutkkf80c08eu4iag5bblnl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA45o2Uua--fDnwMimVLyGqHW6U3GXFjEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "675392067123-fo4vr7u20vutkkf80c08eu4iag5bblnl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
