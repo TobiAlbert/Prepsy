@@ -21,7 +21,4 @@ class HomeActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         }
     }
-
-    override fun onBackPressed() = Unit
-
 }

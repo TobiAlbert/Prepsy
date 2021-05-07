@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
@@ -50,6 +51,19 @@ class ResultFragment : Fragment() {
 
         val subjectId = args.args.subjectId
         val yearId = args.args.yearId
+
+        // handle back button pressed
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object: OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    navigateToQuestions(
+                        mode = QuestionPageMode.QUESTION_MODE,
+                        subjectId = subjectId,
+                        yearId = yearId
+                    )
+                }
+            })
 
         when (score / total > CUT_OFF_PERCENTAGE) {
             true -> setupSuccessPage(score, total)
