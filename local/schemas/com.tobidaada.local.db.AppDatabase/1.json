@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "dc67e5d3cfb2e5465a4c3810d44283a3",
+    "identityHash": "340212867da9b0e205bf29ac16b890a3",
     "entities": [
       {
         "tableName": "years",
@@ -221,7 +221,7 @@
       },
       {
         "tableName": "options",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `text` TEXT NOT NULL, `question_id` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`question_id`) REFERENCES `questions`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `text` TEXT NOT NULL, `question_id` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -270,19 +270,7 @@
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `options_id_unique` ON `${TABLE_NAME}` (`id`)"
           }
         ],
-        "foreignKeys": [
-          {
-            "table": "questions",
-            "onDelete": "CASCADE",
-            "onUpdate": "CASCADE",
-            "columns": [
-              "question_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
+        "foreignKeys": []
       },
       {
         "tableName": "user_answers",
@@ -428,7 +416,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dc67e5d3cfb2e5465a4c3810d44283a3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '340212867da9b0e205bf29ac16b890a3')"
     ]
   }
 }
