@@ -6,15 +6,6 @@ import java.util.*
 @Entity(
     tableName = "options",
     indices = [Index(name = "options_id_unique", unique = true, value = ["id"])],
-    foreignKeys = [
-        ForeignKey(
-            entity = QuestionLocal::class,
-            parentColumns = ["id"],
-            childColumns = ["question_id"],
-            onDelete = ForeignKey.CASCADE,
-            onUpdate = ForeignKey.CASCADE
-        )
-    ]
 )
 data class OptionLocal(
     @PrimaryKey(autoGenerate = false)
