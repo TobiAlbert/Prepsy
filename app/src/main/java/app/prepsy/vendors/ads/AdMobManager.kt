@@ -1,14 +1,17 @@
 package app.prepsy.vendors.ads
 
 import android.content.Context
-import android.util.Log
 import android.view.View
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.*
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
+import kotlin.Exception
 
+@ExperimentalCoroutinesApi
 class AdMobManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) : IAdManager {
@@ -31,5 +34,58 @@ class AdMobManager @Inject constructor(
         val adRequest = AdRequest.Builder().build()
         (adView as AdView).loadAd(adRequest)
     }
+}
 
+@ExperimentalCoroutinesApi
+fun AdView.listenForUpdates(): Flow<AdEvent> {
+    val context = this
+
+    return callbackFlow {
+        val flowOffer: (AdEvent) -> Unit = {
+            try {
+                offer(it)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        val listener = object: AdListener() {
+            override fun onAdClosed() {
+                super.onAdClosed()
+                flowOffer(AdEvent.AdClosed)
+            }
+
+            override fun onAdImpression() {
+                super.onAdImpression()
+                flowOffer(AdEvent.AdImpression)
+            }
+
+            override fun onAdClicked() {
+                super.onAdClicked()
+                flowOffer(AdEvent.AdClicked)
+            }
+
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                super.onAdFailedToLoad(error)
+                // error consists of the following properties:
+                // domain; errorCode; message; cause
+                // all that information is available in the error's `toString()` method
+                flowOffer(AdEvent.AdFailedToLoad(error.toString()))
+            }
+
+            override fun onAdOpened() {
+                super.onAdOpened()
+                flowOffer(AdEvent.AdOpened)
+            }
+
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                flowOffer(AdEvent.AdLoaded)
+            }
+        }
+
+        context.adListener = listener
+
+        awaitClose {}
+    }
 }
