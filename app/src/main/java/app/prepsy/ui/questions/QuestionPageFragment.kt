@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.updatePadding
+import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -25,6 +25,7 @@ import app.prepsy.ui.questions.adapters.QuestionPageAdapter
 import app.prepsy.ui.questions.dialog.QuestionNavigationDialog
 import app.prepsy.utils.getActionSnackBar
 import app.prepsy.utils.onPageSelected
+import app.prepsy.vendors.ads.IAdManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,6 +33,10 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuestionPageFragment : Fragment() {
+
+    @Inject
+    lateinit var adManager: IAdManager
+
     @Inject
     lateinit var sharedPrefsManager: SharedPreferenceManagers
     private val questionViewModel: QuestionViewModel by viewModels()
@@ -103,10 +108,22 @@ class QuestionPageFragment : Fragment() {
         }
 
         val topPadding = binding.appbar.paddingTop
-        binding.appbar.setOnApplyWindowInsetsListener { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.appbar) { v, insets ->
             v.updatePadding(top = insets.systemWindowInsetTop + topPadding)
             insets
         }
+
+        val marginBottom = binding.adView.marginBottom
+        ViewCompat.setOnApplyWindowInsetsListener(binding.adView) { v, insets ->
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.systemWindowInsetLeft
+                rightMargin = insets.systemWindowInsetRight
+                bottomMargin = insets.systemWindowInsetBottom + marginBottom
+            }
+            insets
+        }
+
+        adManager.loadAd(binding.adView)
     }
 
     private fun observeViewModel() {
