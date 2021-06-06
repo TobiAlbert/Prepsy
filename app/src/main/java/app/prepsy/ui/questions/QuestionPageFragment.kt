@@ -133,7 +133,8 @@ class QuestionPageFragment : Fragment() {
 
         adManager.loadAd(binding.adView)
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+
             binding.adView.listenForUpdates().collect { event: AdEvent ->
                 when (event) {
                     // send ad error to crashlytics
