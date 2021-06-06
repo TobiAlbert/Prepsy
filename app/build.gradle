@@ -9,6 +9,11 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+// load credentials file
+def keyStorePropertiesFile = rootProject.file('credentials.properties')
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keyStorePropertiesFile))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -52,10 +57,20 @@ android {
             dimension "default"
             applicationIdSuffix ".dev"
             versionNameSuffix "-Dev"
+
+            resValue "string", "question_page_ad_unit", keystoreProperties["DEV_BANNER_AD_UNIT"]
+            manifestPlaceholders = [
+                AD_MOB_APP_ID: keystoreProperties["DEV_AD_MOB_APP_ID"]
+            ]
         }
 
         production {
             dimension "default"
+
+            resValue "string", "question_page_ad_unit", keystoreProperties["QUESTION_PAGE_AD_UNIT"]
+            manifestPlaceholders = [
+                AD_MOB_APP_ID: keystoreProperties["PROD_AD_MOB_APP_ID"]
+            ]
         }
     }
 }
@@ -107,4 +122,10 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:27.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+
+    // google mobile sdk
+    implementation 'com.google.android.gms:play-services-ads:20.1.0'
+
+    // Timber for logging
+    implementation "com.jakewharton.timber:timber:$timber"
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.ViewCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -99,7 +100,7 @@ class HomeFragment : Fragment() {
         }
 
         val paddingTop = binding.textView.paddingTop
-        binding.textView.setOnApplyWindowInsetsListener { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.textView) { v, insets ->
             v.updatePadding(top = insets.systemWindowInsetTop + paddingTop)
             insets
         }

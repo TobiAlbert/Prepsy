@@ -7,10 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.updatePadding
+import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.prepsy.R
@@ -25,13 +26,25 @@ import app.prepsy.ui.questions.adapters.QuestionPageAdapter
 import app.prepsy.ui.questions.dialog.QuestionNavigationDialog
 import app.prepsy.utils.getActionSnackBar
 import app.prepsy.utils.onPageSelected
+import app.prepsy.vendors.ads.AdEvent
+import app.prepsy.vendors.ads.IAdManager
+import app.prepsy.vendors.ads.listenForUpdates
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class QuestionPageFragment : Fragment() {
+
+    @Inject
+    lateinit var adManager: IAdManager
+
     @Inject
     lateinit var sharedPrefsManager: SharedPreferenceManagers
     private val questionViewModel: QuestionViewModel by viewModels()
@@ -103,9 +116,37 @@ class QuestionPageFragment : Fragment() {
         }
 
         val topPadding = binding.appbar.paddingTop
-        binding.appbar.setOnApplyWindowInsetsListener { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.appbar) { v, insets ->
             v.updatePadding(top = insets.systemWindowInsetTop + topPadding)
             insets
+        }
+
+        val marginBottom = binding.adView.marginBottom
+        ViewCompat.setOnApplyWindowInsetsListener(binding.adView) { v, insets ->
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.systemWindowInsetLeft
+                rightMargin = insets.systemWindowInsetRight
+                bottomMargin = insets.systemWindowInsetBottom + marginBottom
+            }
+            insets
+        }
+
+        adManager.loadAd(binding.adView)
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+
+            binding.adView.listenForUpdates().collect { event: AdEvent ->
+                when (event) {
+                    // send ad error to crashlytics
+                    is AdEvent.AdFailedToLoad -> {
+                        val exception = Exception(event.toString())
+                        FirebaseCrashlytics.getInstance().recordException(exception)
+                    }
+
+                    // do nothing for other events
+                    else -> Unit
+                }
+            }
         }
     }
 
