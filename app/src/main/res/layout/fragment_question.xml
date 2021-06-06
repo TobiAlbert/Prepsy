@@ -21,10 +21,15 @@
         android:textColor="@color/black"
         tools:text="A short response time is obtained in a liquid-in-glass thermometer when the"/>
 
-    <app.prepsy.ui.custom.AnswerRadioGroup
-        android:id="@+id/optionsRadioGroup"
-        android:layout_marginTop="32dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"/>
+        android:layout_height="match_parent">
+
+        <app.prepsy.ui.custom.AnswerRadioGroup
+            android:id="@+id/optionsRadioGroup"
+            android:layout_marginTop="32dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+    </ScrollView>
 </LinearLayout>
