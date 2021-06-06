@@ -14,3 +14,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# app credentials
+credentials.properties
+
+# db file
+/app/src/main/assets/database/*
