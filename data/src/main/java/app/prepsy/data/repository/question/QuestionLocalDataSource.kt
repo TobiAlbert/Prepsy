@@ -1,7 +1,17 @@
 package app.prepsy.data.repository.question
 
-import app.prepsy.data.models.Question
+import app.prepsy.data.models.QuestionData
+import app.prepsy.data.models.UserScoreData
+import kotlinx.coroutines.flow.Flow
 
 interface QuestionLocalDataSource {
-    fun getQuestions(subjectId: String, yearId: String): List<Question>
+    suspend fun  getQuestions(subjectId: String, yearId: String): List<QuestionData>
+
+    suspend fun getUserScore(subjectId: String, yearId: String): UserScoreData
+
+    suspend fun hasCompletedQuestions(subjectId: String, yearId: String): Boolean
+
+    fun getObservableQuestions(subjectId: String, yearId: String): Flow<List<QuestionData>>
+
+    suspend fun isTestInProgress(subjectId: String, yearId: String): Boolean
 }

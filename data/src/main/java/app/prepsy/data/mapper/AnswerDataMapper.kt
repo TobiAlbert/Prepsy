@@ -1,14 +1,22 @@
 package app.prepsy.data.mapper
 
-import app.prepsy.data.models.Option
+import app.prepsy.data.models.OptionData
 import javax.inject.Inject
-import app.prepsy.domain.entities.Option as OptionEntity
+import app.prepsy.domain.entities.OptionEntity as OptionEntity
 
-class AnswerDataMapper @Inject constructor(): Mapper<OptionEntity, Option> {
+class AnswerDataMapper @Inject constructor(): Mapper<OptionEntity, OptionData> {
 
-    override fun from(e: Option): OptionEntity =
-        OptionEntity(alphabet = e.alphabet, text = e.text)
+    override fun from(e: OptionData): OptionEntity =
+        OptionEntity(
+            id = e.id,
+            text = e.text,
+            questionId = e.questionId
+        )
 
-    override fun to(t: OptionEntity): Option =
-        Option(alphabet = t.alphabet, text = t.text)
+    override fun to(t: OptionEntity): OptionData =
+        OptionData(
+            id = t.id,
+            text = t.text,
+            questionId = t.questionId
+        )
 }

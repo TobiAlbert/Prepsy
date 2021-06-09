@@ -1,7 +1,17 @@
 package app.prepsy.domain.repository
 
-import app.prepsy.domain.entities.Question
+import app.prepsy.domain.entities.QuestionEntity
+import app.prepsy.domain.entities.UserScoreEntity
+import kotlinx.coroutines.flow.Flow
 
 interface QuestionRepository {
-    fun getQuestions(subjectId: String, yearId: String): List<Question>
+    suspend fun getQuestions(subjectId: String, yearId: String): List<QuestionEntity>
+
+    suspend fun getUserScore(subjectId: String, yearId: String): UserScoreEntity
+
+    suspend fun hasCompletedQuestions(subjectId: String, yearId: String): Boolean
+
+    fun getObservableQuestions(subjectId: String, yearId: String): Flow<List<QuestionEntity>>
+
+    suspend fun isTestInProgress(subjectId: String, yearId: String): Boolean
 }

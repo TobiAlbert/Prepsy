@@ -2,8 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     tools:context=".ui.questions.QuestionPageFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -21,9 +24,10 @@
 
             <TextView
                 android:id="@+id/questionNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:textColor="@color/black"
+                android:gravity="center"
                 android:layout_gravity="center"
                 tools:text="23/40"/>
         </androidx.appcompat.widget.Toolbar>
@@ -40,14 +44,29 @@
         app:bidirectionalAnimate="true"
         app:progressColor="@color/question_progress_indicator"/>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager"
-        android:layout_marginStart="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
+    <RelativeLayout
         android:layout_marginTop="@dimen/question_margin_top"
-        android:layout_width="match_parent"
         android:layout_below="@+id/progressBar"
-        android:layout_height="wrap_content"
-        tools:context=".ui.questions.QuestionPageFragment"/>
+        android:layout_width="match_parent"
+        android:background="@color/question_background"
+        android:layout_height="match_parent">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="24dp"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/question_page_ad_unit"/>
+    </RelativeLayout>
+
 </RelativeLayout>

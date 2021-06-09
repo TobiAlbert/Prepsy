@@ -17,6 +17,10 @@
     <color name="question_progress_indicator">#4FB5A4</color>
     <color name="button_red">#E79B9B</color>
     <color name="background_green">#ACDCD4</color>
+    <color name="question_answered">#ACDCD4</color>
+    <color name="question_unanswered">#E79B9B</color>
+    <color name="correct_answer">@color/primary_green</color>
+    <color name="wrong_answer">#E79B9B</color>
     <color name="splash_background_yellow">#F3E863</color>
     <color name="gray">@android:color/darker_gray</color>
     <color name="question_background">#F4FAF9</color>

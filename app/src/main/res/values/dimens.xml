@@ -8,4 +8,6 @@
     <dimen name="result_card_elevation">4dp</dimen>
     <dimen name="question_margin_top">64dp</dimen>
     <dimen name="question_padding">16dp</dimen>
+    <dimen name="option_card_corner_radius">4dp</dimen>
+    <dimen name="question_nav_padding">8dp</dimen>
 </resources>

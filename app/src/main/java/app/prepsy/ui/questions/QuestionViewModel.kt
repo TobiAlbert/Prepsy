@@ -1,38 +1,61 @@
 package app.prepsy.ui.questions
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import app.prepsy.domain.usecases.GetQuestions
-import app.prepsy.domain.usecases.SaveAnswer
+import androidx.lifecycle.*
+import app.prepsy.domain.entities.QuestionEntity
+import app.prepsy.domain.entities.UserScoreEntity
+import app.prepsy.domain.usecases.*
 import app.prepsy.ui.mappers.Mapper
-import app.prepsy.ui.models.Option
 import app.prepsy.ui.models.Question
+import app.prepsy.ui.models.UserScore
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-import app.prepsy.domain.entities.Option as OptionEntity
-import app.prepsy.domain.entities.Question as QuestionEntity
 
 @HiltViewModel
 class QuestionViewModel @Inject constructor(
     private val saveUserAnswer: SaveAnswer,
     private val getQuestions: GetQuestions,
-    private val answerMapper: Mapper<Option, OptionEntity>,
+    private val getUserScore: GetUserScore,
+    private val hasCompleteQuestionUseCase: HasCompleteQuestionUseCase,
+    private val getObservableQuestions: GetObservableQuestionsUseCase,
+    private val userScoreMapper: Mapper<UserScore, UserScoreEntity>,
     private val questionMapper: Mapper<Question, QuestionEntity>,
 ) : ViewModel() {
 
     private val questions = MutableLiveData<List<Question>>()
 
-    init {
-        getTestQuestions("", "")
-    }
-
     fun getQuestions(): LiveData<List<Question>> = questions
 
-    private fun getTestQuestions(subjectId: String, yearId: String): List<Question> =
-        getQuestions(subjectId, yearId).map { questionMapper.from(it) }
-            .also { questions.postValue(it) }
+    fun getTestQuestions(subjectId: String, yearId: String) {
+        viewModelScope.launch {
 
-    fun saveAnswer(option: Option, questionId: String) =
-        saveUserAnswer(answerMapper.to(option), questionId)
+            val questionResponse = getQuestions(subjectId, yearId).map { questionMapper.from(it) }
+            questions.postValue(questionResponse)
+        }
+    }
+
+    fun saveAnswer(questionId: String, optionId: String) {
+        viewModelScope.launch {
+            saveUserAnswer(questionId, optionId)
+        }
+    }
+
+    fun calculateScore(subjectId: String, yearId: String): LiveData<UserScore> = liveData {
+        val score: UserScoreEntity = getUserScore(subjectId, yearId)
+        emit(userScoreMapper.from(score))
+    }
+
+    fun onSubmitClicked(subjectId: String, yearId: String): LiveData<Boolean> = liveData {
+        val isComplete = hasCompleteQuestionUseCase(
+            subjectId = subjectId,
+            yearId = yearId
+        )
+        emit(isComplete)
+    }
+
+    fun getQuestionsFlow(subjectId: String, yearId: String): LiveData<List<Question>> {
+        return getObservableQuestions(subjectId, yearId)
+            .map { questionEntityList -> questionEntityList.map { questionMapper.from(it) } }.asLiveData()
+    }
 }

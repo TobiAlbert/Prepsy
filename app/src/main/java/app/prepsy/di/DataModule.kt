@@ -1,21 +1,21 @@
 package app.prepsy.di
 
-import app.prepsy.data.mapper.AnswerDataMapper
-import app.prepsy.data.mapper.Mapper
-import app.prepsy.data.mapper.QuestionDataMapper
-import app.prepsy.data.mapper.SubjectDataMapper
-import app.prepsy.data.models.Option
-import app.prepsy.data.models.Question
-import app.prepsy.data.models.Subject
+import app.prepsy.data.mapper.*
+import app.prepsy.data.models.*
 import app.prepsy.data.repository.answer.AnswerRepositoryImpl
 import app.prepsy.data.repository.question.QuestionRepositoryImpl
 import app.prepsy.data.repository.subject.SubjectRepositoryImpl
-import app.prepsy.domain.entities.Subject as SubjectEntity
+import app.prepsy.domain.entities.SubjectWithYearsEntity
+import app.prepsy.domain.entities.UserAnswerEntity
+import app.prepsy.domain.entities.UserScoreEntity
+import app.prepsy.domain.entities.YearEntity
+import app.prepsy.domain.entities.SubjectEntity as SubjectEntity
 import app.prepsy.domain.repository.AnswerRepository
 import app.prepsy.domain.repository.QuestionRepository
 import app.prepsy.domain.repository.SubjectRepository
-import app.prepsy.domain.entities.Question as QuestionEntity
-import app.prepsy.domain.entities.Option as OptionEntity
+import com.tobidaada.local.mapper.UserScoreLocalDataMapper
+import app.prepsy.domain.entities.QuestionEntity as QuestionEntity
+import app.prepsy.domain.entities.OptionEntity as OptionEntity
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,17 +28,37 @@ abstract class DataModule {
     @Binds
     abstract fun bindAnswerDataMapper(
         answerDataMapper: AnswerDataMapper
-    ): Mapper<OptionEntity, Option>
+    ): Mapper<OptionEntity, OptionData>
 
     @Binds
     abstract fun bindQuestionDataMapper(
         questionDataMapper: QuestionDataMapper
-    ): Mapper<QuestionEntity, Question>
+    ): Mapper<QuestionEntity, QuestionData>
 
     @Binds
     abstract fun bindSubjectDataMapper(
         subjectDataMapper: SubjectDataMapper
-    ): Mapper<SubjectEntity, Subject>
+    ): Mapper<SubjectEntity, SubjectData>
+
+    @Binds
+    abstract fun bindYearDataMapper(
+        yearDataMapper: YearsDataMapper
+    ): Mapper<YearEntity, YearData>
+
+    @Binds
+    abstract fun bindUserAnswerDataMapper(
+        userAnswerDataMapper: UserAnswerDataMapper
+    ): Mapper<UserAnswerEntity, UserAnswerData>
+
+    @Binds
+    abstract fun bindUserScoreDataMapper(
+        userScoreLocalDataMapper: UserScoreDataMapper
+    ): Mapper<UserScoreEntity, UserScoreData>
+
+    @Binds
+    abstract fun bindSubjectWithYears(
+        subjectsWithYearsDataMapper: SubjectsWithYearsDataMapper
+    ): Mapper<SubjectWithYearsEntity, SubjectWithYearsData>
 
     @Binds
     abstract fun bindQuestionRepository(

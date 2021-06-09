@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/question_nav_padding"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/closeBtn"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:text="@string/close_dialog_text"
+        android:gravity="center_vertical|end"
+        android:textSize="16sp"
+        android:layout_marginEnd="@dimen/question_nav_padding"
+        android:layout_gravity="end"/>
+
+    <GridView
+        android:id="@+id/questionNavGridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:numColumns="5"
+        android:scrollbars="none"/>
+
+</LinearLayout>
