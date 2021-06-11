@@ -51,10 +51,7 @@ class QuestionLocalDataSourceImpl @Inject constructor(
     override suspend fun hasCompletedQuestions(
         subjectId: String,
         yearId: String
-    ): Boolean = when (questionDao.hasCompletedQuestions(subjectId, yearId)) {
-        1 -> true
-        else -> false
-    }
+    ): Boolean = questionDao.hasCompletedQuestions(subjectId, yearId) == 1
 
     override fun getObservableQuestions(
         subjectId: String,
@@ -76,9 +73,6 @@ class QuestionLocalDataSourceImpl @Inject constructor(
     override suspend fun isTestInProgress(
         subjectId: String,
         yearId: String
-    ): Boolean = when (questionDao.getUserAnswersCount(subjectId, yearId)) {
-        0 -> false
-        else -> true
-    }
+    ): Boolean = questionDao.getUserAnswersCount(subjectId, yearId) != 0
 
 }
