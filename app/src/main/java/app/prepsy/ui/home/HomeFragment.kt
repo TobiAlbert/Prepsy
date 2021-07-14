@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentHomeBinding
+import app.prepsy.managers.SharedPreferenceManagers
 import app.prepsy.ui.models.Subject
 import app.prepsy.ui.models.SubjectWithYears
 import app.prepsy.ui.models.Year
@@ -22,11 +23,15 @@ import app.prepsy.ui.models.args.QuestionPageFragmentPayload
 import app.prepsy.ui.models.args.QuestionPageMode
 import app.prepsy.utils.capitalizeWords
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModels()
+
+    @Inject
+    lateinit var mSharedPreferenceManager: SharedPreferenceManagers
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -44,7 +49,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?  {
+    ): View  {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -87,6 +92,17 @@ class HomeFragment : Fragment() {
             // get current subject and year id
             val subjectId = mSelectedSubject.id
             val yearId = mSelectedYear.id
+
+
+            // save the last selected year id and subject id
+            mSharedPreferenceManager.saveString(
+                SharedPreferenceManagers.LAST_SELECTED_SUBJECT_ID,
+                subjectId
+            )
+            mSharedPreferenceManager.saveString(
+                SharedPreferenceManagers.LAST_SELECTED_YEAR_ID,
+                yearId
+            )
 
             homeViewModel.isTestInProgress(
                 subjectId = subjectId,
@@ -176,29 +192,47 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupSubjectsAdapter(subjects: List<Subject>) {
+        val lastSelectedSubjectId =
+            mSharedPreferenceManager.getString(
+                SharedPreferenceManagers.LAST_SELECTED_SUBJECT_ID,
+                ""
+            )
+
         // selected subjects
-        mSelectedSubject = subjects.first()
+        val selectedSubject: Subject =
+            subjects.firstOrNull { lastSelectedSubjectId == it.id } ?: subjects.first()
+
+        mSelectedSubject = selectedSubject
 
         // set up the subjects spinner
         mSubjectAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, subjects)
         binding.selectSubjectAT.setAdapter(mSubjectAdapter)
 
         binding.selectSubjectAT.setText(when {
-            subjects.size > 1 -> subjects.first().name
+            subjects.size > 1 -> mSelectedSubject.name
             else -> ""
         }, false)
     }
 
     private fun setupYearsAdapter(years: List<Year>) {
+        val lastSelectedYearId =
+            mSharedPreferenceManager.getString(
+                SharedPreferenceManagers.LAST_SELECTED_YEAR_ID,
+                ""
+            )
+
         // selected year
-        mSelectedYear = years.first()
+        val selectedYear =
+            years.firstOrNull { lastSelectedYearId == it.id } ?: years.first()
+
+        mSelectedYear = selectedYear
 
         // set up the years spinner
         mYearAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, years)
         binding.selectYearAT.setAdapter(mYearAdapter)
 
         binding.selectYearAT.setText(when {
-            years.size > 1 -> years.first().toString()
+            years.size > 1 -> selectedYear.toString()
             else -> ""
         }, false)
     }
