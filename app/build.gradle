@@ -128,4 +128,7 @@ dependencies {
 
     // Timber for logging
     implementation "com.jakewharton.timber:timber:$timber"
+
+    // math view
+    implementation 'io.github.kexanie.library:MathView:0.0.6'
 }
