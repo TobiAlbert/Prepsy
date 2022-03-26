@@ -10,20 +10,17 @@
         <item name="android:fontFamily">@font/raleway_font_family</item>
 
         <item name="android:actionMenuTextAppearance">@style/MenuTextAppearance</item>
+
     </style>
 
     <style name="BaseAppTheme.AppTheme">
         <!-- Status bar color. -->
-        <item name="android:navigationBarColor">@color/navbar_color</item>
         <item name="android:statusBarColor">@color/immersive_sys_ui</item>
     </style>
 
     <style name="BaseAppTheme.SplashTheme">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@drawable/splash_background</item>
-        <item name="android:statusBarColor">@color/splash_background_yellow</item>
-        <item name="android:navigationBarColor">@color/splash_background_yellow</item>
     </style>
 
     <style name="AppTheme.ResultPageTheme">

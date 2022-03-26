@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
 
         binding.selectSubjectAT.setAdapter(mSubjectAdapter)
         binding.selectSubjectAT.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, view, position, id ->
+            AdapterView.OnItemClickListener { _, _, position, _ ->
                 if (::mSubjects.isInitialized) {
                     val subject: Subject = mSubjects[position]
                     mSelectedSubject = subject
@@ -78,9 +78,13 @@ class HomeFragment : Fragment() {
             }
 
         binding.selectYearAT.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, view, position, id ->
+            AdapterView.OnItemClickListener { _, _, position, _ ->
                 if (::mYears.isInitialized) {
                     mSelectedYear = mYears[position]
+                    mSharedPreferenceManager.saveString(
+                        SharedPreferenceManagers.LAST_SELECTED_YEAR_ID,
+                        mYears[position].id
+                    )
                 }
             }
 
@@ -94,14 +98,10 @@ class HomeFragment : Fragment() {
             val yearId = mSelectedYear.id
 
 
-            // save the last selected year id and subject id
+            // save the last selected subject id
             mSharedPreferenceManager.saveString(
                 SharedPreferenceManagers.LAST_SELECTED_SUBJECT_ID,
                 subjectId
-            )
-            mSharedPreferenceManager.saveString(
-                SharedPreferenceManagers.LAST_SELECTED_YEAR_ID,
-                yearId
             )
 
             homeViewModel.isTestInProgress(
