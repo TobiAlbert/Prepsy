@@ -1,6 +1,6 @@
 package app.prepsy.ui.mappers
 
-import app.prepsy.domain.entities.YearEntity
+import app.prepsy.common.domain.entities.YearEntity
 import app.prepsy.ui.models.Year
 import javax.inject.Inject
 

@@ -1,10 +1,10 @@
 package app.prepsy.ui.home
 
 import androidx.lifecycle.*
-import app.prepsy.domain.entities.SubjectWithYearsEntity
-import app.prepsy.domain.usecases.ClearUserAnswersBySubjectAndYearUseCase
-import app.prepsy.domain.usecases.GetIsTestInProgressUseCase
-import app.prepsy.domain.usecases.GetSubjectWithYears
+import app.prepsy.common.domain.entities.SubjectWithYearsEntity
+import app.prepsy.common.domain.usecases.ClearUserAnswersForSubject
+import app.prepsy.common.domain.usecases.GetSubjectWithYears
+import app.prepsy.common.domain.usecases.IsTestInProgress
 import app.prepsy.ui.mappers.Mapper
 import app.prepsy.ui.models.SubjectWithYears
 import app.prepsy.ui.models.Year
@@ -15,8 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getSubjectYears: GetSubjectWithYears,
-    private val getIsTestInProgressUseCase: GetIsTestInProgressUseCase,
-    private val clearUserAnswersBySubjectAndYearUseCase: ClearUserAnswersBySubjectAndYearUseCase,
+    private val isTestInProgress: IsTestInProgress,
+    private val clearUserAnswersForSubject: ClearUserAnswersForSubject,
     private val subjectWithYearsMapper: Mapper<SubjectWithYears, SubjectWithYearsEntity>
 ): ViewModel() {
 
@@ -53,8 +53,8 @@ class HomeViewModel @Inject constructor(
         years.postValue(localYears[subjectIndex])
     }
 
-    fun isTestInProgress(subjectId: String, yearId: String): LiveData<Boolean> = liveData {
-        val response = getIsTestInProgressUseCase(
+    fun testInProgress(subjectId: String, yearId: String): LiveData<Boolean> = liveData {
+        val response = isTestInProgress(
             subjectId = subjectId,
             yearId = yearId
         )
@@ -63,7 +63,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun clearUserAnswersForTest(subjectId: String, yearId: String) = liveData<Boolean> {
-        clearUserAnswersBySubjectAndYearUseCase(subjectId = subjectId, yearId = yearId)
+        clearUserAnswersForSubject(subjectId = subjectId, yearId = yearId)
 
         // if we are there, then the previous block has returned and is done running
         emit(true)

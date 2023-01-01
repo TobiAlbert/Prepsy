@@ -1,8 +1,8 @@
 package app.prepsy.ui.mappers
 
-import app.prepsy.domain.entities.SubjectEntity
-import app.prepsy.domain.entities.SubjectWithYearsEntity
-import app.prepsy.domain.entities.YearEntity
+import app.prepsy.common.domain.entities.SubjectEntity
+import app.prepsy.common.domain.entities.SubjectWithYearsEntity
+import app.prepsy.common.domain.entities.YearEntity
 import app.prepsy.ui.models.Subject
 import app.prepsy.ui.models.SubjectWithYears
 import app.prepsy.ui.models.Year

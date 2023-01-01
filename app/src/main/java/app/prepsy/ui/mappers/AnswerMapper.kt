@@ -1,7 +1,7 @@
 package app.prepsy.ui.mappers
 
+import app.prepsy.common.domain.entities.OptionEntity
 import app.prepsy.ui.models.Option
-import app.prepsy.domain.entities.OptionEntity as OptionEntity
 import javax.inject.Inject
 
 class AnswerMapper @Inject constructor(): Mapper<Option, OptionEntity> {

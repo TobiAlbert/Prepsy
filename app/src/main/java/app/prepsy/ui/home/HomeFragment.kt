@@ -104,7 +104,7 @@ class HomeFragment : Fragment() {
                 subjectId
             )
 
-            homeViewModel.isTestInProgress(
+            homeViewModel.testInProgress(
                 subjectId = subjectId,
                 yearId = yearId
             ).observe(viewLifecycleOwner, Observer {

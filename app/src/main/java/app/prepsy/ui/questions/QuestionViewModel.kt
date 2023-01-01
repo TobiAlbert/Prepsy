@@ -1,9 +1,9 @@
 package app.prepsy.ui.questions
 
 import androidx.lifecycle.*
-import app.prepsy.domain.entities.QuestionEntity
-import app.prepsy.domain.entities.UserScoreEntity
-import app.prepsy.domain.usecases.*
+import app.prepsy.common.domain.entities.QuestionEntity
+import app.prepsy.common.domain.entities.UserScoreEntity
+import app.prepsy.common.domain.usecases.*
 import app.prepsy.ui.mappers.Mapper
 import app.prepsy.ui.models.Question
 import app.prepsy.ui.models.UserScore
@@ -17,7 +17,7 @@ class QuestionViewModel @Inject constructor(
     private val saveUserAnswer: SaveAnswer,
     private val getQuestions: GetQuestions,
     private val getUserScore: GetUserScore,
-    private val hasCompleteQuestionUseCase: HasCompleteQuestionUseCase,
+    private val hasCompletedQuestions: HasCompletedQuestions,
     private val getObservableQuestions: GetObservableQuestionsUseCase,
     private val userScoreMapper: Mapper<UserScore, UserScoreEntity>,
     private val questionMapper: Mapper<Question, QuestionEntity>,
@@ -47,7 +47,7 @@ class QuestionViewModel @Inject constructor(
     }
 
     fun onSubmitClicked(subjectId: String, yearId: String): LiveData<Boolean> = liveData {
-        val isComplete = hasCompleteQuestionUseCase(
+        val isComplete = hasCompletedQuestions(
             subjectId = subjectId,
             yearId = yearId
         )

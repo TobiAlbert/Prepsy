@@ -1,9 +1,9 @@
 package app.prepsy.ui.home
 
-import app.prepsy.domain.entities.SubjectWithYearsEntity
-import app.prepsy.domain.usecases.ClearUserAnswersBySubjectAndYearUseCase
-import app.prepsy.domain.usecases.GetIsTestInProgressUseCase
-import app.prepsy.domain.usecases.GetSubjectWithYears
+import app.prepsy.common.domain.entities.SubjectWithYearsEntity
+import app.prepsy.common.domain.usecases.ClearUserAnswersForSubject
+import app.prepsy.common.domain.usecases.IsTestInProgress
+import app.prepsy.common.domain.usecases.GetSubjects
 import app.prepsy.ui.mappers.Mapper
 import app.prepsy.ui.models.SubjectWithYears
 import io.mockk.coEvery
@@ -14,9 +14,9 @@ import org.junit.Before
 class HomeViewModelTest {
 
     private lateinit var viewModel: HomeViewModel
-    private lateinit var getSubjectYearsMock: GetSubjectWithYears
-    private lateinit var getIsTestInProgressUseCaseMock: GetIsTestInProgressUseCase
-    private lateinit var clearUserAnswersBySubjectAndYearUseCaseMock: ClearUserAnswersBySubjectAndYearUseCase
+    private lateinit var getSubjectYearsMock: GetSubjects
+    private lateinit var isTestInProgressMock: IsTestInProgress
+    private lateinit var clearUserAnswersForSubjectMock: ClearUserAnswersForSubject
     private lateinit var subjectWithYearsMapperMock: Mapper<SubjectWithYears, SubjectWithYearsEntity>
 
 
@@ -26,14 +26,14 @@ class HomeViewModelTest {
 
         coEvery { getSubjectYearsMock.invoke() } returns emptyList()
 
-        getIsTestInProgressUseCaseMock = mockk()
-        clearUserAnswersBySubjectAndYearUseCaseMock = mockk()
+        isTestInProgressMock = mockk()
+        clearUserAnswersForSubjectMock = mockk()
         subjectWithYearsMapperMock = mockk()
 
         viewModel = HomeViewModel(
             getSubjectYearsMock,
-            getIsTestInProgressUseCaseMock,
-            clearUserAnswersBySubjectAndYearUseCaseMock,
+            isTestInProgressMock,
+            clearUserAnswersForSubjectMock,
             subjectWithYearsMapperMock
         )
     }

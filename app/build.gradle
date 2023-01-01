@@ -77,10 +77,6 @@ android {
 
 dependencies {
 
-    implementation project(':domain')
-    implementation project(':data')
-    implementation project(':local')
-
     implementation 'androidx.core:core-ktx:1.4.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
@@ -111,6 +107,9 @@ dependencies {
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$roomVersion"
+
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version"
@@ -128,8 +127,8 @@ dependencies {
     // Timber for logging
     implementation "com.jakewharton.timber:timber:$timber"
 
-    // math view
-//    implementation 'io.github.kexanie.library:MathView:0.0.6'
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$roomVersion"
 }
 
 // Allow references to generated code

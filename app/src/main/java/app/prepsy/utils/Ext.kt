@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import app.prepsy.App
 import app.prepsy.R
 import app.prepsy.ui.models.Subject
 import com.google.android.material.snackbar.Snackbar
