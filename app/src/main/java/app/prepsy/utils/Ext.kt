@@ -52,7 +52,13 @@ fun View.showActionSnackBar(
 
 // String Extensions
 fun String.capitalizeWords(): String =
-    split(" ").joinToString(" ") { it.toLowerCase(Locale.US).capitalize(Locale.US) }
+    split(" ")
+        .joinToString(" ") { word: String ->
+            word.lowercase(Locale.US)
+                .replaceFirstChar { char: Char ->
+                    if (char.isLowerCase()) char.titlecase(Locale.US) else char.toString()
+                }
+        }
 
 // Int Extensions
 fun Int.toAlphabet(): String {
