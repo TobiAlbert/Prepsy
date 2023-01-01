@@ -43,7 +43,7 @@ fun AdView.listenForUpdates(): Flow<AdEvent> {
     return callbackFlow {
         val flowOffer: (AdEvent) -> Unit = {
             try {
-                offer(it)
+                trySend(it)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

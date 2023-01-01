@@ -1,6 +1,6 @@
 plugins {
     id 'java-library'
-    id 'kotlin'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 java {
@@ -10,8 +10,6 @@ java {
 
 dependencies {
     implementation project(':domain')
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     implementation "javax.inject:javax.inject:$javaInjectVersion"
 
