@@ -11,6 +11,7 @@ import com.tobidaada.local.dao.SubjectsDao
 import com.tobidaada.local.dao.UserAnswerDao
 import com.tobidaada.local.db.AppDatabase
 import com.tobidaada.local.mapper.*
+import com.tobidaada.local.migrations.callback
 import com.tobidaada.local.models.*
 import com.tobidaada.local.source.answers.UserAnswerLocalDataSourceImpl
 import com.tobidaada.local.source.question.QuestionLocalDataSourceImpl
@@ -85,6 +86,7 @@ object LocalModule {
             "app.db"
         )
             .createFromAsset("database/asset.db")
+            .addCallback(callback)
             .build()
 
     @Provides

@@ -26,7 +26,7 @@ class QuestionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentQuestionBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -48,7 +48,6 @@ class QuestionFragment : Fragment() {
                     id = View.generateViewId()
                     setOption(index.inc().toAlphabet(), option.text)
                     setOnClickListener { onOptionSelected(question.id, option.id) }
-                    binding.optionsRadioGroup.addView(this)
 
                     isEnabled = mode == QuestionPageMode.QUESTION_MODE
 
@@ -68,6 +67,8 @@ class QuestionFragment : Fragment() {
                             }
                         }
                     }
+
+                    binding.optionsRadioGroup.addView(this)
                 }
             }
         }

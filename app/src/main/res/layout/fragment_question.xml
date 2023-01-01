@@ -24,11 +24,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <app.prepsy.ui.custom.AnswerRadioGroup
-            android:id="@+id/optionsRadioGroup"
-            android:layout_marginTop="32dp"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical">
+            <app.prepsy.ui.custom.AnswerRadioGroup
+                android:id="@+id/optionsRadioGroup"
+                android:paddingBottom="32dp"
+                android:paddingTop="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 </LinearLayout>

@@ -1,11 +1,11 @@
 ext {
     androidx_hilt = "1.0.0-alpha03"
-    dagger_hilt = "2.31.2-alpha"
+    dagger_hilt = "2.44"
     javaInjectVersion = '1'
-    jetpackNavigation = "2.3.3"
+    jetpackNavigation = "2.5.3"
     viewPager2 = "1.0.0"
-    roomVersion = "2.2.6"
-    liveDataKtx = '2.2.0'
+    roomVersion = "2.4.0"
+    liveDataKtx = '2.5.1'
     timber = '4.7.1'
     coroutines_android_version = '1.4.2'
 }
