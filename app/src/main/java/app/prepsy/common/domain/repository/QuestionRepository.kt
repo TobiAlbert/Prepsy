@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.Flow
 interface QuestionRepository {
     suspend fun getQuestions(subjectId: String, yearId: String): List<QuestionEntity>
 
+    suspend fun getNumberOfQuestions(subjectId: String, yearId: String): Int
+
     suspend fun getUserScore(subjectId: String, yearId: String): UserScoreEntity
 
     suspend fun hasCompletedQuestions(subjectId: String, yearId: String): Boolean

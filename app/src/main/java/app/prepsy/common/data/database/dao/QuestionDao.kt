@@ -17,6 +17,12 @@ interface QuestionDao {
         yearId: String
     ): List<QuestionOptionsUserAnswer>
 
+    @Query("select count(*) from questions where subject_id = :subjectId and year_id = :yearId")
+    suspend fun getNumberOfQuestions(
+        subjectId: String,
+        yearId: String
+    ): Int
+
     @Transaction
     @Query("select * from questions where subject_id = :subjectId and year_id = :yearId")
     fun getObservableQuestions(

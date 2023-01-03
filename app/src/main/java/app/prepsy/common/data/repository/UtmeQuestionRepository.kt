@@ -21,6 +21,15 @@ class UtmeQuestionRepository @Inject constructor(
             yearId = yearId
         ).map(QuestionOptionsUserAnswer::toDomain)
 
+    override suspend fun getNumberOfQuestions(
+        subjectId: String,
+        yearId: String
+    ): Int =
+        questionDao.getNumberOfQuestions(
+            subjectId = subjectId,
+            yearId = yearId
+        )
+
     override suspend fun getUserScore(
         subjectId: String,
         yearId: String,

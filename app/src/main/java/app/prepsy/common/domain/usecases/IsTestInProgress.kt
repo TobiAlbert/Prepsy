@@ -13,7 +13,7 @@ class IsTestInProgress @Inject constructor(
         subjectId: String,
         yearId: String
     ): Boolean = withContext(appDispatcher.io) {
-        val questionSize = repo.getQuestions(subjectId, yearId).size
+        val questionSize = repo.getNumberOfQuestions(subjectId, yearId)
 
         if (questionSize == 0) {
             return@withContext false
