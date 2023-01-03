@@ -6,16 +6,12 @@ import java.util.*
 
 @Dao
 interface SubjectsDao {
-    @Query("select * from subjects")
+
+    @Query("select * from subjects as subjects inner join(select subject_id from subject_years group by subject_id) as d1 on d1.subject_id = subjects.id order by subjects.name asc")
     suspend fun getAll(): List<SubjectLocal>
 
-    @Transaction
-    @Query("select * from subjects where id = :subjectId")
-    suspend fun getYearsBySubjectId(subjectId: String): List<SubjectWithYearsLocal>
-
-    @Transaction
-    @Query("select * from subjects as subjects inner join(select subject_id from subject_years group by subject_id) as d1 on d1.subject_id = subjects.id order by subjects.name asc")
-    suspend fun getSubjectsAndYears(): List<SubjectWithYearsLocal>
+    @Query("select year_id as id, year_id as name, created_at, updated_at from subject_years where subject_id = :subjectId")
+    suspend fun getYearsForSubject(subjectId: String): List<YearLocal>
 
     /*
         All the functions below are used for initializing test data

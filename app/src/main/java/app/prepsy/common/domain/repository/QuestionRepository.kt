@@ -13,5 +13,5 @@ interface QuestionRepository {
 
     fun getObservableQuestions(subjectId: String, yearId: String): Flow<List<QuestionEntity>>
 
-    suspend fun isTestInProgress(subjectId: String, yearId: String): Boolean
+    suspend fun getUserAnswersCount(subjectId: String, yearId: String): Int
 }

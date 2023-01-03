@@ -3,6 +3,8 @@ package app.prepsy.di
 import app.prepsy.common.domain.entities.*
 import app.prepsy.ui.mappers.*
 import app.prepsy.ui.models.*
+import app.prepsy.utils.AppCoroutineDispatcher
+import app.prepsy.utils.AppDispatcher
 import app.prepsy.vendors.ads.AdMobManager
 import app.prepsy.vendors.ads.IAdManager
 import dagger.Binds
@@ -47,4 +49,9 @@ abstract class AppModule {
     abstract fun adsManager(
         adManager: AdMobManager
     ): IAdManager
+
+    @Binds
+    abstract fun appDispatcher(
+        coroutineDispatcher: AppCoroutineDispatcher
+    ): AppDispatcher
 }

@@ -48,14 +48,13 @@ class UtmeQuestionRepository @Inject constructor(
             yearId = yearId
         ).map { it.map(QuestionOptionsUserAnswer::toDomain) }
 
-    override suspend fun isTestInProgress(
+    override suspend fun getUserAnswersCount(
         subjectId: String,
         yearId: String,
-    ): Boolean =
-        questionDao.hasCompletedQuestions(
-            subjectId = subjectId,
-            yearId = yearId,
-        ).toBoolean().not()
+    ): Int = questionDao.getUserAnswersCount(
+        subjectId = subjectId,
+        yearId = yearId,
+    )
 
     private fun Int.toBoolean(): Boolean = this > 0
 }

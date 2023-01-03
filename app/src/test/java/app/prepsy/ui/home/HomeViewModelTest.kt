@@ -2,7 +2,6 @@ package app.prepsy.ui.home
 
 import app.prepsy.common.domain.entities.SubjectWithYearsEntity
 import app.prepsy.common.domain.usecases.ClearUserAnswersForSubject
-import app.prepsy.common.domain.usecases.IsTestInProgress
 import app.prepsy.common.domain.usecases.GetSubjects
 import app.prepsy.ui.mappers.Mapper
 import app.prepsy.ui.models.SubjectWithYears
@@ -15,7 +14,6 @@ class HomeViewModelTest {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var getSubjectYearsMock: GetSubjects
-    private lateinit var isTestInProgressMock: IsTestInProgress
     private lateinit var clearUserAnswersForSubjectMock: ClearUserAnswersForSubject
     private lateinit var subjectWithYearsMapperMock: Mapper<SubjectWithYears, SubjectWithYearsEntity>
 
@@ -26,15 +24,14 @@ class HomeViewModelTest {
 
         coEvery { getSubjectYearsMock.invoke() } returns emptyList()
 
-        isTestInProgressMock = mockk()
         clearUserAnswersForSubjectMock = mockk()
         subjectWithYearsMapperMock = mockk()
 
-        viewModel = HomeViewModel(
-            getSubjectYearsMock,
-            isTestInProgressMock,
-            clearUserAnswersForSubjectMock,
-            subjectWithYearsMapperMock
-        )
+//        viewModel = HomeViewModel(
+//            getSubjectYearsMock,
+//            isTestInProgressMock,
+//            clearUserAnswersForSubjectMock,
+//            subjectWithYearsMapperMock
+//        )
     }
 }

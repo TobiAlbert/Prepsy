@@ -17,7 +17,7 @@ class QuestionViewModel @Inject constructor(
     private val saveUserAnswer: SaveAnswer,
     private val getQuestions: GetQuestions,
     private val getUserScore: GetUserScore,
-    private val hasCompletedQuestions: HasCompletedQuestions,
+    private val isTestInProgress: IsTestInProgress,
     private val getObservableQuestions: GetObservableQuestionsUseCase,
     private val userScoreMapper: Mapper<UserScore, UserScoreEntity>,
     private val questionMapper: Mapper<Question, QuestionEntity>,
@@ -47,7 +47,7 @@ class QuestionViewModel @Inject constructor(
     }
 
     fun onSubmitClicked(subjectId: String, yearId: String): LiveData<Boolean> = liveData {
-        val isComplete = hasCompletedQuestions(
+        val isComplete = isTestInProgress(
             subjectId = subjectId,
             yearId = yearId
         )
