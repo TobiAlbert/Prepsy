@@ -38,7 +38,7 @@ class IsTestInProgressTest {
     }
 
     @Test
-    fun `test is in progress if there has attempted more than one question but not all`() =
+    fun `test is in progress if the user has attempted more than at least one question but not all`() =
         runTest {
             coEvery { repo.getQuestions(any(), any()) } returns MutableList(size = 10) { question }
             coEvery { repo.getUserAnswersCount(any(), any()) } returns 1
