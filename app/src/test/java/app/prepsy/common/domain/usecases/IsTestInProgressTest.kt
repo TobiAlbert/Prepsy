@@ -20,8 +20,6 @@ class IsTestInProgressTest {
     private val repo: QuestionRepository = mockk()
     private val dispatcher = AppTestDispatcher()
 
-    private val question: QuestionEntity = mockk()
-
     @Before
     fun setup() {
         useCase = IsTestInProgress(
@@ -32,15 +30,15 @@ class IsTestInProgressTest {
 
     @Test
     fun `test is not in progress if there are no questions`() = runTest {
-        coEvery { repo.getQuestions(any(), any()) } returns emptyList()
+        coEvery { repo.getNumberOfQuestions(any(), any()) } returns 0
 
         assertThat(invokeUseCase()).isFalse()
     }
 
     @Test
-    fun `test is in progress if the user has attempted more than at least one question but not all`() =
+    fun `test is in progress if the user has attempted at least one question but not all`() =
         runTest {
-            coEvery { repo.getQuestions(any(), any()) } returns MutableList(size = 10) { question }
+            coEvery { repo.getNumberOfQuestions(any(), any()) } returns 10
             coEvery { repo.getUserAnswersCount(any(), any()) } returns 1
 
             assertThat(invokeUseCase()).isTrue()
@@ -48,7 +46,7 @@ class IsTestInProgressTest {
 
     @Test
     fun `test is not in progress is user has attempted all questions`() = runTest {
-        coEvery { repo.getQuestions(any(), any()) } returns MutableList(size = 10) { question }
+        coEvery { repo.getNumberOfQuestions(any(), any()) } returns 10
         coEvery { repo.getUserAnswersCount(any(), any()) } returns 10
 
         assertThat(invokeUseCase()).isFalse()
@@ -56,7 +54,7 @@ class IsTestInProgressTest {
 
     @Test
     fun `test is not in progress if user has attempted none of the questions`() = runTest {
-        coEvery { repo.getQuestions(any(), any()) } returns MutableList(size = 10) { question }
+        coEvery { repo.getNumberOfQuestions(any(), any()) } returns 10
         coEvery { repo.getUserAnswersCount(any(), any()) } returns 0
 
         assertThat(invokeUseCase()).isFalse()
