@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class SharedPreferenceManagers @Inject constructor(
     @ApplicationContext private val context: Context
-) {
+): AppPreferences {
     companion object {
         private const val SHARED_PREF_NAME = "app.prepsy.shared__prefs"
         const val HAS_SWIPED = "has_swiped"
@@ -21,17 +21,17 @@ class SharedPreferenceManagers @Inject constructor(
     private fun getEditor(): SharedPreferences.Editor =
         getSharedPrefs().edit()
 
-    fun saveBoolean(key: String, value: Boolean) {
+    override fun saveBoolean(key: String, value: Boolean) {
         getEditor().putBoolean(key, value).apply()
     }
 
-    fun getBoolean(key: String, defaultValue: Boolean = false): Boolean =
+    override fun getBoolean(key: String, defaultValue: Boolean): Boolean =
         getSharedPrefs().getBoolean(key, defaultValue)
 
-    fun saveString(key: String, value: String) {
+    override fun saveString(key: String, value: String) {
         getEditor().putString(key, value).apply()
     }
 
-    fun getString(key: String, defaultValue: String = ""): String =
+    override fun getString(key: String, defaultValue: String): String =
         getSharedPrefs().getString(key, defaultValue) ?: defaultValue
 }

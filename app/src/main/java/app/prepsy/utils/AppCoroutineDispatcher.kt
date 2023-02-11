@@ -14,5 +14,5 @@ class AppCoroutineDispatcher @Inject constructor() : AppDispatcher {
         get() = Dispatchers.IO
 
     override val main: CoroutineDispatcher
-        get() = Dispatchers.Main
+        get() = Dispatchers.Main.immediate
 }

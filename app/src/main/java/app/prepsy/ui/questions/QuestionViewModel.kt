@@ -1,6 +1,7 @@
 package app.prepsy.ui.questions
 
 import androidx.lifecycle.*
+import androidx.work.WorkContinuation.combine
 import app.prepsy.common.domain.entities.QuestionEntity
 import app.prepsy.common.domain.entities.UserScoreEntity
 import app.prepsy.common.domain.usecases.*
@@ -8,7 +9,7 @@ import app.prepsy.ui.mappers.Mapper
 import app.prepsy.ui.models.Question
 import app.prepsy.ui.models.UserScore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,6 +23,24 @@ class QuestionViewModel @Inject constructor(
     private val userScoreMapper: Mapper<UserScore, UserScoreEntity>,
     private val questionMapper: Mapper<Question, QuestionEntity>,
 ) : ViewModel() {
+
+
+    data class QuestionPageViewState(
+        val questions: List<Question> = emptyList()
+    )
+
+    private val state: StateFlow<QuestionPageViewState> =
+        getObservableQuestions.invoke(
+            subjectId = "",
+            yearId = ""
+        )
+            .map { it.map(questionMapper::from) }
+            .map { QuestionPageViewState(questions = it) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(),
+                initialValue = QuestionPageViewState()
+            )
 
     private val questions = MutableLiveData<List<Question>>()
 
@@ -56,6 +75,7 @@ class QuestionViewModel @Inject constructor(
 
     fun getQuestionsFlow(subjectId: String, yearId: String): LiveData<List<Question>> {
         return getObservableQuestions(subjectId, yearId)
-            .map { questionEntityList -> questionEntityList.map { questionMapper.from(it) } }.asLiveData()
+            .map { questionEntityList -> questionEntityList.map { questionMapper.from(it) } }
+            .asLiveData()
     }
 }

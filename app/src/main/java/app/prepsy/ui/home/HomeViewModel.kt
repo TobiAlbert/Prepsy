@@ -8,6 +8,7 @@ import app.prepsy.common.domain.usecases.ClearUserAnswersForSubject
 import app.prepsy.common.domain.usecases.GetSubjects
 import app.prepsy.common.domain.usecases.GetYearsForSubject
 import app.prepsy.common.domain.usecases.IsTestInProgress
+import app.prepsy.managers.AppPreferences
 import app.prepsy.managers.SharedPreferenceManagers
 import app.prepsy.utils.AppDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,7 @@ class HomeViewModel @Inject constructor(
     private val getYearsForSubject: GetYearsForSubject,
     private val isTestInProgress: IsTestInProgress,
     private val clearUserAnswersForSubject: ClearUserAnswersForSubject,
-    private val preferenceManager: SharedPreferenceManagers,
+    private val preferenceManager: AppPreferences,
     private val appDispatcher: AppDispatcher,
 ) : ViewModel() {
 

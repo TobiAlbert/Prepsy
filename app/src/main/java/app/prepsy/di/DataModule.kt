@@ -6,6 +6,8 @@ import app.prepsy.common.data.repository.UtmeSubjectRepository
 import app.prepsy.common.domain.repository.AnswerRepository
 import app.prepsy.common.domain.repository.QuestionRepository
 import app.prepsy.common.domain.repository.SubjectRepository
+import app.prepsy.managers.AppPreferences
+import app.prepsy.managers.SharedPreferenceManagers
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -29,4 +31,9 @@ abstract class DataModule {
     abstract fun bindSubjectRepository(
         subjectRepositoryImpl: UtmeSubjectRepository
     ): SubjectRepository
+
+    @Binds
+    abstract fun bindAppPreferences(
+        sharedPreferenceManagers: SharedPreferenceManagers
+    ): AppPreferences
 }

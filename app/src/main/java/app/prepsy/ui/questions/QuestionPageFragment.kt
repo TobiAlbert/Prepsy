@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,9 +22,9 @@ import app.prepsy.databinding.FragmentQuestionPageBinding
 import app.prepsy.managers.SharedPreferenceManagers
 import app.prepsy.managers.SharedPreferenceManagers.Companion.HAS_SWIPED
 import app.prepsy.ui.models.Question
-import app.prepsy.ui.models.args.ResultFragmentPayload
 import app.prepsy.ui.models.UserScore
 import app.prepsy.ui.models.args.QuestionPageMode
+import app.prepsy.ui.models.args.ResultFragmentPayload
 import app.prepsy.ui.questions.adapters.QuestionPageAdapter
 import app.prepsy.ui.questions.dialog.QuestionNavigationDialog
 import app.prepsy.utils.getActionSnackBar
@@ -33,8 +36,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -47,7 +48,7 @@ class QuestionPageFragment : Fragment() {
 
     @Inject
     lateinit var sharedPrefsManager: SharedPreferenceManagers
-    private val questionViewModel: QuestionViewModel by viewModels()
+    private val questionViewModel: QuestionViewModel by activityViewModels()
     private val args: QuestionPageFragmentArgs by navArgs()
 
     private lateinit var mSnackBar: Snackbar
@@ -73,12 +74,12 @@ class QuestionPageFragment : Fragment() {
         // handle back button press
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
-            object: OnBackPressedCallback(true) {
+            object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     dismissSnackBarIfShown()
                     findNavController().navigateUp()
                 }
-        })
+            })
 
         val mode: QuestionPageMode = args.args.mode
 
@@ -179,7 +180,8 @@ class QuestionPageFragment : Fragment() {
                 val hasSwiped: Boolean =
                     sharedPrefsManager.getBoolean(HAS_SWIPED)
 
-                val swipeCallback: (View) -> Unit = { sharedPrefsManager.saveBoolean(HAS_SWIPED, true) }
+                val swipeCallback: (View) -> Unit =
+                    { sharedPrefsManager.saveBoolean(HAS_SWIPED, true) }
 
                 when {
                     !hasSwiped -> showSwipeInfoSnackBar(swipeCallback)
@@ -198,11 +200,12 @@ class QuestionPageFragment : Fragment() {
                     questions = questions,
                     mode = args.args.mode
                 )
-                .apply {
-                    isCancelable = true
-                    onQuestionSelected = { position: Int -> binding.viewpager.currentItem = position }
-                }
-                .show(requireActivity().supportFragmentManager, "")
+                    .apply {
+                        isCancelable = true
+                        onQuestionSelected =
+                            { position: Int -> binding.viewpager.currentItem = position }
+                    }
+                    .show(requireActivity().supportFragmentManager, "")
             }
         })
     }
