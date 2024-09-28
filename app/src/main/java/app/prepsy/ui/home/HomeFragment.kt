@@ -1,56 +1,48 @@
 package app.prepsy.ui.home
 
-import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.core.view.ViewCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import app.prepsy.R
 import app.prepsy.databinding.FragmentHomeBinding
-import app.prepsy.managers.SharedPreferenceManagers
 import app.prepsy.ui.models.Subject
-import app.prepsy.ui.models.SubjectWithYears
 import app.prepsy.ui.models.Year
 import app.prepsy.ui.models.args.QuestionPageFragmentPayload
 import app.prepsy.ui.models.args.QuestionPageMode
-import app.prepsy.utils.capitalizeWords
+import app.prepsy.utils.displayAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    @Inject
+    lateinit var mSubjectAdapter: HomeAdapter<Subject>
 
     @Inject
-    lateinit var mSharedPreferenceManager: SharedPreferenceManagers
+    lateinit var mYearAdapter: HomeAdapter<Year>
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
-
-    private lateinit var mSubjects: List<Subject>
-    private lateinit var mYears: List<Year>
-
-    private lateinit var mSubjectAdapter: ArrayAdapter<Subject>
-    private lateinit var mYearAdapter: ArrayAdapter<Year>
-
-    private lateinit var mSelectedSubject: Subject
-    private lateinit var mSelectedYear: Year
+    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View  {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -62,57 +54,18 @@ class HomeFragment : Fragment() {
 
     private fun setupUi() {
 
-        mSubjectAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, mutableListOf())
-        mYearAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, mutableListOf())
-
-        binding.selectYearAT.setAdapter(mYearAdapter)
-
-        binding.selectSubjectAT.setAdapter(mSubjectAdapter)
         binding.selectSubjectAT.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
-                if (::mSubjects.isInitialized) {
-                    val subject: Subject = mSubjects[position]
-                    mSelectedSubject = subject
-                    homeViewModel.getAvailableYearsForSubject(subject.id)
-                }
+                homeViewModel.onSubjectSelected(position)
             }
 
         binding.selectYearAT.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
-                if (::mYears.isInitialized) {
-                    mSelectedYear = mYears[position]
-                    mSharedPreferenceManager.saveString(
-                        SharedPreferenceManagers.LAST_SELECTED_YEAR_ID,
-                        mYears[position].id
-                    )
-                }
+                homeViewModel.onYearSelected(position)
             }
 
         binding.viewQuestionsBtn.setOnClickListener {
-            // ensure there are loaded subjects
-            if (!::mSubjects.isInitialized) return@setOnClickListener
-            if (!::mYears.isInitialized) return@setOnClickListener
-
-            // get current subject and year id
-            val subjectId = mSelectedSubject.id
-            val yearId = mSelectedYear.id
-
-
-            // save the last selected subject id
-            mSharedPreferenceManager.saveString(
-                SharedPreferenceManagers.LAST_SELECTED_SUBJECT_ID,
-                subjectId
-            )
-
-            homeViewModel.isTestInProgress(
-                subjectId = subjectId,
-                yearId = yearId
-            ).observe(viewLifecycleOwner, Observer {
-                when (it) {
-                    true -> showQuestionInProgressDialog(subjectId = subjectId, yearId = yearId)
-                    else -> navigateToQuestions(subjectId = subjectId, yearId = yearId)
-                }
-            })
+            homeViewModel.viewQuestions()
         }
 
         val paddingTop = binding.textView.paddingTop
@@ -123,30 +76,28 @@ class HomeFragment : Fragment() {
     }
 
     private fun showQuestionInProgressDialog(subjectId: String, yearId: String) {
-        AlertDialog.Builder(requireActivity())
-            .setMessage(getString(R.string.question_in_progress_dialog_message))
-            .setPositiveButton(
-                getString(R.string.question_in_progress_dialog_positive_button_text)
-            ) { _, _ ->
-                navigateToQuestions(subjectId = subjectId, yearId = yearId)
-            }
-            .setNegativeButton(
-                getString(R.string.question_in_progress_dialog_negative_button_text)
-            ) { _, _  ->
-                clearUserAnswersForTest(subjectId = subjectId, yearId = yearId)
-            }
-            .setCancelable(true)
-            .create()
-            .show()
-    }
+        val onPositiveClicked = { _: DialogInterface, _: Int ->
+            homeViewModel.navigateToQuestions(
+                subjectId = subjectId,
+                yearId = yearId
+            )
+        }
 
-    private fun clearUserAnswersForTest(subjectId: String, yearId: String) {
-        homeViewModel.clearUserAnswersForTest(
-            subjectId = subjectId,
-            yearId = yearId
-        ).observe(viewLifecycleOwner, Observer {
-            if (it) navigateToQuestions(subjectId, yearId)
-        })
+        val onNegativeClicked = { _: DialogInterface, _: Int ->
+            homeViewModel.clearUserAnswersForTest(
+                subjectId = subjectId,
+                yearId = yearId
+            )
+        }
+
+        displayAlertDialog(
+            context = requireContext(),
+            message = R.string.question_in_progress_dialog_message,
+            positiveButtonText = R.string.question_in_progress_dialog_positive_button_text,
+            negativeButtonText = R.string.question_in_progress_dialog_negative_button_text,
+            onPositiveButtonClicked = onPositiveClicked,
+            onNegativeButtonClicked = onNegativeClicked
+        )
     }
 
     private fun navigateToQuestions(subjectId: String, yearId: String) {
@@ -163,82 +114,61 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-
-        homeViewModel.getYears().observe(viewLifecycleOwner, Observer {
-            it?.let { years: List<Year> ->
-                mYears = years
-                setupYearsAdapter(years)
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                launch { homeViewModel.state.collect(::handleViewState) }
+                launch { homeViewModel.action.collect(::handleViewAction) }
             }
-        })
-
-        homeViewModel.getSubjectWithYears().observe(viewLifecycleOwner, Observer {
-            it?.let { subjectWithYearsList: List<SubjectWithYears> ->
-                val subjects = subjectWithYearsList.map {
-                    val name = it.subject.name.capitalizeWords()
-                    return@map it.subject.copy(name = name)
-                }
-                val years = subjectWithYearsList.map { it.years }
-
-                mSubjects = subjects
-                mYears = years.first()
-
-                // set up the subjects spinner
-                setupSubjectsAdapter(subjects)
-
-                // set up the years spinner
-                setupYearsAdapter(years.first())
-            }
-        })
+        }
     }
 
-    private fun setupSubjectsAdapter(subjects: List<Subject>) {
-        val lastSelectedSubjectId =
-            mSharedPreferenceManager.getString(
-                SharedPreferenceManagers.LAST_SELECTED_SUBJECT_ID,
-                ""
-            )
+    private fun setupSubjectsAdapter(subjects: List<Subject>, selectedSubject: String) {
+        if (subjects.isEmpty()) return
 
-        // selected subjects
-        val selectedSubject: Subject =
-            subjects.firstOrNull { lastSelectedSubjectId == it.id } ?: subjects.first()
+        mSubjectAdapter.addAll(subjects)
 
-        mSelectedSubject = selectedSubject
-
-        // set up the subjects spinner
-        mSubjectAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, subjects)
         binding.selectSubjectAT.setAdapter(mSubjectAdapter)
 
-        binding.selectSubjectAT.setText(when {
-            subjects.size > 1 -> mSelectedSubject.name
-            else -> ""
-        }, false)
+        binding.selectSubjectAT.setText(selectedSubject, false)
     }
 
-    private fun setupYearsAdapter(years: List<Year>) {
-        val lastSelectedYearId =
-            mSharedPreferenceManager.getString(
-                SharedPreferenceManagers.LAST_SELECTED_YEAR_ID,
-                ""
-            )
+    private fun setupYearsAdapter(years: List<Year>, selectedYear: String) {
+        if (years.isEmpty()) return
 
-        // selected year
-        val selectedYear =
-            years.firstOrNull { lastSelectedYearId == it.id } ?: years.first()
+        mYearAdapter.addAll(years)
 
-        mSelectedYear = selectedYear
-
-        // set up the years spinner
-        mYearAdapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, years)
         binding.selectYearAT.setAdapter(mYearAdapter)
 
-        binding.selectYearAT.setText(when {
-            years.size > 1 -> selectedYear.toString()
-            else -> ""
-        }, false)
+        binding.selectYearAT.setText(selectedYear, false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun handleViewState(state: HomeViewState) {
+
+        binding.viewQuestionsBtn.isEnabled = state.isButtonEnabled
+
+        setupYearsAdapter(
+            years = state.years,
+            selectedYear = state.selectedYear
+        )
+
+        setupSubjectsAdapter(
+            subjects = state.subjects,
+            selectedSubject = state.selectedSubject
+        )
+    }
+
+    private fun handleViewAction(action: HomeViewAction) {
+        when (action) {
+            is HomeViewAction.NavigateToQuestions ->
+                navigateToQuestions(
+                    subjectId = action.subjectId,
+                    yearId = action.yearId,
+                )
+            is HomeViewAction.DisplayDialogPrompt ->
+                showQuestionInProgressDialog(
+                    subjectId = action.subjectId,
+                    yearId = action.yearId,
+                )
+        }
     }
 }

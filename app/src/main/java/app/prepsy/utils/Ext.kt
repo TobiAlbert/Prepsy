@@ -1,6 +1,8 @@
 package app.prepsy.utils
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -11,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import app.prepsy.R
-import app.prepsy.ui.models.Subject
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -52,15 +52,33 @@ fun View.showActionSnackBar(
 
 // String Extensions
 fun String.capitalizeWords(): String =
-    split(" ").joinToString(" ") { it.toLowerCase(Locale.US).capitalize(Locale.US) }
+    split(" ")
+        .joinToString(" ") { word: String ->
+            word.lowercase(Locale.US)
+                .replaceFirstChar { char: Char ->
+                    if (char.isLowerCase()) char.titlecase(Locale.US) else char.toString()
+                }
+        }
 
-// Int Extensions
-fun Int.toAlphabet(): String {
-
-    val maxLetterInt = 90
-    val baseInt = 64
-
-    val value = if (this + baseInt > maxLetterInt) maxLetterInt else this
-
-    return (baseInt + value).toChar().toString()
+fun displayAlertDialog(
+    context: Context,
+    @StringRes message: Int,
+    @StringRes positiveButtonText: Int,
+    @StringRes negativeButtonText: Int,
+    onPositiveButtonClicked: (DialogInterface, Int) -> Unit,
+    onNegativeButtonClicked: (DialogInterface, Int) -> Unit
+) {
+    AlertDialog.Builder(context)
+        .setMessage(context.getString(message))
+        .setPositiveButton(
+            context.getString(positiveButtonText),
+            onPositiveButtonClicked
+        )
+        .setNegativeButton(
+            context.getString(negativeButtonText),
+            onNegativeButtonClicked
+        )
+        .setCancelable(true)
+        .create()
+        .show()
 }

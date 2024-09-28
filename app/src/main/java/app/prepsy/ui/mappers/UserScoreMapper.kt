@@ -1,6 +1,6 @@
 package app.prepsy.ui.mappers
 
-import app.prepsy.domain.entities.UserScoreEntity
+import app.prepsy.common.domain.entities.UserScoreEntity
 import app.prepsy.ui.models.UserScore
 import javax.inject.Inject
 

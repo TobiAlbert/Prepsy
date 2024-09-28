@@ -7,5 +7,5 @@ ext {
     roomVersion = "2.4.0"
     liveDataKtx = '2.5.1'
     timber = '4.7.1'
-    coroutines_android_version = '1.4.2'
+    coroutines_android_version = '1.6.4'
 }

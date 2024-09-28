@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import app.prepsy.R
 import app.prepsy.databinding.FragmentQuestionBinding
 import app.prepsy.ui.custom.RadioAnswerButton
@@ -13,15 +13,20 @@ import app.prepsy.ui.models.Option
 import app.prepsy.ui.models.Question
 import app.prepsy.ui.models.args.QuestionPageMode
 import app.prepsy.utils.getDrawableCompat
-import app.prepsy.utils.toAlphabet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class QuestionFragment : Fragment() {
 
-    private val questionViewModel: QuestionViewModel by viewModels()
+    private val questionViewModel: QuestionViewModel by activityViewModels()
     private var _binding: FragmentQuestionBinding? = null
     private val binding get() = _binding!!
+
+    private val question: Question
+        get() = requireArguments().getParcelable(QUESTIONS_KEY)!!
+
+    private val mode: QuestionPageMode
+        get() = requireArguments().getSerializable(QUESTION_PAGE_MODE_KEY) as QuestionPageMode
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,43 +38,38 @@ class QuestionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.takeIf { it.containsKey(QUESTIONS_KEY) && it.containsKey(QUESTION_PAGE_MODE_KEY) }?.apply {
-            val question = this.getParcelable<Question>(QUESTIONS_KEY) ?: return@apply
-            val mode = this.getSerializable(QUESTION_PAGE_MODE_KEY) as QuestionPageMode
+        // setup the ui
+        binding.questionText.text = question.text
 
-            // setup the ui
-            binding.questionText.text = question.text
+        // setup radio groups
+        val userOptionId: String? = question.userOptionId
 
-            // setup radio groups
-            val userOptionId: String? = question.userOptionId
+        question.options.forEachIndexed { index: Int, option: Option ->
+            RadioAnswerButton(requireContext()).apply {
+                id = View.generateViewId()
+                setOption(index.inc().toAlphabet(), option.text)
+                setOnClickListener { onOptionSelected(question.id, option.id) }
 
-            question.options.forEachIndexed { index: Int, option: Option ->
-                RadioAnswerButton(requireContext()).apply {
-                    id = View.generateViewId()
-                    setOption(index.inc().toAlphabet(), option.text)
-                    setOnClickListener { onOptionSelected(question.id, option.id) }
+                isEnabled = mode == QuestionPageMode.QUESTION_MODE
 
-                    isEnabled = mode == QuestionPageMode.QUESTION_MODE
-
-                    // set option background
-                    when(mode) {
-                        QuestionPageMode.QUESTION_MODE -> {
-                            if (userOptionId == option.id) this.isChecked = true
-                        }
-
-                        QuestionPageMode.VIEW_ANSWER_MODE -> {
-                            background = when {
-                                question.answer.id == option.id ->
-                                    requireContext().getDrawableCompat(R.drawable.correct_answer_selector)
-                                userOptionId == option.id ->
-                                    requireContext().getDrawableCompat(R.drawable.wrong_answer_selector)
-                                else -> null
-                            }
-                        }
+                // set option background
+                when (mode) {
+                    QuestionPageMode.QUESTION_MODE -> {
+                        if (userOptionId == option.id) this.isChecked = true
                     }
 
-                    binding.optionsRadioGroup.addView(this)
+                    QuestionPageMode.VIEW_ANSWER_MODE -> {
+                        background = when {
+                            question.answer.id == option.id ->
+                                requireContext().getDrawableCompat(R.drawable.correct_answer_selector)
+                            userOptionId == option.id ->
+                                requireContext().getDrawableCompat(R.drawable.wrong_answer_selector)
+                            else -> null
+                        }
+                    }
                 }
+
+                binding.optionsRadioGroup.addView(this)
             }
         }
     }
@@ -97,6 +97,16 @@ class QuestionFragment : Fragment() {
             fragment.arguments = bundle
             return fragment
         }
+    }
+
+    private fun Int.toAlphabet(): String {
+
+        val maxLetterInt = 90
+        val baseInt = 64
+
+        val value = if (this + baseInt > maxLetterInt) maxLetterInt else this
+
+        return (baseInt + value).toChar().toString()
     }
 
 }
